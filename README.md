@@ -72,7 +72,7 @@ The mark is a hand-inked **T** whose stem is a delivery route: solid where the p
 
 | Icon | Stacked |
 |---|---|
-| <img src="assets/brand/trackecom-icon.svg" width="120"> | <img src="assets/brand/trackecom-stacked.svg" width="260"> |
+| <img src="assets/brand/trackecom-icon.svg" width="120"> | <img src="assets/brand/trackecom-stacked.svg" width="300"> |
 
 ## Roadmap
 
