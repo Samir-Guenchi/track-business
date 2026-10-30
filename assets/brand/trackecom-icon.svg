@@ -1,21 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="t">
   <title id="t">TrackEcom icon</title>
+  
   <g transform="translate(0 0) scale(1.0)">
-    <rect x="8" y="8" width="240" height="240" rx="64" fill="#0E5C3F"/>
-    <!-- pencil sketch under-stroke: the human touch -->
-    <path d="M54 88 C 96 74, 156 84, 204 68" fill="none" stroke="#F3E3C3" stroke-opacity=".6" stroke-width="3" stroke-linecap="round" transform="translate(3 -7) rotate(-1.5 128 84)"/>
-    <path d="M131 88 C 126 116, 135 132, 129 152" fill="none" stroke="#F3E3C3" stroke-opacity=".6" stroke-width="3" stroke-linecap="round" transform="translate(-8 2)"/>
-    <!-- crossbar: origin -> hub -->
-    <path d="M52 90 C 94 76, 154 86, 204 72" fill="none" stroke="#FFF4E2" stroke-width="28" stroke-linecap="round"/>
-    <!-- stem: route, delivered part solid -->
-    <path d="M128 88 C 123 114, 134 132, 127 150" fill="none" stroke="#FFF4E2" stroke-width="28" stroke-linecap="round"/>
-    <!-- in-transit part dashed -->
-    <path d="M127 170 C 125 176, 126 181, 128 186.5" fill="none" stroke="#FFF4E2" stroke-width="11" stroke-linecap="round" stroke-dasharray="0.1 16.6"/>
-    <!-- origin checkpoint -->
-    <circle cx="52" cy="90" r="7" fill="#0E5C3F"/>
-    <!-- destination: live pulse -->
-    <circle cx="128" cy="214" r="23" fill="none" stroke="#E2463A" stroke-opacity=".55" stroke-width="3.5"/>
-    <circle cx="128" cy="214" r="14" fill="#E2463A"/>
-    <circle cx="123" cy="209" r="4" fill="#fff" fill-opacity=".55"/>
+    <path d="M44 50 L211 39 Q216 39 216 44 L222 204 Q222 209 217 209 L39 216 Q34 216 34 211 L39 55 Q39 50 44 50 Z" fill="#C98F55"/>
+    <path d="M52 64 L206 54" stroke="#DDB083" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    <path d="M60 196 L212 190" stroke="#A8723F" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+    <path d="M40 182 L42 92" stroke="#A8723F" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+    <g transform="rotate(-3 128 127)">
+      <path d="M22.0 114.0 L236.0 114.0 L240.5 119.2 L233.5 124.4 L241.5 129.6 L233.2 134.8 L236.0 140.0 L22.0 140.0 L23.6 134.8 L16.6 129.6 L22.2 124.4 L17.0 119.2 Z" fill="#16523F"/>
+      <path d="M26 119 L232 119" stroke="#2F7A5F" stroke-width="2" opacity=".8"/>
+    </g>
+    <g transform="rotate(2 128 128)">
+      <path d="M142.0 30.0 L142.0 228.0 L136.4 225.7 L130.8 233.1 L125.2 226.1 L119.6 233.3 L114.0 228.0 L114.0 30.0 L119.6 25.4 L125.2 30.2 L130.8 23.5 L136.4 32.5 Z" fill="#16523F"/>
+      <path d="M120 36 L120 222" stroke="#2F7A5F" stroke-width="2" opacity=".8"/>
+    </g>
+    <circle cx="186" cy="178" r="13" fill="none" stroke="#C8382B" stroke-width="3.5" transform="rotate(-12 186 178)" stroke-dasharray="70 12"/>
+    <path d="M180 178 l5 5 l9 -11" fill="none" stroke="#C8382B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 </svg>
