@@ -89,6 +89,19 @@ describe('createServiceApp', () => {
     expect(response.body).not.toContain('store_b');
   });
 
+  it('turns a Fastify client error (malformed JSON) into a 400, not a 500', async () => {
+    const headers = { 'content-type': 'application/json' };
+
+    const response = await app.inject({
+      method: 'POST',
+      url: '/probe/echo',
+      payload: '{bad',
+      headers,
+    });
+
+    expect(response.statusCode).toBe(400);
+  });
+
   it('reports not ready with 503 when a dependency is down', async () => {
     const response = await app.inject({ method: 'GET', url: '/health/ready' });
 
