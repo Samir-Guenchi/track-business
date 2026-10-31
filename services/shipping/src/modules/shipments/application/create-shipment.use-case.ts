@@ -78,6 +78,7 @@ export class CreateShipmentUseCase {
       trackingNumber: parcel.trackingNumber,
       publicCode: shipment.publicCode,
       labelUrl: parcel.labelUrl,
+      codAmount: request.codAmount,
     };
     const saved = await this.shipments.create(shipment, [
       outboxMessage(origin, SHIPMENT_EVENTS.created, data),

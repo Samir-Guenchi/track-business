@@ -5,6 +5,7 @@ Each significant decision (new service, new infrastructure, a change of library 
 | ADR | Title | Status |
 |---|---|---|
 | [0001](0001-architecture-and-stack.md) | Microservices architecture and technology stack | Accepted |
+| [0002](0002-payments-service.md) | A payments service for COD reconciliation | Proposed |
 
 ## Template
 
