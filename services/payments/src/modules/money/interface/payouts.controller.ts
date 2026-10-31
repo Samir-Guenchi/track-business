@@ -1,7 +1,10 @@
-import { Body, Controller, Get, HttpCode, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Inject, Param, Post, Query } from '@nestjs/common';
 import {
   type ImportPayoutRequest,
   ImportPayoutRequestSchema,
+  type ListPayoutsQuery,
+  ListPayoutsQuerySchema,
+  type ListPayoutsResponse,
   type Payout,
 } from '@trackecom/contracts';
 import {
@@ -12,6 +15,7 @@ import {
 } from '@trackecom/service-kit';
 import { z } from 'zod';
 import { ImportPayoutUseCase } from '../application/import-payout.use-case.js';
+import { MONEY_READS, type MoneyReads } from '../application/ports/money-reads.js';
 import {
   PAYOUT_REPOSITORY,
   type PayoutRepository,
@@ -27,6 +31,7 @@ export class PayoutsController {
   constructor(
     private readonly importPayout: ImportPayoutUseCase,
     @Inject(PAYOUT_REPOSITORY) private readonly payouts: PayoutRepository,
+    @Inject(MONEY_READS) private readonly reads: MoneyReads,
   ) {}
 
   /** 202: the statement is stored; poll it until `status` is `reconciled`. */
@@ -38,6 +43,16 @@ export class PayoutsController {
     @CurrentStore() store: StoreContext,
   ): Promise<Payout> {
     return toPayoutDto(await this.importPayout.execute(store.storeId, body));
+  }
+
+  @Get()
+  @RequirePermission('money.read')
+  async list(
+    @Query(new ZodValidationPipe(ListPayoutsQuerySchema)) query: ListPayoutsQuery,
+    @CurrentStore() store: StoreContext,
+  ): Promise<ListPayoutsResponse> {
+    const page = await this.reads.listPayouts(store.storeId, query);
+    return { items: page.items.map(toPayoutDto), nextCursor: page.nextCursor };
   }
 
   @Get(':id')

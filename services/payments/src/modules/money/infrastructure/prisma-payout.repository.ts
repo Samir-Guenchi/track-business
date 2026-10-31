@@ -18,7 +18,7 @@ import { toParcelRecord } from './prisma-money.repository.js';
 const LinesSchema = z.array(PayoutLineInputSchema);
 
 type PayoutRow = Omit<PayoutRecord, 'status'> & { status: string };
-const toRecord = (row: PayoutRow): PayoutRecord => ({
+export const toPayoutRecord = (row: PayoutRow): PayoutRecord => ({
   id: row.id,
   storeId: row.storeId,
   status: row.status as PayoutStatus,
@@ -47,7 +47,7 @@ export class PrismaPayoutRepository implements PayoutRepository {
       const row = await this.prisma.payout.create({
         data: { ...fields, ...totals, lines: lines.map((line) => ({ ...line })) },
       });
-      return toRecord(row);
+      return toPayoutRecord(row);
     } catch (error) {
       if (isUniqueViolation(error)) throw new PayoutAlreadyImportedError();
       throw error;
@@ -56,7 +56,7 @@ export class PrismaPayoutRepository implements PayoutRepository {
 
   async find(storeId: string, id: string): Promise<PayoutRecord | null> {
     const row = await this.prisma.payout.findFirst({ where: { id, storeId } });
-    return row ? toRecord(row) : null;
+    return row ? toPayoutRecord(row) : null;
   }
 
   async claimNext(leaseMs: number): Promise<ClaimedPayout | null> {
