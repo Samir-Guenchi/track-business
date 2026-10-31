@@ -1,0 +1,13 @@
+// Transactional outbox: written in the same transaction as the state change, published by a relay.
+model OutboxEvent {
+  id            String    @id @db.Uuid
+  type          String
+  storeId       String?   @map("store_id")
+  correlationId String    @map("correlation_id")
+  payload       Json
+  occurredAt    DateTime  @map("occurred_at") @db.Timestamptz(3)
+  publishedAt   DateTime? @map("published_at") @db.Timestamptz(3)
+
+  @@index([publishedAt, occurredAt])
+  @@map("outbox_events")
+}

@@ -1,6 +1,7 @@
 export * from './bootstrap/create-service-app.js';
 export * from './config/base-env.schema.js';
 export * from './config/load-env.js';
+export * from './database/postgres-adapter-options.js';
 export * from './errors/api-exception.filter.js';
 export * from './errors/domain-error.js';
 export * from './health/health-check.port.js';
