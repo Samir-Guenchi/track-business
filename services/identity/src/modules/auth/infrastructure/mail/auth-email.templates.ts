@@ -31,6 +31,26 @@ const TEMPLATES: Record<Kind, Record<Locale, Template>> = {
       outro: 'If you did not create an account, ignore this email.',
     },
   },
+  store_invitation: {
+    ar: {
+      subject: 'دعوة للانضمام إلى متجر على TrackEcom',
+      intro: 'تمت دعوتك للانضمام إلى فريق متجر.',
+      action: 'اقبل الدعوة عبر هذا الرابط (صالح 7 أيام):',
+      outro: 'إذا لم تكن تتوقع هذه الدعوة، تجاهل هذه الرسالة.',
+    },
+    fr: {
+      subject: 'Invitation à rejoindre une boutique sur TrackEcom',
+      intro: "Vous êtes invité à rejoindre l'équipe d'une boutique.",
+      action: 'Acceptez avec ce lien (valable 7 jours) :',
+      outro: 'Si vous ne vous y attendiez pas, ignorez ce message.',
+    },
+    en: {
+      subject: 'Invitation to join a store on TrackEcom',
+      intro: "You have been invited to join a store's team.",
+      action: 'Accept with this link (valid 7 days):',
+      outro: 'If you did not expect this, ignore this email.',
+    },
+  },
   reset_password: {
     ar: {
       subject: 'إعادة تعيين كلمة المرور',
@@ -56,6 +76,7 @@ const TEMPLATES: Record<Kind, Record<Locale, Template>> = {
 const PATHS: Record<Kind, string> = {
   verify_email: 'verify-email',
   reset_password: 'reset-password',
+  store_invitation: 'invite',
 };
 
 export interface RenderedEmail {

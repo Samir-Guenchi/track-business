@@ -99,9 +99,11 @@ describe.skipIf(!baseUrl || !redisUrl)('auth flows (real Postgres)', () => {
   });
 
   it('rotates refresh tokens and revokes the family when an old one is reused', async () => {
-    const first = SessionResponseSchema.parse(
-      (await post('/auth/login', { email: amina.email, password: amina.password })).json(),
-    );
+    const firstResponse = await post('/auth/login', {
+      email: amina.email,
+      password: amina.password,
+    });
+    const first = SessionResponseSchema.parse(firstResponse.json());
     const second = SessionResponseSchema.parse(
       (await post('/auth/refresh', { refreshToken: first.refreshToken })).json(),
     );
@@ -124,9 +126,8 @@ describe.skipIf(!baseUrl || !redisUrl)('auth flows (real Postgres)', () => {
   });
 
   it('resets the password, signs out other sessions and accepts the new password', async () => {
-    const old = SessionResponseSchema.parse(
-      (await post('/auth/login', { email: amina.email, password: amina.password })).json(),
-    );
+    const before = await post('/auth/login', { email: amina.email, password: amina.password });
+    const old = SessionResponseSchema.parse(before.json());
     expect((await post('/auth/forgot-password', { email: amina.email })).statusCode).toBe(202);
 
     const reset = await post('/auth/reset-password', {
