@@ -11,6 +11,9 @@ export interface ParcelRecord {
   readonly expectedCod: number | null;
   readonly status: ReconciliationStatus;
   readonly deliveredAt: Date | null;
+  readonly receivedCod: number | null;
+  readonly fees: number;
+  readonly payoutId: string | null;
 }
 
 export interface ParcelKey {
@@ -27,6 +30,8 @@ export interface Consumed {
 
 export interface ParcelChange {
   readonly parcel: ParcelRecord;
+  /** The status the parcel had when read; null creates it. */
+  readonly previousStatus: ReconciliationStatus | null;
   readonly postings: readonly Posting[];
   readonly outbox: readonly OutboxMessage[];
   readonly consumed: Consumed;

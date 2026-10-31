@@ -10,6 +10,8 @@ export const ACCOUNTS = {
   cash: 'cash',
   /** Shipping and return fees the carrier kept. */
   fees: 'carrier_fees',
+  /** Money received that matches no parcel, until someone explains it. */
+  unallocated: 'unallocated',
 } as const;
 export type Account = (typeof ACCOUNTS)[keyof typeof ACCOUNTS];
 
@@ -24,14 +26,30 @@ export const deliveryPostings = (cod: number): Posting[] => [
   { account: ACCOUNTS.sales, amount: -cod },
 ];
 
+export interface SettledLine {
+  readonly collected: number;
+  readonly fees: number;
+  /** The account the collected COD settles: the receivable, or `unallocated` for no parcel. */
+  readonly against?: Account;
+}
+
 /** A payout line: the carrier settles the COD it collected, minus the fees it kept. */
-export function payoutLinePostings(line: { collected: number; fees: number }): Posting[] {
+export function payoutLinePostings(line: SettledLine): Posting[] {
   return [
     { account: ACCOUNTS.cash, amount: line.collected - line.fees },
     { account: ACCOUNTS.fees, amount: line.fees },
-    { account: ACCOUNTS.receivable, amount: -line.collected },
+    { account: line.against ?? ACCOUNTS.receivable, amount: 0 - line.collected },
   ];
 }
+
+/** The transfer differs from what its lines add up to: the gap waits in `unallocated`. */
+export const transferGapPostings = (gap: number): Posting[] =>
+  gap === 0
+    ? []
+    : [
+        { account: ACCOUNTS.cash, amount: gap },
+        { account: ACCOUNTS.unallocated, amount: 0 - gap },
+      ];
 
 export const isBalanced = (postings: readonly Posting[]): boolean =>
   postings.reduce((sum, posting) => sum + posting.amount, 0) === 0;

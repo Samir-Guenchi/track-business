@@ -23,23 +23,30 @@ model Parcel {
   @@map("parcels")
 }
 
-/// One carrier statement; imported once per (store, carrier, reference).
+/// One carrier statement; imported once per (store, carrier, reference), matched by a worker.
 model Payout {
   id          String   @id @db.Uuid
   storeId     String   @map("store_id") @db.Uuid
+  /// PayoutStatus from the contracts: processing, then reconciled.
+  status      String   @default("processing")
+  /// The statement lines as imported, read by the matcher.
+  lines       Json     @map("raw_lines")
+  /// Lease of the replica matching it; a crashed replica's lease expires.
+  claimedUntil DateTime? @map("claimed_until") @db.Timestamptz(3)
   carrier     String
   reference   String
   paidAt      DateTime @map("paid_at") @db.Date
   totalAmount Int      @map("total_amount")
   codAmount   Int      @map("cod_amount")
   fees        Int
-  lines       Int
-  matched     Int
-  flagged     Int
+  lineCount   Int      @map("line_count")
+  matched     Int      @default(0)
+  flagged     Int      @default(0)
   importedAt  DateTime @default(now()) @map("imported_at") @db.Timestamptz(3)
 
   @@unique([storeId, carrier, reference])
   @@index([storeId, paidAt])
+  @@index([status, claimedUntil])
   @@map("payouts")
 }
 
