@@ -5,7 +5,7 @@ Owns carriers, shipments, tracking, delivery prices and the geo reference data (
 ```bash
 cp .env.example .env
 pnpm --filter @trackecom/shipping db:migrate
-pnpm --filter @trackecom/shipping build && pnpm --filter @trackecom/shipping db:seed   # 58 wilayas (+ communes CSV, see docs/data-sources.md)
+pnpm --filter @trackecom/shipping build && pnpm --filter @trackecom/shipping db:seed   # 69 wilayas and 1,541 communes (see docs/data-sources.md)
 pnpm --filter @trackecom/shipping dev    # http://localhost:4002/geo/search?q=bab%20zouar
 ```
 

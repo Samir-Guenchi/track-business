@@ -4,34 +4,34 @@ Reference data lives in the `shipping` service (`services/shipping/prisma/schema
 
 ## Wilayas
 
-| Field | Value |
-|---|---|
-| Version | `2019-12` |
-| Content | 58 wilayas, codes 1 to 58, French and Arabic names |
-| Source | Law 84-09 (48 wilayas) as amended by law 19-12 of 11 December 2019 (wilayas 49 to 58), Journal Officiel |
-| Stored in | `services/shipping/src/modules/geo/infrastructure/seed/wilayas.data.ts` |
-| Reviewed | 2026-10-31 |
+69 wilayas, French and Arabic names, in two dataset versions. Older rows are never edited.
 
-**To check before production:** whether a reform after 2019 created new wilayas. If so, add them as a new dataset version (see below) with the Journal Officiel reference here. Do not edit the 2019 rows.
+| Version | Codes | Source | Stored in |
+|---|---|---|---|
+| `2019-12` | 1 to 58 | Law 84-09 (48 wilayas) as amended by law 19-12 of 11 December 2019 | `services/shipping/src/modules/geo/infrastructure/seed/wilayas.data.ts` |
+| `2026-04` | 59 to 69 | Law 26-06, Journal Officiel n° 25 of 5 April 2026 (former delegated wilayas) | `.../seed/wilayas-2026.data.ts` |
+
+Reviewed 2026-10-31. The 2026 numbering (59 Aflou, 60 Barika, 61 El Kantara, 62 Bir El Ater, 63 El Aricha, 64 Ksar Chellala, 65 Aïn Ouessara, 66 Messaad, 67 Ksar El Boukhari, 68 Bou Saâda, 69 El Abiodh Sidi Cheikh) follows the parent wilaya order and matches the GeoAlgeria dataset; press articles disagree on a few numbers, so **check it once against the Journal Officiel text** before carriers start using the new codes. New vehicle plates use these codes from 1 January 2027.
 
 ## Communes
 
 | Field | Value |
 |---|---|
-| Content | 1,541 communes with French and Arabic names, optional postal code and extra spellings |
-| Format | CSV, header `id,wilaya_code,name_fr,name_ar,postal_code,aliases`; `aliases` is `|`-separated (Darija and old French spellings, e.g. `Fort de l'Eau|Bordj Kifan`) |
-| Official source | ONS (Office National des Statistiques) commune list and the Journal Officiel decrees |
-| Status | **Not committed yet.** The complete open dataset found so far (github.com/othmanus/algeria-cities) has no licence, so we cannot redistribute it. Either obtain the ONS list or get written permission, then commit the CSV with its version here. |
+| Version | `2026-04` |
+| Content | 1,541 communes, ONS commune code as `id`, French and Arabic names, postal code, extra spellings |
+| File | `services/shipping/data/geo/communes.csv`, header `id,wilaya_code,name_fr,name_ar,postal_code,aliases`; `aliases` is `|`-separated (Darija and old French spellings) |
+| Source | GeoAlgeria 2.4.1 (github.com/yasserstudio/geoalgeria): names, postal codes and codes are MIT (`data/geo/LICENSE.geoalgeria`). We do not take its OpenStreetMap coordinates or boundaries (ODbL) or its Algérie Poste mirror. |
 
-Import (idempotent, validates the whole file before writing):
+The 2026 reform did not renumber communes: Aflou is still commune 319, now in wilaya 59. Algérie Poste also kept the old postal codes (Aflou is 03001). So an order stored with a commune id stays valid; its wilaya is read from the commune. No `GeoCodeChange` rows were needed.
+
+`db:seed` loads the shipped file by default (override with `GEO_COMMUNES_CSV` and `GEO_COMMUNES_VERSION`). Import (idempotent, validates the whole file before writing):
 
 ```bash
 pnpm --filter @trackecom/shipping build
-DATABASE_URL=... GEO_COMMUNES_CSV=./communes.csv GEO_COMMUNES_VERSION=2026-11 \
-  pnpm --filter @trackecom/shipping db:seed
+DATABASE_URL=... pnpm --filter @trackecom/shipping db:seed
 ```
 
-Tested on 2026-10-31 with a 1,541-row file: `bab zouar`, `bordj kifan`, `dar beida`, `mestghanem`, `bousmail`, `khroub` and the Arabic `باب الزوار` all return the right commune first.
+Tested on 2026-10-31 with the shipped file (seeded twice, 69 wilayas and 1,541 communes each time). Search: `bab zouar`, `bordj kifan`, `dar beida`, `mestghanem`, `bousmail`, `khroub` and the Arabic `باب الزوار` all return the right commune first.
 
 ## Applying an administrative reform
 

@@ -8,9 +8,11 @@ import { seedGeo } from './modules/geo/infrastructure/seed/seed-geo.js';
 
 const SeedEnvSchema = z.object({
   DATABASE_URL: z.url(),
-  /** Optional: path to the communes CSV described in docs/data-sources.md. */
-  GEO_COMMUNES_CSV: z.string().optional(),
-  GEO_COMMUNES_VERSION: z.string().default('unversioned'),
+  /** The communes CSV described in docs/data-sources.md; defaults to the one shipped in data/geo. */
+  GEO_COMMUNES_CSV: z
+    .string()
+    .default(new URL('../data/geo/communes.csv', import.meta.url).pathname),
+  GEO_COMMUNES_VERSION: z.string().default('2026-04'),
 });
 
 /** `pnpm --filter @trackecom/shipping db:seed` (after build). Prints counts only. */
@@ -22,8 +24,7 @@ async function main(): Promise<void> {
   );
   const prisma = new PrismaClient({ adapter });
   try {
-    const csv = env.GEO_COMMUNES_CSV ? await readFile(env.GEO_COMMUNES_CSV, 'utf8') : undefined;
-    const communes = csv ? parseCommunesCsv(csv) : [];
+    const communes = parseCommunesCsv(await readFile(env.GEO_COMMUNES_CSV, 'utf8'));
     const result = await seedGeo(prisma, communes, env.GEO_COMMUNES_VERSION);
     process.stdout.write(`Seeded ${result.wilayas} wilayas and ${result.communes} communes\n`);
   } finally {

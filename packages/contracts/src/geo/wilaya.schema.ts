@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-/** Official wilaya number (1..58 today; reforms add codes through a new dataset version). */
+/** Official wilaya number (1..69 since law 26-06 of 2026; reforms add codes through a new dataset version). */
 export const WilayaCodeSchema = z.coerce.number().int().min(1).max(99);
 
 export const WilayaSchema = z.strictObject({

@@ -41,12 +41,17 @@ describe.skipIf(!baseUrl || !redisUrl)('geo endpoints (real Postgres)', () => {
     await app?.close();
   });
 
-  it('lists all 58 wilayas with Arabic and French names', async () => {
+  it('lists all 69 wilayas, including the 11 created in 2026', async () => {
     const response = await app.inject({ method: 'GET', url: '/geo/wilayas' });
 
     const { items } = ListWilayasResponseSchema.parse(response.json());
-    expect(items).toHaveLength(58);
+    expect(items).toHaveLength(69);
     expect(items[15]).toEqual({ code: 16, nameFr: 'Alger', nameAr: 'الجزائر' });
+    expect(items[68]).toEqual({
+      code: 69,
+      nameFr: 'El Abiodh Sidi Cheikh',
+      nameAr: 'الأبيض سيدي الشيخ',
+    });
   });
 
   it('lists the communes of a wilaya', async () => {

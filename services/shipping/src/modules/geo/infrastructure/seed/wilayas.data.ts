@@ -1,10 +1,12 @@
 /**
- * The 58 wilayas in force since law 19-12 (2019). Source and review date: docs/data-sources.md.
- * A later reform is added as a new dataset version, never by editing these rows.
+ * Wilayas 1 to 58, in force since law 19-12 (2019). Source and review date: docs/data-sources.md.
+ * A later reform is added as a new dataset version (wilayas-2026.data.ts), never by editing these rows.
  */
-export const WILAYAS_DATASET_VERSION = '2019-12';
+export const WILAYAS_2019_VERSION = '2019-12';
 
-export const WILAYAS: readonly (readonly [code: number, nameFr: string, nameAr: string])[] = [
+export type WilayaRow = readonly [code: number, nameFr: string, nameAr: string];
+
+export const WILAYAS_2019: readonly WilayaRow[] = [
   [1, 'Adrar', 'أدرار'],
   [2, 'Chlef', 'الشلف'],
   [3, 'Laghouat', 'الأغواط'],
