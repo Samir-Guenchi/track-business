@@ -1,9 +1,16 @@
 import { z } from 'zod';
 import { OrderSchema } from '../orders/order.schema.js';
 import { CallAttemptSchema } from './call-attempt.schema.js';
+import { ScriptLanguageSchema } from './confirmation-settings.schema.js';
 
 /** How long `GET /confirmation/next` reserves an order for one agent. */
 export const QUEUE_LOCK_SECONDS = 5 * 60;
+
+/** `GET /confirmation/next?language=`: which script the agent reads (default Arabic). */
+export const NextCallQuerySchema = z.strictObject({
+  language: ScriptLanguageSchema.default('ar'),
+});
+export type NextCallQuery = z.infer<typeof NextCallQuerySchema>;
 
 /**
  * `GET /confirmation/next`: the next order for the calling agent, locked to them for 5 minutes.

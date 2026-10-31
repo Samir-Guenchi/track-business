@@ -29,3 +29,14 @@ model ConfirmationSettings {
 
   @@map("confirmation_settings")
 }
+
+/// Call script per language; placeholders are filled when an agent takes an order.
+model CallScript {
+  storeId   String   @map("store_id") @db.Uuid
+  language  String
+  body      String
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@id([storeId, language])
+  @@map("call_scripts")
+}

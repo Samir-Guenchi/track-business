@@ -31,10 +31,17 @@ export type ScriptLanguage = z.infer<typeof ScriptLanguageSchema>;
 
 /**
  * `PUT /confirmation/scripts/:language`: the call script. Placeholders the server fills:
- * `{customerName}`, `{orderRef}`, `{items}`, `{total}`, `{wilaya}`, `{storeName}`.
+ * `{customerName}`, `{orderRef}`, `{items}`, `{total}` (amount to collect), `{wilaya}` (code).
  */
 export const CallScriptSchema = z.strictObject({
   language: ScriptLanguageSchema,
   body: z.string().trim().min(1).max(4000),
 });
 export type CallScript = z.infer<typeof CallScriptSchema>;
+
+/** `GET /confirmation/scripts`: the store's scripts, one per language that has one. */
+export const CallScriptsResponseSchema = z.strictObject({ items: z.array(CallScriptSchema) });
+export type CallScriptsResponse = z.infer<typeof CallScriptsResponseSchema>;
+
+/** Body of `PUT /confirmation/scripts/:language`. */
+export const UpdateCallScriptRequestSchema = CallScriptSchema.pick({ body: true });

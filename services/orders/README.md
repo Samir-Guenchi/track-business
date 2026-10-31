@@ -22,6 +22,8 @@ pnpm --filter @trackecom/orders dev     # http://localhost:4003/docs/openapi.jso
 | `POST /confirmation/calls` | `orders.confirm` | logs the outcome of a call on an order the agent holds, then frees it |
 | `POST /confirmation/orders/:id/release` | `orders.confirm` | gives an order back without a call |
 | `GET` / `PUT /confirmation/settings` | `store.read` / `store.update` | assignment (round robin or per-agent wilayas/products), attempts per day, unreachable limit |
+| `GET /confirmation/scripts`, `PUT /confirmation/scripts/:language` | `store.read` / `store.update` | call scripts in `ar`, `fr`, `darija`; `{customerName}`, `{orderRef}`, `{items}`, `{total}`, `{wilaya}` are filled on `GET /confirmation/next?language=` |
+| `GET /confirmation/stats?from=&to=` | `members.read` | per agent: calls, calls per hour (active time), confirm rate (confirmed / confirmed + cancelled), average handle time; default today in Algiers |
 
 - Queue order: the order the agent already holds, then due call-backs and postponed orders (earliest first), then the oldest `new` / `to_confirm` order. Orders that reached today's attempt limit wait for the next day (Algiers time).
 - One `UPDATE ... WHERE id = (SELECT ... FOR UPDATE SKIP LOCKED)` picks and locks the order, so two agents never get the same one, even on several replicas.
