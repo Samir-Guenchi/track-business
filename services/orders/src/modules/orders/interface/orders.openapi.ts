@@ -1,6 +1,8 @@
 import {
   BulkOrdersRequestSchema,
   BulkOrdersResponseSchema,
+  ShipOrdersRequestSchema,
+  ShipOrdersResponseSchema,
   ChangeStatusRequestSchema,
   CreateOrderRequestSchema,
   ListOrdersQuerySchema,
@@ -66,6 +68,18 @@ export const ordersOpenApiPaths: ZodOpenApiPathsObject = {
       summary: 'Apply one action to up to 500 orders',
       requestBody: body(BulkOrdersRequestSchema),
       responses: ok('Per-order result', BulkOrdersResponseSchema),
+    },
+  },
+  '/orders/ship': {
+    post: {
+      summary: 'Hand confirmed orders to a carrier; parcels are created in the background',
+      requestBody: body(ShipOrdersRequestSchema),
+      responses: {
+        '202': {
+          description: 'Per-order result',
+          content: { 'application/json': { schema: ShipOrdersResponseSchema } },
+        },
+      },
     },
   },
 };
