@@ -10,23 +10,25 @@ Git conflicts come from **two branches editing the same file at the same time**,
 
 | Folder | Main owner | The other person may... |
 |---|---|---|
-| `apps/api/src/modules/<module>/` | owner of the issue | edit only through a PR reviewed by the owner |
-| `apps/api/prisma/schema/<module>.prisma` | owner of the issue | same |
+| `services/<service>/src/modules/<module>/` | owner of the issue | edit only through a PR reviewed by the owner |
+| `services/<service>/prisma/` | owner of the service (Samir for the first five services) | same |
 | `apps/web/app/[locale]/(app)/<feature>/` | owner of the issue | same |
 | `packages/ui/` | Abdennour | add a component in a new file |
-| `packages/carriers/` | Samir | - |
-| `packages/shared/src/<module>/` (zod schemas, types, status enums) | owner of the API part | read only |
-| `.github/`, `docker-compose.yml`, root configs | Samir | propose in a small separate PR |
+| `packages/carriers/`, `packages/events/` | Samir | - |
+| `packages/contracts/src/<module>/` (zod schemas, types, status enums, events) | owner of the API part | read only |
+| `.github/`, `docker-compose.yml`, root configs, `packages/config/` | Samir | propose in a small separate PR |
 | `apps/mobile/` | Abdennour | - |
+
+Architecture and service list: [ADR-0001](adr/0001-architecture-and-stack.md). Coding rules: [AGENTS.md](../AGENTS.md).
 
 ### 2. Rules that remove the usual hotspots
 
-1. **One Prisma file per module.** Use Prisma's multi-file schema (`prisma/schema/orders.prisma`, `geo.prisma`, ...). Nobody edits a giant `schema.prisma`.
+1. **One database and Prisma schema per service.** `services/orders/prisma/` belongs to `orders` only. Inside a service, use Prisma's multi-file schema (`prisma/schema/orders.prisma`, `products.prisma`, ...) so nobody edits a giant file. No service reads another service's tables.
 2. **One translation file per feature.** `apps/web/messages/{ar,fr,en}/orders.json`, `confirmation.json`... never one big `ar.json`.
-3. **Contract first.** For any feature with an API and a UI part, the API owner opens a tiny PR with only the zod schemas / types in `packages/shared/src/<module>/` (and an OpenAPI stub). It is merged the same day. Then API and UI are built **in parallel**; the UI uses MSW mocks until the real endpoint lands.
+3. **Contract first.** For any feature with an API and a UI part, the API owner opens a tiny PR with only the zod schemas / types / events in `packages/contracts/src/<module>/` (and an OpenAPI stub). It is merged the same day. Then API and UI are built **in parallel**; the UI uses MSW mocks until the real endpoint lands.
 4. **Lockfile.** Never hand-resolve `pnpm-lock.yaml`. If it conflicts: take `dev`'s version, run `pnpm install`, commit.
 5. **Small PRs, merged within 2 days.** Before opening a PR: `git fetch && git merge origin/dev`. Long-lived branches are what create conflicts.
-6. **Routes and menus.** Each feature registers itself in its own file (`apps/web/config/nav/<feature>.ts`, `apps/api/src/modules/<module>/<module>.module.ts`); the root files only import a list that changes one line at a time.
+6. **Routes and menus.** Each feature registers itself in its own file (`apps/web/config/nav/<feature>.ts`, `services/<service>/src/modules/<module>/<module>.module.ts`); the root files only import a list that changes one line at a time.
 7. **Migrations.** Only the API owner of a module creates its migration; pull `dev` and run `prisma migrate dev` right before creating one so timestamps don't clash.
 
 ## Dependency map
@@ -42,7 +44,7 @@ Legend: **⇢ blocked by**. Issues with no arrow can start as soon as their wave
 
 ### Phase 0, wave B (after #9 is merged): fully parallel, disjoint folders
 
-| Samir (`apps/api`, `.github`, infra) | Abdennour (`apps/web`, `packages/ui`) |
+| Samir (`services/*`, `.github`, infra) | Abdennour (`apps/web`, `packages/ui`) |
 |---|---|
 | #10 CI ⇢ #9 | #13 Web skeleton, RTL, i18n ⇢ #9 |
 | #12 API skeleton ⇢ #9 | #14 Design system ⇢ #9 |
