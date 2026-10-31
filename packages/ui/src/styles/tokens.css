@@ -7,6 +7,7 @@
   --trackecom-on-primary: #fffaf2;
   --trackecom-primary-hover: #104330;
   --trackecom-stamp-red: #c8382b;
+  --trackecom-error-text: #b02a24;
   --trackecom-ink: #1c1a17;
   --trackecom-paper: #f6eee1;
   --trackecom-highlight-surface: #f6eee1;
@@ -43,6 +44,7 @@
   --trackecom-border: #484137;
   --trackecom-muted: #c0b5a5;
   --trackecom-tape-green: #3fa37e;
+  --trackecom-error-text: #ff8275;
   --trackecom-on-primary: #1c1a17;
   --trackecom-primary-hover: #55b38f;
   --trackecom-highlight-surface: #37332c;

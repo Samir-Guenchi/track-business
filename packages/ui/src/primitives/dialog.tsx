@@ -32,10 +32,15 @@ export function DialogContent({
   );
 }
 
-export function DialogTitle(props: ComponentProps<typeof DialogPrimitive.Title>) {
-  return <DialogPrimitive.Title className="tk-dialog__title" {...props} />;
+export function DialogTitle({ className, ...props }: ComponentProps<typeof DialogPrimitive.Title>) {
+  return <DialogPrimitive.Title className={cn('tk-dialog__title', className)} {...props} />;
 }
 
-export function DialogDescription(props: ComponentProps<typeof DialogPrimitive.Description>) {
-  return <DialogPrimitive.Description className="tk-dialog__description" {...props} />;
+export function DialogDescription({
+  className,
+  ...props
+}: ComponentProps<typeof DialogPrimitive.Description>) {
+  return (
+    <DialogPrimitive.Description className={cn('tk-dialog__description', className)} {...props} />
+  );
 }

@@ -96,7 +96,7 @@
   font-size: 0.8125rem;
 }
 .tk-field__error {
-  color: var(--trackecom-stamp-red);
+  color: var(--trackecom-error-text);
   font-size: 0.8125rem;
 }
 .tk-input {

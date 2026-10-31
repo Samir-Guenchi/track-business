@@ -3,6 +3,7 @@
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { X } from 'lucide-react';
 import type { ComponentProps } from 'react';
+import { cn } from '../cn.js';
 
 export const ToastProvider = ToastPrimitive.Provider;
 export const ToastAction = ToastPrimitive.Action;
@@ -10,23 +11,25 @@ export const ToastAction = ToastPrimitive.Action;
 export function ToastViewport(props: ComponentProps<typeof ToastPrimitive.Viewport>) {
   const { className, ...viewportProps } = props;
   return (
-    <ToastPrimitive.Viewport
-      className={`tk-toast__viewport ${className ?? ''}`}
-      {...viewportProps}
-    />
+    <ToastPrimitive.Viewport className={cn('tk-toast__viewport', className)} {...viewportProps} />
   );
 }
 
 export function Toast({ className, ...props }: ComponentProps<typeof ToastPrimitive.Root>) {
-  return <ToastPrimitive.Root className={`tk-toast ${className ?? ''}`} {...props} />;
+  return <ToastPrimitive.Root className={cn('tk-toast', className)} {...props} />;
 }
 
-export function ToastTitle(props: ComponentProps<typeof ToastPrimitive.Title>) {
-  return <ToastPrimitive.Title className="tk-toast__title" {...props} />;
+export function ToastTitle({ className, ...props }: ComponentProps<typeof ToastPrimitive.Title>) {
+  return <ToastPrimitive.Title className={cn('tk-toast__title', className)} {...props} />;
 }
 
-export function ToastDescription(props: ComponentProps<typeof ToastPrimitive.Description>) {
-  return <ToastPrimitive.Description className="tk-toast__description" {...props} />;
+export function ToastDescription({
+  className,
+  ...props
+}: ComponentProps<typeof ToastPrimitive.Description>) {
+  return (
+    <ToastPrimitive.Description className={cn('tk-toast__description', className)} {...props} />
+  );
 }
 
 export function ToastClose({ label = 'Dismiss notification' }: { readonly label?: string }) {

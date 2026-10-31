@@ -57,10 +57,13 @@ export function SelectItem({
   );
 }
 
-export function SelectLabel(props: ComponentProps<typeof SelectPrimitive.Label>) {
-  return <SelectPrimitive.Label className="tk-select__label" {...props} />;
+export function SelectLabel({ className, ...props }: ComponentProps<typeof SelectPrimitive.Label>) {
+  return <SelectPrimitive.Label className={cn('tk-select__label', className)} {...props} />;
 }
 
-export function SelectSeparator(props: ComponentProps<typeof SelectPrimitive.Separator>) {
-  return <SelectPrimitive.Separator className="tk-select__separator" {...props} />;
+export function SelectSeparator({
+  className,
+  ...props
+}: ComponentProps<typeof SelectPrimitive.Separator>) {
+  return <SelectPrimitive.Separator className={cn('tk-select__separator', className)} {...props} />;
 }
