@@ -3,6 +3,7 @@ import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { OrderSchema } from '@trackecom/contracts';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { type FakeIdentity, startFakeIdentity } from '../../test/fake-identity.js';
+import { PrismaService } from '../../infrastructure/prisma/prisma.service.js';
 import { startTestApp, testEnv } from '../../test/test-app.js';
 
 const baseUrl = process.env['TEST_DATABASE_URL'];
@@ -61,6 +62,12 @@ describe.skipIf(!baseUrl || !redisUrl)('orders API (real Postgres)', () => {
     }
     const env = { DATABASE_URL: databaseUrl, REDIS_URL: redisUrl, IDENTITY_URL: identity.url };
     app = await startTestApp(testEnv({ ...env, ROLE_CACHE_SECONDS: '0' }));
+    const prisma = app.get(PrismaService);
+    await prisma.$transaction([
+      prisma.order.deleteMany(),
+      prisma.auditEvent.deleteMany(),
+      prisma.outboxEvent.deleteMany(),
+    ]);
   });
 
   afterAll(async () => {
