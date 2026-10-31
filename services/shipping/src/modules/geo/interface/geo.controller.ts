@@ -7,10 +7,11 @@ import {
   type ListWilayasResponse,
   WilayaCodeSchema,
 } from '@trackecom/contracts';
-import { ZodValidationPipe } from '@trackecom/service-kit';
+import { Public, ZodValidationPipe } from '@trackecom/service-kit';
 import { GeoCatalog } from '../application/geo-catalog.js';
 
 /** Public reference data; the gateway caches these responses (they change only with a reform). */
+@Public()
 @Controller('geo')
 export class GeoController {
   constructor(private readonly catalog: GeoCatalog) {}

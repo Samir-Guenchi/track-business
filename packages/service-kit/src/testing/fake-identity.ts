@@ -11,7 +11,7 @@ export interface FakeIdentity {
   close(): Promise<void>;
 }
 
-/** A stand-in for the identity service: real ES256 tokens, JWKS and `GET /stores`. */
+/** Test helper (import from @trackecom/service-kit/testing): a stand-in for identity with real ES256 tokens, JWKS and `GET /stores`. */
 export async function startFakeIdentity(memberships: Memberships): Promise<FakeIdentity> {
   const { privateKey, publicKey } = await generateKeyPair('ES256');
   const jwk = { ...(await exportJWK(publicKey)), kid: 'test', alg: 'ES256', use: 'sig' };

@@ -7,6 +7,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./testing": {
+      "types": "./dist/testing/fake-identity.d.ts",
+      "default": "./dist/testing/fake-identity.js"
     }
   },
   "files": [
@@ -29,6 +33,7 @@
     "@sentry/node": "^11.10.0",
     "@trackecom/contracts": "workspace:*",
     "fastify": "^5.12.7",
+    "jose": "^6.2.14",
     "nestjs-pino": "^5.3.1",
     "pino": "^10.1.0",
     "pino-http": "^11.0.0",

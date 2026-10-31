@@ -11,5 +11,6 @@ import { GeoController } from './interface/geo.controller.js';
     { provide: GEO_REFERENCE_READER, useClass: PrismaGeoReferenceReader },
     { provide: CLOCK, useValue: () => Date.now() },
   ],
+  exports: [GeoCatalog],
 })
 export class GeoModule {}

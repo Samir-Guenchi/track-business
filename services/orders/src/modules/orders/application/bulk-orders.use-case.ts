@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { type BulkOrdersRequest, type BulkOrdersResponse, roleCan } from '@trackecom/contracts';
 import { DomainError } from '@trackecom/service-kit';
-import { AccessDeniedError } from '../../../authorization/access.errors.js';
+import { AccessDeniedError } from '@trackecom/service-kit';
 import { ChangeStatusUseCase } from './change-status.use-case.js';
 import type { OrderActor } from './order-actor.js';
 import { OrderAdminUseCases } from './order-admin.use-cases.js';

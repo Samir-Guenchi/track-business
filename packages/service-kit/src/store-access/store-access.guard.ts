@@ -1,7 +1,7 @@
 import { type CanActivate, type ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { PERMISSIONS, type Permission, STORE_HEADER, roleCan } from '@trackecom/contracts';
-import { ACCESS_POLICY_KEY, type AccessPolicy } from '@trackecom/service-kit';
+import { ACCESS_POLICY_KEY, type AccessPolicy } from '../authorization/access-policy.js';
 import type { FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import { AccessDeniedError, InvalidTokenError } from './access.errors.js';
@@ -27,8 +27,8 @@ function tokenOf(request: FastifyRequest): string | undefined {
 }
 
 /**
- * Global and deny by default, like identity's guard. Every orders route is a store route: the
- * store comes from `x-store-id` and the caller's role in it is checked on every request.
+ * Global and deny by default, like identity's guard. Store routes take the store from
+ * `x-store-id` and check the caller's role in it on every request; @Public routes pass.
  */
 @Injectable()
 export class StoreAccessGuard implements CanActivate {
