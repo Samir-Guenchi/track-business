@@ -1,16 +1,7 @@
-import type { DeliveryType } from '@trackecom/contracts';
+import type { DeliveryType, ParcelStatus } from '@trackecom/contracts';
 
-/** Normalised parcel status shared by every carrier. Carrier-specific codes map onto these. */
-export type ParcelStatus =
-  | 'created'
-  | 'picked_up'
-  | 'in_transit'
-  | 'out_for_delivery'
-  | 'delivered'
-  | 'failed_attempt'
-  | 'returning'
-  | 'returned'
-  | 'cancelled';
+/** Normalised parcel status, defined once in the contracts (carrier labels map onto it). */
+export type { ParcelStatus } from '@trackecom/contracts';
 
 /** Decrypted per-store credentials, shaped by each carrier (token, key, tenant id...). */
 export type CarrierCredentials = Readonly<Record<string, string>>;

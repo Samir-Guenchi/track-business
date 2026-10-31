@@ -10,3 +10,4 @@ export * from './geo/index.js';
 export * from './orders/index.js';
 export * from './pricing/index.js';
 export * from './stores/index.js';
+export * from './tracking/index.js';
