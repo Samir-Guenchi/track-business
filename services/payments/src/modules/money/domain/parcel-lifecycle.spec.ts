@@ -11,6 +11,9 @@ const parcel: ParcelRecord = {
   expectedCod: 3100,
   status: 'awaiting_delivery',
   deliveredAt: null,
+  receivedCod: null,
+  fees: 0,
+  payoutId: null,
 };
 const at = new Date('2026-11-03T10:00:00Z');
 
