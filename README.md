@@ -85,6 +85,39 @@ The mark is a hand-inked **T** whose stem is a delivery route: solid where the p
 |---|---|
 | <img src="assets/brand/trackecom-icon.svg" width="120"> | <img src="assets/brand/trackecom-stacked.svg" width="300"> |
 
+## Getting started
+
+Requirements: Node.js 24 (`nvm use`) and pnpm 10 (`corepack enable`).
+
+```bash
+pnpm install
+cp services/gateway/.env.example services/gateway/.env
+cp apps/web/.env.example apps/web/.env.local
+pnpm dev        # web on http://localhost:3000, gateway on http://localhost:4000/health/live
+```
+
+| Command | What it does |
+|---|---|
+| `pnpm build` | Builds every package, service and app (Turborepo, cached) |
+| `pnpm lint` | ESLint with the size and complexity limits from `AGENTS.md` |
+| `pnpm typecheck` | TypeScript strict on every workspace |
+| `pnpm test` | Vitest in every workspace |
+| `pnpm turbo run test --filter=@trackecom/gateway` | Run one workspace only |
+
+Workspaces:
+
+```
+apps/web             Next.js seller app
+services/gateway     Public API entry point (NestJS + Fastify)
+packages/contracts   zod schemas shared by services and apps
+packages/events      EventBus port + in-memory bus (Redis Streams adapter in #12)
+packages/carriers    CarrierAdapter port + registry
+packages/ui          Design system (#14)
+packages/config      Shared tsconfig and ESLint
+```
+
+Commits follow [Conventional Commits](https://www.conventionalcommits.org) and are checked by a git hook; staged files are formatted with Prettier.
+
 ## Roadmap
 
 See [ROADMAP.md](ROADMAP.md).
