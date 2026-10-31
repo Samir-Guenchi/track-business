@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { randomBytes } from 'node:crypto';
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { createServiceApp, loadEnv } from '@trackecom/service-kit';
 import { AppModule } from '../app.module.js';
@@ -11,6 +12,9 @@ export const OFFLINE_ENV = {
   DATABASE_URL: 'postgresql://nobody:nobody@127.0.0.1:1/none',
   REDIS_URL: 'redis://127.0.0.1:1',
   IDENTITY_URL: 'http://127.0.0.1:1',
+  /** A fresh throwaway key per test run; never a real one. */
+  CARRIER_KEK: randomBytes(32).toString('base64'),
+  ENABLE_FAKE_CARRIER: 'true',
 };
 
 export function testEnv(overrides: Record<string, string | undefined> = {}): Env {

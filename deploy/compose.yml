@@ -54,6 +54,10 @@ services:
       DEPLOY_ENV: ${DEPLOY_ENV}
       REDIS_URL: redis://redis:6379
       DATABASE_URL: ${SHIPPING_DATABASE_URL}
+      IDENTITY_URL: http://identity:4001
+      # Wraps each store's carrier credentials; from the secret manager (docs/runbook.md).
+      CARRIER_KEK: ${CARRIER_KEK}
+      CARRIER_KEK_ID: ${CARRIER_KEK_ID:-v1}
 
   shipping-migrate:
     <<: *migrate

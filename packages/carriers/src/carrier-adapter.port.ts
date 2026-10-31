@@ -1,3 +1,4 @@
+import type { CredentialField } from '@trackecom/contracts';
 import type {
   CarrierContext,
   CarrierLabel,
@@ -26,6 +27,10 @@ export interface CarrierCapabilities {
  */
 export interface CarrierAdapter {
   readonly code: string;
+  /** Display name, e.g. "Yalidine". */
+  readonly name: string;
+  /** What the seller types to connect their account; keys of CarrierContext.credentials. */
+  readonly credentialFields: readonly CredentialField[];
   readonly capabilities: CarrierCapabilities;
 
   validateCredentials(ctx: CarrierContext): Promise<boolean>;

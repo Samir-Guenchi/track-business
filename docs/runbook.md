@@ -16,6 +16,7 @@ Hosting follows ADR-0001: one Docker image per service, one container host per e
    - Variable `HEALTH_URL`, e.g. `https://api.staging.example.dz/health/ready`.
    - Secrets for `backups`: `BACKUP_BUCKET`, `BACKUP_AWS_ACCESS_KEY_ID`, `BACKUP_AWS_SECRET_ACCESS_KEY`, `BACKUP_AGE_IDENTITY` (the age private key); variables `BACKUP_AWS_ENDPOINT_URL`, `BACKUP_AWS_REGION`.
 4. **JWT key** per environment: `openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256`, put it in `JWT_PRIVATE_KEY` with newlines as `\n`. Never reuse the staging key in production.
+   **Carrier key** per environment: `openssl rand -base64 32` into `CARRIER_KEK` (with `CARRIER_KEK_ID=v1`). It wraps every store's carrier credentials: keep an offline copy, since losing it means every seller reconnects their carriers. To rotate, set the new key with a new `CARRIER_KEK_ID` and move the old one to `CARRIER_KEK_PREVIOUS` (`v1:<base64>`); old rows keep opening with their key until re-saved.
 5. **Sentry**: one project per environment (Node), DSN in `SENTRY_DSN`. Services only send 5xx errors, with headers, cookies, bodies, query strings and user data removed.
 6. **Uptime**: point a monitor (Better Stack, UptimeRobot or a self-hosted Uptime Kuma) at `HEALTH_URL` every minute, alert by email + Telegram.
 7. **Backups**: on the host, install `age`, `postgresql-client-17` and the AWS CLI, create `/opt/trackecom/backup.env` (see the header of `deploy/backup/pg-backup.sh`) and add the cron line:

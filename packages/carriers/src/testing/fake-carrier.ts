@@ -17,6 +17,8 @@ export interface FakeCarrierOptions {
  */
 export class FakeCarrier implements CarrierAdapter {
   readonly code: string;
+  readonly name = 'Fake carrier';
+  readonly credentialFields = [{ key: 'token', label: 'Token', secret: true }];
   readonly capabilities: CarrierCapabilities;
   readonly parcels = new Map<string, CreatedShipment & { request: ShipmentRequest }>();
   createCalls = 0;
