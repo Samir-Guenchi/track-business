@@ -53,7 +53,7 @@ jobs:
           cache: pnpm
 
       - name: Turborepo cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .turbo/cache
           key: turbo-${{ runner.os }}-${{ github.sha }}
