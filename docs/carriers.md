@@ -55,7 +55,7 @@ numbers and names replaced.
 
 - `CarrierAccount` in shipping: per-store credentials encrypted with an envelope key (see
   `secure-coding` skill), never returned by the API, decrypted only inside the worker.
-- First adapter with sandbox tests and recorded HTTP fixtures.
+- First adapter: `YalidineAdapter` (`packages/carriers/src/yalidine`) is written from the public API description and tested against synthetic responses. Still to do with a sandbox account: record real responses (personal data scrubbed) as fixtures, confirm field names and status labels, then turn on webhooks (`X-YALIDINE-SIGNATURE`) and rates.
 - The shipment worker: confirmed order -> queue -> `createShipmentOnce` -> tracking number on the
   order (with #31).
 

@@ -1,4 +1,4 @@
-import type { DeliveryType, ParcelStatus } from '@trackecom/contracts';
+import type { DeliveryType, FailedAttemptReason, ParcelStatus } from '@trackecom/contracts';
 
 /** Normalised parcel status, defined once in the contracts (carrier labels map onto it). */
 export type { ParcelStatus } from '@trackecom/contracts';
@@ -25,8 +25,13 @@ export interface ShipmentRequest {
     readonly phone2: string | null;
     readonly address: string | null;
   };
+  /** Where the parcel leaves from (the store's warehouse or drop-off wilaya). */
+  readonly origin: { readonly wilayaCode: number; readonly wilayaName: string };
   readonly wilayaCode: number;
   readonly communeId: number;
+  /** French names from our geo data; some carriers (Yalidine) identify places by name. */
+  readonly wilayaName: string;
+  readonly communeName: string;
   readonly deliveryType: DeliveryType;
   /** Carrier's own stop-desk code, required for stop-desk delivery. */
   readonly stopDeskCode: string | null;
@@ -57,12 +62,14 @@ export interface CarrierRate {
 }
 
 export interface TrackingEvent {
-  readonly status: ParcelStatus;
+  /** null when the carrier's label is not mapped yet; the raw label is kept and alerted (#32). */
+  readonly status: ParcelStatus | null;
   /** The carrier's own wording, kept for support and for new codes we do not map yet. */
   readonly rawStatus: string;
   readonly at: Date;
   readonly location: string | null;
   readonly note: string | null;
+  readonly failureReason: FailedAttemptReason | null;
 }
 
 export interface TrackingUpdate {
