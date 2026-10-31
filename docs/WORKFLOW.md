@@ -20,6 +20,8 @@ main   <- production. Only Samir merges, and only from dev (or hotfix/*).
 
 The `Branch policy` check fails any PR into `main` that does not come from `dev` or `hotfix/*`.
 
+Before starting a new issue, check [PARALLEL_PLAN.md](PARALLEL_PLAN.md): it lists what each issue is blocked by and the rules that keep `dev` free of conflicts.
+
 ## Labels and milestones
 
 - `type:*` epic, feature, chore, research, bug
