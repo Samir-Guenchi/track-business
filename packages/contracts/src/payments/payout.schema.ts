@@ -32,8 +32,17 @@ export const ImportPayoutRequestSchema = z.strictObject({
 });
 export type ImportPayoutRequest = z.infer<typeof ImportPayoutRequestSchema>;
 
+/**
+ * A statement is matched by a background worker, not inside the upload request: `processing`
+ * until every line is reconciled, then `reconciled`.
+ */
+export const PAYOUT_STATUSES = ['processing', 'reconciled'] as const;
+export const PayoutStatusSchema = z.enum(PAYOUT_STATUSES);
+export type PayoutStatus = z.infer<typeof PayoutStatusSchema>;
+
 export const PayoutSchema = z.strictObject({
   id: z.uuid(),
+  status: PayoutStatusSchema,
   carrier: z.string(),
   reference: z.string(),
   paidAt: z.iso.date(),

@@ -14,11 +14,12 @@ Sellers wait for carrier payouts and check them by hand in Excel, and missing mo
 - **It learns about parcels only through events**, never through another database:
   - `shipping.shipment.created.v1` carries the carrier, tracking number, order and **COD amount**. A `codAmount` field is added to this v1 event before anything consumes it in production.
   - `shipping.shipment.status-changed.v1` tells it when a parcel is delivered or returned.
-- **Payouts come in through `POST /payouts`.** The request is one carrier statement with its lines, in the same shape whether it came from a carrier API or a parsed Excel/PDF file. The Excel/PDF parsing and the carrier API pullers are adapters that call the same use case. A `(store, carrier, reference)` statement is imported once.
+- **Payouts come in through `POST /payouts`.** The request is one carrier statement with its lines, in the same shape whether it came from a carrier API or a parsed Excel/PDF file. The Excel/PDF parsing and the carrier API pullers are adapters that call the same use case. A `(store, carrier, reference)` statement is imported once. A statement can hold thousands of lines, so the request only stores it (`202`, status `processing`) and a background worker matches it, as ADR-0001 asks for imports.
 - **Matching is a pure domain function.** A statement line is matched to a parcel by `(carrier, tracking number)`. The result is `matched`, `amount_mismatch` or `unknown_line`. A scheduled job marks delivered parcels unpaid after `missingAfterDays` (default 14) as `missing`.
-- **Double-entry ledger per store** with accounts `carrier_receivable`, `cash`, `carrier_fees` and `written_off`:
+- **Double-entry ledger per store** with accounts `carrier_receivable`, `cash`, `carrier_fees`, `unallocated` and `written_off`:
   - a delivery debits the receivable;
-  - a payout line credits it against `cash` and `carrier_fees`.
+  - a payout line credits it against `cash` and `carrier_fees`;
+  - money that matches no parcel (an unknown line, or a transfer that differs from its lines) goes to `unallocated` until someone explains it.
   Totals balance by construction, and `GET /money/summary` reads them.
 - **Flagged parcels emit `payments.parcel.flagged.v1`**, so notifications can alert the seller with the list to claim.
 
