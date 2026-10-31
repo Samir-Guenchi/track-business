@@ -59,6 +59,11 @@ services:
     <<: *migrate
     image: ghcr.io/samir-guenchi/trackecom-shipping:${IMAGE_TAG}
     environment: { DATABASE_URL: '${SHIPPING_DATABASE_URL}' }
+    # Migrations, then the idempotent geo seed (69 wilayas, 1,541 communes).
+    command:
+      - sh
+      - -c
+      - node node_modules/prisma/build/index.js migrate deploy && node dist/seed.js
 
   redis:
     image: redis:7-alpine
