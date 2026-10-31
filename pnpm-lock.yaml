@@ -414,6 +414,9 @@ importers:
       '@trackecom/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
+      '@trackecom/events':
+        specifier: workspace:*
+        version: link:../../packages/events
       '@trackecom/service-kit':
         specifier: workspace:*
         version: link:../../packages/service-kit

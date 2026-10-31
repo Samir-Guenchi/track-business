@@ -5,8 +5,8 @@ import {
   type OnApplicationBootstrap,
   type OnApplicationShutdown,
 } from '@nestjs/common';
+import { PollingLoop } from '@trackecom/events';
 import { type Env, ENV } from '../../../config/env.schema.js';
-import { PollingLoop } from '../../../infrastructure/workers/polling-loop.js';
 import { TrackingPoller } from '../application/tracking-poller.js';
 
 /** Runs the polling fallback on every replica; the queue's leases keep them from overlapping. */

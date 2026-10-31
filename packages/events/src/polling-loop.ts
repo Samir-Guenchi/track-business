@@ -1,4 +1,7 @@
-import type { Logger } from '@nestjs/common';
+/** Anything with an `error` method: Nest's Logger, pino, console. */
+export interface LoopLogger {
+  error(message: string): void;
+}
 
 export interface LoopTask {
   readonly name: string;
@@ -18,7 +21,7 @@ export class PollingLoop {
 
   constructor(
     private readonly task: LoopTask,
-    private readonly options: { idleMs: number; logger: Logger },
+    private readonly options: { idleMs: number; logger: LoopLogger },
   ) {}
 
   start(): void {
