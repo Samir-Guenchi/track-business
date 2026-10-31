@@ -47,24 +47,35 @@ TrackEcom aims to be the **operating system for an Algerian online store's back 
 - **Analytics**: delivery rate, return rate, net margin and agent productivity.
 - **Developer platform**: REST API, webhooks and SDKs.
 
-## Tech direction (proposed)
+## Tech direction (decided)
 
+Decided in [ADR-0001](docs/adr/0001-architecture-and-stack.md):
+
+- **Architecture**: coarse-grained microservices in one pnpm + Turborepo monorepo. `gateway`, `identity`, `orders`, `shipping`, `notifications` to start; each owns its PostgreSQL database and talks through zod contracts and versioned events (Redis Streams, outbox pattern).
+- **Services**: NestJS (Fastify) + TypeScript strict, Prisma, Redis + BullMQ for background jobs.
 - **Web app**: Next.js + TypeScript, Tailwind, full RTL support for Arabic.
-- **API**: NestJS (TypeScript) with PostgreSQL and Prisma; Redis + BullMQ for carrier sync and notification jobs.
 - **Mobile**: React Native app for sellers and confirmation agents (phase 3).
-- **Infra**: Docker, CI on GitHub Actions, hosting with data residency options for Algerian customers.
+- **Infra**: Docker image per service, GitHub Actions CI, OpenTelemetry; portable to an Algerian data centre.
 
-These choices are proposals and will be confirmed in Phase 0 of the [roadmap](ROADMAP.md).
+Coding rules for humans and AI agents: [AGENTS.md](AGENTS.md).
 
 ## Repository layout
 
 ```
+AGENTS.md          Coding rules for humans and AI agents (clean code, SOLID, microservices, security)
+CLAUDE.md          Claude Code entry point (imports AGENTS.md)
+.claude/skills/    Project skills: clean-code, service-architecture, contract-first, secure-coding, testing, pr-workflow
 assets/brand/      Logo, icon and wordmark (SVG + PNG) and the generator script
 BRAND.md           Logo usage, colours and typography
 ROADMAP.md         Product roadmap by phase
+docs/KICKOFF.md    Team kickoff (Arabic): vision, added value, who does what, Git rules, first tasks
+docs/adr/          Architecture decision records
+docs/PARALLEL_PLAN.md  Issue dependencies and rules to avoid merge conflicts
+docs/WORKFLOW.md   Branching, review and project board rules
+.github/           CODEOWNERS, PR and issue templates, labels, workflows
 ```
 
-Application code (`apps/web`, `apps/api`, `packages/*`) will be added in Phase 0.
+Application code (`apps/*`, `services/*`, `packages/*`) is added in Phase 0 (#9).
 
 ## Brand
 
@@ -74,13 +85,46 @@ The mark is a hand-inked **T** whose stem is a delivery route: solid where the p
 |---|---|
 | <img src="assets/brand/trackecom-icon.svg" width="120"> | <img src="assets/brand/trackecom-stacked.svg" width="300"> |
 
+## Getting started
+
+Requirements: Node.js 24 (`nvm use`) and pnpm 10 (`corepack enable`).
+
+```bash
+pnpm install
+cp services/gateway/.env.example services/gateway/.env
+cp apps/web/.env.example apps/web/.env.local
+pnpm dev        # web on http://localhost:3000, gateway on http://localhost:4000/health/live
+```
+
+| Command | What it does |
+|---|---|
+| `pnpm build` | Builds every package, service and app (Turborepo, cached) |
+| `pnpm lint` | ESLint with the size and complexity limits from `AGENTS.md` |
+| `pnpm typecheck` | TypeScript strict on every workspace |
+| `pnpm test` | Vitest in every workspace |
+| `pnpm turbo run test --filter=@trackecom/gateway` | Run one workspace only |
+
+Workspaces:
+
+```
+apps/web             Next.js seller app
+services/gateway     Public API entry point (NestJS + Fastify)
+packages/contracts   zod schemas shared by services and apps
+packages/events      EventBus port + in-memory bus (Redis Streams adapter in #12)
+packages/carriers    CarrierAdapter port + registry
+packages/ui          Design system (#14)
+packages/config      Shared tsconfig and ESLint
+```
+
+Commits follow [Conventional Commits](https://www.conventionalcommits.org) and are checked by a git hook; staged files are formatted with Prettier.
+
 ## Roadmap
 
 See [ROADMAP.md](ROADMAP.md).
 
 ## Contributing
 
-The project is at its very start. Open an issue to discuss an idea before sending a pull request. Branch from `main`, keep pull requests small, and describe what changed and why.
+Work happens on the `dev` branch. Branch from `dev`, open your pull request into `dev`, keep it small and link its issue. Only `dev` is merged into `main`, by the repository owner. See [docs/WORKFLOW.md](docs/WORKFLOW.md) for branches, labels and the project board.
 
 ## License
 

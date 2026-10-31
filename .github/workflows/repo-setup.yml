@@ -1,0 +1,60 @@
+name: Repo setup (labels, milestones, epics)
+
+# Run manually from the Actions tab, or automatically when this file or the label/milestone files change.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, dev]
+    paths:
+      - .github/labels.yml
+      - .github/milestones.yml
+      - .github/workflows/repo-setup.yml
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync labels
+        run: |
+          yq -o=json '.[]' .github/labels.yml | jq -c '.' | while read -r l; do
+            name=$(jq -r .name <<<"$l"); color=$(jq -r .color <<<"$l"); desc=$(jq -r .description <<<"$l")
+            gh label create "$name" --repo "$REPO" --color "$color" --description "$desc" --force
+          done
+
+      - name: Create milestones and attach phase issues
+        run: |
+          yq -o=json '.[]' .github/milestones.yml | jq -c '.' | while read -r m; do
+            phase=$(jq -r .phase <<<"$m"); title=$(jq -r .title <<<"$m")
+            due=$(jq -r .due <<<"$m"); desc=$(jq -r .description <<<"$m")
+            number=$(gh api "repos/$REPO/milestones?state=all&per_page=100" --jq ".[] | select(.title==\"$title\") | .number")
+            if [ -z "$number" ]; then
+              number=$(gh api "repos/$REPO/milestones" -f title="$title" -f description="$desc" -f due_on="${due}T23:59:59Z" --jq .number)
+              echo "Created milestone $title (#$number)"
+            fi
+            gh issue list --repo "$REPO" --label "phase:$phase" --state all --limit 500 --json number,milestone \
+              --jq '.[] | select(.milestone == null) | .number' | while read -r n; do
+                gh api -X PATCH "repos/$REPO/issues/$n" -F milestone="$number" --silent
+                echo "Issue #$n -> $title"
+              done
+          done
+
+      - name: Link issues to their epic ("Part of #N" on the first line)
+        run: |
+          gh issue list --repo "$REPO" --state all --limit 500 --json number,body \
+            --jq '.[] | select(.body | test("^Part of #[0-9]+")) | "\(.number) \(.body | capture("^Part of #(?<p>[0-9]+)").p)"' |
+          while read -r child parent; do
+            has_parent=$(gh api "repos/$REPO/issues/$child" --jq '.parent_issue_url // empty' 2>/dev/null || true)
+            [ -n "$has_parent" ] && continue
+            id=$(gh api "repos/$REPO/issues/$child" --jq .id)
+            gh api -X POST "repos/$REPO/issues/$parent/sub_issues" -F sub_issue_id="$id" --silent \
+              && echo "#$child -> epic #$parent" || echo "::warning::could not link #$child to #$parent"
+          done

@@ -1,0 +1,80 @@
+// Orders (#22). Tenant data: every query is scoped by store_id taken from the verified context.
+// Customer fields are stored on the order as the seller typed them (no shared customer table yet).
+
+model Order {
+  id                   String      @id @db.Uuid
+  storeId              String      @map("store_id") @db.Uuid
+  ref                  String
+  status               String
+  source               String
+  externalRef          String?     @map("external_ref")
+  customerName         String      @map("customer_name")
+  /// E.164 (+213...). Indexed for duplicate detection and search.
+  customerPhone        String      @map("customer_phone")
+  customerPhone2       String?     @map("customer_phone2")
+  wilayaCode           Int         @map("wilaya_code")
+  communeId            Int         @map("commune_id")
+  address              String?
+  deliveryType         String      @map("delivery_type")
+  stopDeskId           String?     @map("stop_desk_id")
+  subtotal             Int
+  shippingFee          Int         @map("shipping_fee")
+  discount             Int
+  codAmount            Int         @map("cod_amount")
+  notes                String?
+  tags                 String[]    @default([])
+  assignedAgentId      String?     @map("assigned_agent_id")
+  carrier              String?
+  trackingNumber       String?     @map("tracking_number")
+  possibleDuplicateOfId String?    @map("possible_duplicate_of_id") @db.Uuid
+  /// Hash of the items, compared with recent orders of the same phone (duplicates within 48 h).
+  itemsFingerprint     String      @map("items_fingerprint")
+  /// Lowercased ref, name and tracking number, searched with a trigram index.
+  searchText           String      @map("search_text")
+  postponedUntil       DateTime?   @map("postponed_until") @db.Timestamptz(3)
+  statusChangedAt      DateTime    @map("status_changed_at") @db.Timestamptz(3)
+  /// Confirmation queue (#28): when the order is due again (call-back or postponed), who holds it.
+  nextCallAt           DateTime?   @map("next_call_at") @db.Timestamptz(3)
+  lockedBy             String?     @map("locked_by") @db.Uuid
+  lockedUntil          DateTime?   @map("locked_until") @db.Timestamptz(3)
+  /// Calls that did not reach the customer (no answer, busy); at the store's limit -> unreachable.
+  unreachedCalls       Int         @default(0) @map("unreached_calls")
+  /// Calls on `lastCallDay` (Algiers date), for the per-day attempt limit.
+  callsToday           Int         @default(0) @map("calls_today")
+  lastCallDay          String?     @map("last_call_day")
+  /// Optimistic locking: every write checks and increments it.
+  version              Int         @default(0)
+  createdAt            DateTime    @map("created_at") @db.Timestamptz(3)
+  updatedAt            DateTime    @map("updated_at") @db.Timestamptz(3)
+  /// Soft delete: deleted orders stay for the audit trail but disappear from the API.
+  deletedAt            DateTime?   @map("deleted_at") @db.Timestamptz(3)
+  items                OrderItem[]
+
+  @@unique([storeId, ref])
+  @@unique([storeId, source, externalRef])
+  @@index([storeId, createdAt(sort: Desc), id])
+  @@index([storeId, status, createdAt(sort: Desc)])
+  @@index([storeId, customerPhone, createdAt(sort: Desc)])
+  @@index([storeId, wilayaCode])
+  @@index([storeId, assignedAgentId])
+  @@index([storeId, status, nextCallAt, createdAt])
+  @@index([tags], type: Gin)
+  @@index([searchText(ops: raw("gin_trgm_ops"))], type: Gin)
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @db.Uuid
+  orderId   String  @map("order_id") @db.Uuid
+  position  Int
+  productId String? @map("product_id")
+  name      String
+  sku       String?
+  quantity  Int
+  unitPrice Int     @map("unit_price")
+  lineTotal Int     @map("line_total")
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("order_items")
+}

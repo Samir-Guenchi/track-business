@@ -1,0 +1,10 @@
+pnpm-lock.yaml
+dist
+.next
+.turbo
+coverage
+assets/brand
+*.md
+# Existing GitHub config keeps its current layout
+.github
+**/src/generated
