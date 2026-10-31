@@ -38,6 +38,7 @@ export const ParcelMoneySchema = z.strictObject({
 export type ParcelMoney = z.infer<typeof ParcelMoneySchema>;
 
 export const ListParcelMoneyQuerySchema = CursorQuerySchema.extend({
+  cursor: z.uuid().optional(),
   status: ReconciliationStatusSchema.optional(),
   carrier: z.string().optional(),
 });

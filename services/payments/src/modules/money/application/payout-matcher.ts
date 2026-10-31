@@ -1,10 +1,10 @@
 import { randomUUID } from 'node:crypto';
 import { Inject, Injectable } from '@nestjs/common';
 import { PAYMENT_EVENTS } from '@trackecom/contracts';
-import { type EventOrigin, outboxMessage } from '../../../shared/outbox-message.js';
-import type { LineOutcome } from '../domain/payout-matching.js';
+import { outboxMessage } from '../../../shared/outbox-message.js';
 import { ParcelChangedError } from '../domain/payout.errors.js';
 import { type Reconciliation, reconcile } from '../domain/payout-statement.js';
+import { flaggedEvent } from './flagged-event.js';
 import {
   type ClaimedPayout,
   PAYOUT_REPOSITORY,
@@ -13,17 +13,6 @@ import {
 
 /** How long a replica may hold a statement before another one takes it over. */
 export const PAYOUT_LEASE_MS = 5 * 60_000;
-
-function flaggedEvent(origin: EventOrigin, { parcel }: LineOutcome) {
-  return outboxMessage(origin, PAYMENT_EVENTS.parcelFlagged, {
-    carrier: parcel.carrier,
-    trackingNumber: parcel.trackingNumber,
-    orderId: parcel.orderId,
-    status: parcel.status,
-    expectedCod: parcel.expectedCod,
-    receivedCod: parcel.receivedCod,
-  });
-}
 
 function eventsFor(payout: ClaimedPayout, result: Reconciliation) {
   // The statement id ties every event of one import together in the logs.
@@ -37,7 +26,7 @@ function eventsFor(payout: ClaimedPayout, result: Reconciliation) {
     flagged: result.flagged,
   });
   const flagged = result.outcomes.filter((outcome) => outcome.flagged);
-  return [imported, ...flagged.map((outcome) => flaggedEvent(origin, outcome))];
+  return [imported, ...flagged.map((outcome) => flaggedEvent(origin, outcome.parcel))];
 }
 
 /** Background task: matches one imported statement per run against the store's parcels. */

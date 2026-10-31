@@ -1,5 +1,16 @@
-import { ImportPayoutRequestSchema, MoneySummarySchema, PayoutSchema } from '@trackecom/contracts';
+import {
+  ListParcelMoneyQuerySchema,
+  ListParcelMoneyResponseSchema,
+  MoneySettingsSchema,
+  MoneySummarySchema,
+} from '@trackecom/contracts';
 import type { ZodOpenApiPathsObject } from 'zod-openapi';
+import { payoutsOpenApiPaths } from './payouts.openapi.js';
+
+const settings = {
+  description: 'Settings',
+  content: { 'application/json': { schema: MoneySettingsSchema } },
+};
 
 export const moneyOpenApiPaths: ZodOpenApiPathsObject = {
   '/money/summary': {
@@ -13,27 +24,25 @@ export const moneyOpenApiPaths: ZodOpenApiPathsObject = {
       },
     },
   },
-  '/payouts': {
-    post: {
-      summary: 'Import one carrier statement; it is matched in the background',
-      requestBody: { content: { 'application/json': { schema: ImportPayoutRequestSchema } } },
-      responses: {
-        '202': {
-          description: 'Stored, status processing',
-          content: { 'application/json': { schema: PayoutSchema } },
-        },
-        '409': { description: 'This statement was already imported' },
-        '400': { description: 'Invalid statement or a tracking number listed twice' },
-      },
-    },
-  },
-  '/payouts/{id}': {
+  '/money/parcels': {
     get: {
-      summary: 'One statement and how many of its lines matched',
+      summary: "Where each parcel's money stands; filter by status for the claim list",
+      requestParams: { query: ListParcelMoneyQuerySchema },
       responses: {
-        '200': { description: 'Payout', content: { 'application/json': { schema: PayoutSchema } } },
-        '404': { description: 'No such statement in this store' },
+        '200': {
+          description: 'Page of parcels',
+          content: { 'application/json': { schema: ListParcelMoneyResponseSchema } },
+        },
       },
     },
   },
+  '/money/settings': {
+    get: { summary: 'When an unpaid parcel becomes missing', responses: { '200': settings } },
+    put: {
+      summary: 'Change when an unpaid parcel becomes missing (money.manage)',
+      requestBody: { content: { 'application/json': { schema: MoneySettingsSchema } } },
+      responses: { '200': settings },
+    },
+  },
+  ...payoutsOpenApiPaths,
 };

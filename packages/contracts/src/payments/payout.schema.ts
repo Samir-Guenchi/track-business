@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { CursorQuerySchema, cursorPage } from '../common/pagination.schema.js';
 import { CarrierCodeSchema } from '../pricing/pricing.schema.js';
 
 /** Most lines one statement may carry; carriers pay weekly, a big seller has a few thousand. */
@@ -57,3 +58,13 @@ export const PayoutSchema = z.strictObject({
   importedAt: z.iso.datetime(),
 });
 export type Payout = z.infer<typeof PayoutSchema>;
+
+/** `GET /payouts`: newest statement first. */
+export const ListPayoutsQuerySchema = CursorQuerySchema.extend({
+  cursor: z.uuid().optional(),
+  carrier: z.string().optional(),
+});
+export type ListPayoutsQuery = z.infer<typeof ListPayoutsQuerySchema>;
+
+export const ListPayoutsResponseSchema = cursorPage(PayoutSchema);
+export type ListPayoutsResponse = z.infer<typeof ListPayoutsResponseSchema>;
