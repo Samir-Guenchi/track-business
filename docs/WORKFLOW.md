@@ -27,7 +27,7 @@ The `Branch policy` check fails any PR into `main` that does not come from `dev`
 - `phase:0` to `phase:4` match the milestones in [ROADMAP.md](../ROADMAP.md)
 - `priority:P0` must have, `P1` should have, `P2` nice to have
 
-Colours and milestones live in `.github/labels.yml` and `.github/milestones.yml`. Run **Actions -> Repo setup (labels and milestones) -> Run workflow** once after this file reaches `main`; it creates the milestones and attaches every `phase:N` issue to its milestone. It reruns automatically when those files change on `main`.
+Colours and milestones live in `.github/labels.yml` and `.github/milestones.yml`. Run **Actions -> Repo setup (labels, milestones, epics) -> Run workflow** once after this reaches the default branch; it colours the labels, creates the milestones, attaches every `phase:N` issue to its milestone and links each issue to its epic (the `Part of #N` line). It is safe to rerun. It reruns automatically when those files change on `main`.
 
 ---
 
