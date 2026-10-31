@@ -62,6 +62,8 @@ These choices are proposals and will be confirmed in Phase 0 of the [roadmap](RO
 assets/brand/      Logo, icon and wordmark (SVG + PNG) and the generator script
 BRAND.md           Logo usage, colours and typography
 ROADMAP.md         Product roadmap by phase
+docs/WORKFLOW.md   Branching, review and project board rules
+.github/           CODEOWNERS, PR and issue templates, labels, workflows
 ```
 
 Application code (`apps/web`, `apps/api`, `packages/*`) will be added in Phase 0.
@@ -80,7 +82,7 @@ See [ROADMAP.md](ROADMAP.md).
 
 ## Contributing
 
-The project is at its very start. Open an issue to discuss an idea before sending a pull request. Branch from `main`, keep pull requests small, and describe what changed and why.
+Work happens on the `dev` branch. Branch from `dev`, open your pull request into `dev`, keep it small and link its issue. Only `dev` is merged into `main`, by the repository owner. See [docs/WORKFLOW.md](docs/WORKFLOW.md) for branches, labels and the project board.
 
 ## License
 

@@ -1,0 +1,20 @@
+name: Branch policy
+
+# main only receives the dev branch (or an emergency hotfix/* branch).
+# Feature work must target dev.
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  only-dev-into-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check source branch
+        env:
+          HEAD: ${{ github.head_ref }}
+        run: |
+          case "$HEAD" in
+            dev|hotfix/*) echo "OK: $HEAD -> main" ;;
+            *) echo "::error::Pull requests into main must come from 'dev' (or hotfix/*). Retarget this PR to 'dev'."; exit 1 ;;
+          esac
