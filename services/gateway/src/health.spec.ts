@@ -1,15 +1,17 @@
 import 'reflect-metadata';
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { HealthStatusSchema } from '@trackecom/contracts';
+import { createServiceApp, loadEnv } from '@trackecom/service-kit';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { loadEnv } from '../config/env.schema.js';
-import { createApp } from '../create-app.js';
+import { AppModule } from './app.module.js';
+import { EnvSchema } from './config/env.schema.js';
 
-describe('GET /health', () => {
+describe('gateway health', () => {
   let app: NestFastifyApplication;
 
   beforeAll(async () => {
-    app = await createApp(loadEnv({ NODE_ENV: 'test' }));
+    const env = loadEnv(EnvSchema, { NODE_ENV: 'test', LOG_LEVEL: 'silent' });
+    app = await createServiceApp({ module: AppModule.forRoot(env), env });
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
   });

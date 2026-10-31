@@ -1,0 +1,59 @@
+import {
+  type ArgumentsHost,
+  Catch,
+  type ExceptionFilter,
+  HttpException,
+  Logger,
+} from '@nestjs/common';
+import type { ApiError } from '@trackecom/contracts';
+import type { FastifyReply } from 'fastify';
+import { DomainError, type DomainErrorKind } from './domain-error.js';
+
+const STATUS_BY_KIND: Record<DomainErrorKind, number> = {
+  invalid: 400,
+  unauthenticated: 401,
+  forbidden: 403,
+  not_found: 404,
+  conflict: 409,
+  rate_limited: 429,
+};
+
+interface MappedError {
+  readonly status: number;
+  readonly body: ApiError;
+}
+
+function fromHttpException(exception: HttpException): MappedError {
+  const status = exception.getStatus();
+  const code = status === 404 ? 'not_found' : `http_${status}`;
+  return { status, body: { error: { code, message: exception.message } } };
+}
+
+function fromDomainError(error: DomainError): MappedError {
+  const body: ApiError = { error: { code: error.code, message: error.message } };
+  if (error.details !== undefined) body.error.details = error.details;
+  return { status: STATUS_BY_KIND[error.kind], body };
+}
+
+const INTERNAL: MappedError = {
+  status: 500,
+  body: { error: { code: 'internal', message: 'Something went wrong' } },
+};
+
+/** Turns every thrown error into `{ error: { code, message, details? } }`; never leaks stacks or SQL. */
+@Catch()
+export class ApiExceptionFilter implements ExceptionFilter {
+  private readonly logger = new Logger(ApiExceptionFilter.name);
+
+  catch(exception: unknown, host: ArgumentsHost): void {
+    const mapped = this.map(exception);
+    if (mapped.status >= 500) this.logger.error(exception);
+    void host.switchToHttp().getResponse<FastifyReply>().status(mapped.status).send(mapped.body);
+  }
+
+  private map(exception: unknown): MappedError {
+    if (exception instanceof DomainError) return fromDomainError(exception);
+    if (exception instanceof HttpException) return fromHttpException(exception);
+    return INTERNAL;
+  }
+}

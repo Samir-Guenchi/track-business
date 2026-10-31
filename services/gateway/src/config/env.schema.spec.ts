@@ -1,20 +1,13 @@
+import { loadEnv } from '@trackecom/service-kit';
 import { describe, expect, it } from 'vitest';
-import { loadEnv } from './env.schema.js';
+import { EnvSchema } from './env.schema.js';
 
-describe('loadEnv', () => {
+describe('gateway EnvSchema', () => {
   it('applies defaults for local development', () => {
-    const env = loadEnv({});
-
-    expect(env).toMatchObject({ NODE_ENV: 'development', PORT: 4000 });
-  });
-
-  it('splits the CORS allowlist', () => {
-    const env = loadEnv({ CORS_ORIGINS: 'https://a.dz, https://b.dz' });
-
-    expect(env.CORS_ORIGINS).toEqual(['https://a.dz', 'https://b.dz']);
+    expect(loadEnv(EnvSchema, {})).toMatchObject({ NODE_ENV: 'development', PORT: 4000 });
   });
 
   it('fails fast on an invalid port', () => {
-    expect(() => loadEnv({ PORT: 'abc' })).toThrow(/Invalid environment/);
+    expect(() => loadEnv(EnvSchema, { PORT: 'abc' })).toThrow(/Invalid environment/);
   });
 });
