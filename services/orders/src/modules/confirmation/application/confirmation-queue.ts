@@ -1,38 +1,24 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { QUEUE_LOCK_SECONDS } from '@trackecom/contracts';
-import {
-  ORDERS_PORTS,
-  type Clock,
-  type OrderRepository,
-} from '../../orders/application/ports/orders.ports.js';
+import { QUEUE_LOCK_SECONDS, type ScriptLanguage } from '@trackecom/contracts';
 import type { OrderActor } from '../../orders/application/order-actor.js';
-import type { OrderRecord } from '../../orders/domain/order.js';
+import { type Clock, ORDERS_PORTS } from '../../orders/application/ports/orders.ports.js';
 import { algiersDay } from '../domain/call-plan.js';
 import {
-  type CallAttemptRecord,
   CONFIRMATION_REPOSITORY,
   type ConfirmationRepository,
 } from './ports/confirmation.repository.js';
-
-export interface QueueItem {
-  readonly order: OrderRecord;
-  readonly lockedUntil: Date;
-  readonly attemptsToday: number;
-  readonly previousAttempts: readonly CallAttemptRecord[];
-}
-
-const PREVIOUS_ATTEMPTS = 20;
+import { type QueueItem, QueueItemReader } from './queue-item.reader.js';
 
 /** The agent's call queue: oldest first, due call-backs before everything, 5 minute locks. */
 @Injectable()
 export class ConfirmationQueue {
   constructor(
     @Inject(CONFIRMATION_REPOSITORY) private readonly repository: ConfirmationRepository,
-    @Inject(ORDERS_PORTS.repository) private readonly orders: OrderRepository,
     @Inject(ORDERS_PORTS.clock) private readonly now: Clock,
+    private readonly items: QueueItemReader,
   ) {}
 
-  async next(actor: OrderActor): Promise<QueueItem | null> {
+  async next(actor: OrderActor, language: ScriptLanguage): Promise<QueueItem | null> {
     const settings = await this.repository.settings(actor.storeId);
     const rule =
       settings.assignment === 'rules'
@@ -51,25 +37,11 @@ export class ConfirmationQueue {
       wilayaCodes: rule?.wilayaCodes ?? [],
       productIds: rule?.productIds ?? [],
     });
-    return orderId ? this.describe(actor.storeId, orderId, { lockUntil, day }) : null;
+    if (!orderId) return null;
+    return this.items.read({ storeId: actor.storeId, orderId, lockUntil, day, language });
   }
 
   release(actor: OrderActor, orderId: string): Promise<boolean> {
     return this.repository.release(actor.storeId, orderId, actor.userId);
-  }
-
-  private async describe(
-    storeId: string,
-    orderId: string,
-    claim: { lockUntil: Date; day: string },
-  ) {
-    const [order, state, previousAttempts] = await Promise.all([
-      this.orders.findById(storeId, orderId),
-      this.repository.queueState(storeId, orderId),
-      this.repository.attempts(storeId, orderId, PREVIOUS_ATTEMPTS),
-    ]);
-    if (!order || !state) return null;
-    const attemptsToday = state.lastCallDay === claim.day ? state.callsToday : 0;
-    return { order, lockedUntil: claim.lockUntil, attemptsToday, previousAttempts };
   }
 }

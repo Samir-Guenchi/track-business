@@ -157,4 +157,30 @@ describe.skipIf(!baseUrl || !redisUrl)('confirmation API (real Postgres)', () =>
 
     expect((await next('sara'))?.order.id).toBe(oran.id);
   });
+
+  it('shows the store script with the order filled in', async () => {
+    await prisma.order.updateMany({
+      where: { storeId: STORE },
+      data: { lockedBy: null, lockedUntil: null },
+    });
+    await call('manager', 'PUT /confirmation/settings', {});
+    const saved = await call('manager', 'PUT /confirmation/scripts/darija', {
+      body: 'Salam {customerName}, commande {orderRef}: {total}',
+    });
+    expect(saved.statusCode).toBe(200);
+
+    const item = (await call('ali', 'GET /confirmation/next?language=darija')).json().item;
+
+    expect(item.script).toBe(
+      `Salam Client Test, commande ${item.order.ref}: ${item.order.codAmount} DA`,
+    );
+  });
+
+  it('reports per-agent numbers to managers only', async () => {
+    const response = await call('manager', 'GET /confirmation/stats');
+
+    expect((await call('ali', 'GET /confirmation/stats')).statusCode).toBe(403);
+    const ali = response.json().items.find((row: { agentId: string }) => row.agentId === USERS.ali);
+    expect(ali).toMatchObject({ calls: 3, confirmed: 1, confirmRate: 1 });
+  });
 });

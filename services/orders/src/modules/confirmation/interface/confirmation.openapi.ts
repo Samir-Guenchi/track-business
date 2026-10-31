@@ -1,9 +1,16 @@
 import {
+  AgentStatsQuerySchema,
+  AgentStatsResponseSchema,
+  CallScriptSchema,
+  CallScriptsResponseSchema,
   ConfirmationSettingsSchema,
   LogCallRequestSchema,
   LogCallResponseSchema,
+  NextCallQuerySchema,
   NextCallResponseSchema,
   ReleaseLockResponseSchema,
+  ScriptLanguageSchema,
+  UpdateCallScriptRequestSchema,
 } from '@trackecom/contracts';
 import type { ZodOpenApiPathsObject } from 'zod-openapi';
 import { z } from 'zod';
@@ -17,6 +24,7 @@ export const confirmationOpenApiPaths: ZodOpenApiPathsObject = {
   '/confirmation/next': {
     get: {
       summary: 'Take the next order to call (locked to you for 5 minutes)',
+      requestParams: { query: NextCallQuerySchema },
       responses: json('Next order, or item null when the queue is empty', NextCallResponseSchema),
     },
   },
@@ -43,6 +51,27 @@ export const confirmationOpenApiPaths: ZodOpenApiPathsObject = {
       summary: 'Replace the queue rules',
       requestBody: body(ConfirmationSettingsSchema),
       responses: json('Saved settings', ConfirmationSettingsSchema),
+    },
+  },
+  '/confirmation/scripts': {
+    get: {
+      summary: 'Call scripts of the store',
+      responses: json('Scripts', CallScriptsResponseSchema),
+    },
+  },
+  '/confirmation/scripts/{language}': {
+    put: {
+      summary: 'Save the call script for one language',
+      requestParams: { path: z.object({ language: ScriptLanguageSchema }) },
+      requestBody: body(UpdateCallScriptRequestSchema),
+      responses: json('Saved script', CallScriptSchema),
+    },
+  },
+  '/confirmation/stats': {
+    get: {
+      summary: 'Calls, calls per hour, confirm rate and handle time per agent',
+      requestParams: { query: AgentStatsQuerySchema },
+      responses: json('Per-agent numbers, busiest first', AgentStatsResponseSchema),
     },
   },
 };
