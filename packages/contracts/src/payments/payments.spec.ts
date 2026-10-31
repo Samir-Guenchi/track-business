@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { EVENT_TYPE_PATTERN } from '../events/envelope.schema.js';
 import { PAYMENT_EVENTS } from './payment-events.js';
-import { ImportPayoutRequestSchema } from './payout.schema.js';
+import { ImportPayoutRequestSchema, PayoutStatusSchema } from './payout.schema.js';
 import { MoneySettingsSchema } from './reconciliation.schema.js';
 
 const line = { trackingNumber: 'yal-1', codAmount: 3100, shippingFee: 500, returnFee: 0 };
@@ -30,6 +30,10 @@ describe('payments contract', () => {
     expect(
       ImportPayoutRequestSchema.safeParse({ ...base, lines: [{ ...line, codAmount: -1 }] }).success,
     ).toBe(false);
+  });
+
+  it('reports whether a statement is still being matched', () => {
+    expect(PayoutStatusSchema.options).toEqual(['processing', 'reconciled']);
   });
 
   it('flags unpaid parcels after two weeks by default', () => {
