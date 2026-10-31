@@ -68,19 +68,25 @@ function useTableSelection<Row>(
   onSelectionChange?: (selectedIds: readonly string[]) => void,
 ) {
   const [selectedIds, setSelectedIds] = useState<ReadonlySet<string>>(() => new Set());
-  const allSelected = rows.length > 0 && rows.every((row) => selectedIds.has(getRowId(row)));
+  const currentRowIds = useMemo(() => new Set(rows.map(getRowId)), [getRowId, rows]);
+  const visibleSelectedIds = useMemo(
+    () => new Set([...selectedIds].filter((id) => currentRowIds.has(id))),
+    [currentRowIds, selectedIds],
+  );
+  const allSelected = rows.length > 0 && rows.every((row) => visibleSelectedIds.has(getRowId(row)));
   const update = (next: ReadonlySet<string>) => {
-    setSelectedIds(next);
-    onSelectionChange?.([...next]);
+    const visibleIds = new Set([...next].filter((id) => currentRowIds.has(id)));
+    setSelectedIds(visibleIds);
+    onSelectionChange?.([...visibleIds]);
   };
   const toggleRow = (id: string) => {
-    const next = new Set(selectedIds);
+    const next = new Set(visibleSelectedIds);
     if (next.has(id)) next.delete(id);
     else next.add(id);
     update(next);
   };
   const toggleAll = () => update(allSelected ? new Set() : new Set(rows.map(getRowId)));
-  return { selectedIds, allSelected, toggleRow, toggleAll };
+  return { selectedIds: visibleSelectedIds, allSelected, toggleRow, toggleAll };
 }
 
 function SortIcon({ direction }: { readonly direction?: SortDirection | undefined }) {

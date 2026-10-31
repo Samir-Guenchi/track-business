@@ -1,0 +1,82 @@
+:root {
+  color-scheme: light;
+  --trackecom-kraft: #c98f55;
+  --trackecom-kraft-shadow: #a8723f;
+  --trackecom-tape-green: #16523f;
+  --trackecom-tape-green-dark: #3fa37e;
+  --trackecom-on-primary: #fffaf2;
+  --trackecom-primary-hover: #104330;
+  --trackecom-stamp-red: #c8382b;
+  --trackecom-ink: #1c1a17;
+  --trackecom-paper: #f6eee1;
+  --trackecom-highlight-surface: #f6eee1;
+  --trackecom-highlight-ink: #1c1a17;
+  --trackecom-tooltip-surface: #1c1a17;
+  --trackecom-tooltip-ink: #f6eee1;
+  --trackecom-selection-surface: #16523f;
+  --trackecom-selection-ink: #f6eee1;
+  --trackecom-skeleton-highlight: #f6eee1;
+  --trackecom-canvas: #f2eadf;
+  --trackecom-surface: #fffaf2;
+  --trackecom-border: #d9cdbc;
+  --trackecom-muted: #71685c;
+  --trackecom-radius-control: 0.5rem;
+  --trackecom-radius-panel: 0.75rem;
+  --trackecom-focus: 0 0 0 3px rgb(22 82 63 / 0.24);
+  font-family: Inter, 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+  color: var(--trackecom-ink);
+  background: var(--trackecom-canvas);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+[dir='rtl'],
+:lang(ar) {
+  font-family: 'IBM Plex Sans Arabic', Inter, ui-sans-serif, sans-serif;
+}
+
+:is([data-theme='dark'], .dark) {
+  color-scheme: dark;
+  --trackecom-ink: #f6eee1;
+  --trackecom-canvas: #171612;
+  --trackecom-surface: #211f1a;
+  --trackecom-border: #484137;
+  --trackecom-muted: #c0b5a5;
+  --trackecom-tape-green: #3fa37e;
+  --trackecom-on-primary: #1c1a17;
+  --trackecom-primary-hover: #55b38f;
+  --trackecom-highlight-surface: #37332c;
+  --trackecom-highlight-ink: #f6eee1;
+  --trackecom-tooltip-surface: #37332c;
+  --trackecom-tooltip-ink: #f6eee1;
+  --trackecom-selection-surface: #3fa37e;
+  --trackecom-selection-ink: #1c1a17;
+  --trackecom-skeleton-highlight: #37332c;
+  --trackecom-focus: 0 0 0 3px rgb(63 163 126 / 0.3);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+::selection {
+  color: var(--trackecom-selection-ink);
+  background: var(--trackecom-selection-surface);
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+:focus-visible {
+  outline: none;
+  box-shadow: var(--trackecom-focus);
+}

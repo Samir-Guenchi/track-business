@@ -1,0 +1,120 @@
+.tk-dialog__overlay {
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  background: rgb(28 26 23 / 0.48);
+}
+.tk-dialog__content,
+.tk-drawer__content {
+  position: fixed;
+  z-index: 61;
+  color: var(--trackecom-ink);
+  background: var(--trackecom-surface);
+  box-shadow: 0 16px 48px rgb(28 26 23 / 0.22);
+}
+.tk-dialog__content {
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  width: min(32rem, calc(100vw - 2rem));
+  padding: 1.5rem;
+  border: 1px solid var(--trackecom-border);
+  border-radius: var(--trackecom-radius-panel);
+  transform: translate(-50%, -50%);
+}
+.tk-dialog__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+.tk-dialog__description {
+  margin-block: 0.5rem 0;
+  color: var(--trackecom-muted);
+  line-height: 1.55;
+}
+.tk-dialog__close {
+  position: absolute;
+  inset-block-start: 0.75rem;
+  inset-inline-end: 0.75rem;
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 0;
+  border-radius: 0.375rem;
+  color: inherit;
+  background: transparent;
+}
+.tk-dialog__close:hover {
+  color: var(--trackecom-highlight-ink);
+  background: var(--trackecom-highlight-surface);
+}
+.tk-drawer__content {
+  inset-block: 0;
+  width: min(28rem, 100vw);
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+.tk-drawer__content[data-side='start'] {
+  inset-inline-start: 0;
+}
+.tk-drawer__content[data-side='end'] {
+  inset-inline-end: 0;
+}
+
+.tk-tabs__list {
+  display: flex;
+  gap: 0.25rem;
+  border-block-end: 1px solid var(--trackecom-border);
+}
+.tk-tabs__trigger {
+  min-height: 2.5rem;
+  padding-inline: 0.875rem;
+  border: 0;
+  border-block-end: 2px solid transparent;
+  color: var(--trackecom-muted);
+  background: transparent;
+  font-weight: 600;
+}
+.tk-tabs__trigger[data-state='active'] {
+  border-block-end-color: var(--trackecom-tape-green);
+  color: var(--trackecom-ink);
+}
+.tk-tabs__content {
+  padding-block: 1rem;
+}
+
+.tk-table__scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+.tk-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: start;
+}
+.tk-table th,
+.tk-table td {
+  padding: 0.75rem;
+  border-block-end: 1px solid var(--trackecom-border);
+  text-align: start;
+  white-space: nowrap;
+}
+.tk-table th {
+  color: var(--trackecom-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.tk-table tbody tr:hover,
+.tk-table tbody tr[data-selected='true'] {
+  background: color-mix(in srgb, var(--trackecom-tape-green) 7%, var(--trackecom-surface));
+}
+.tk-table__check {
+  width: 2.75rem;
+  text-align: center !important;
+}
+.tk-table__sort {
+  min-height: 2rem;
+  padding-inline: 0.25rem;
+  color: inherit;
+  font-weight: inherit;
+}

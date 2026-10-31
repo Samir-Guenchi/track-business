@@ -1,0 +1,94 @@
+.tk-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+  padding-inline: 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.tk-badge[data-variant='neutral'] {
+  color: var(--trackecom-ink);
+  background: #e9e2d8;
+}
+.tk-badge[data-variant='success'] {
+  color: #124d39;
+  background: #d9eee4;
+}
+.tk-badge[data-variant='warning'] {
+  color: #6e4617;
+  background: #f7e8c7;
+}
+.tk-badge[data-variant='danger'] {
+  color: #8c251e;
+  background: #f5d9d5;
+}
+.tk-badge[data-variant='info'] {
+  color: #214b69;
+  background: #dceaf5;
+}
+:is([data-theme='dark'], .dark) .tk-badge[data-variant='neutral'] {
+  color: var(--trackecom-ink);
+  background: #37332c;
+}
+:is([data-theme='dark'], .dark) .tk-badge[data-variant='success'] {
+  color: #c4efdc;
+  background: #184532;
+}
+:is([data-theme='dark'], .dark) .tk-badge[data-variant='warning'] {
+  color: #f9d899;
+  background: #4f391b;
+}
+:is([data-theme='dark'], .dark) .tk-badge[data-variant='danger'] {
+  color: #ffccc6;
+  background: #512621;
+}
+:is([data-theme='dark'], .dark) .tk-badge[data-variant='info'] {
+  color: #c8e4f9;
+  background: #203b50;
+}
+
+.tk-skeleton {
+  min-height: 1rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    var(--trackecom-border),
+    var(--trackecom-skeleton-highlight),
+    var(--trackecom-border)
+  );
+  background-size: 200% 100%;
+  animation: tk-shimmer 1.5s ease-in-out infinite;
+}
+@keyframes tk-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tk-skeleton {
+    animation: none;
+  }
+}
+
+.tk-empty {
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+  padding: 2rem;
+  color: var(--trackecom-ink);
+}
+.tk-empty__title {
+  margin: 0;
+  font-size: 1.125rem;
+}
+.tk-empty__description {
+  max-width: 65ch;
+  margin: 0;
+  color: var(--trackecom-muted);
+  line-height: 1.6;
+}
+.tk-empty__action {
+  margin-block-start: 0.75rem;
+}
