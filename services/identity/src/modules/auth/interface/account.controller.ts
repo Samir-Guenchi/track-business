@@ -8,7 +8,7 @@ import {
   type VerifyEmailRequest,
   VerifyEmailRequestSchema,
 } from '@trackecom/contracts';
-import { ZodValidationPipe } from '@trackecom/service-kit';
+import { Public, ZodValidationPipe } from '@trackecom/service-kit';
 import {
   RequestPasswordResetUseCase,
   ResetPasswordUseCase,
@@ -16,6 +16,8 @@ import {
 } from '../application/email-and-password.use-cases.js';
 import { STRICT_RATE_LIMIT } from './auth.controller.js';
 
+/** Reachable without a session; protected by rate limits instead. */
+@Public()
 @Controller()
 export class AccountController {
   constructor(

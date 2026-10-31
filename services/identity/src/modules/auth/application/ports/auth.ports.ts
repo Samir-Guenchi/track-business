@@ -53,19 +53,14 @@ export interface OneTimeTokenStore {
   consume(rawToken: string, purpose: OneTimePurpose): Promise<string | null>;
 }
 
-export type AuthEmail =
-  | {
-      readonly kind: 'verify_email';
-      readonly to: string;
-      readonly locale: Locale;
-      readonly token: string;
-    }
-  | {
-      readonly kind: 'reset_password';
-      readonly to: string;
-      readonly locale: Locale;
-      readonly token: string;
-    };
+export type AuthEmailKind = 'verify_email' | 'reset_password' | 'store_invitation';
+
+export interface AuthEmail {
+  readonly kind: AuthEmailKind;
+  readonly to: string;
+  readonly locale: Locale;
+  readonly token: string;
+}
 
 export interface AuthMailer {
   send(email: AuthEmail): Promise<void>;
