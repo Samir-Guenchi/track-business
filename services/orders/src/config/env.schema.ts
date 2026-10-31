@@ -9,6 +9,8 @@ export const EnvSchema = BaseEnvSchema.extend({
   IDENTITY_URL: z.url({ protocol: /^https?$/ }).default('http://localhost:4001'),
   /** How long a user's store roles are cached; a role change applies after at most this. */
   ROLE_CACHE_SECONDS: z.coerce.number().int().min(0).max(600).default(60),
+  /** Runs the background loops (outbox relay, event consumers). Off in API tests. */
+  WORKERS_ENABLED: z.stringbool().default(true),
 });
 
 export type Env = z.infer<typeof EnvSchema>;

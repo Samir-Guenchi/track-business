@@ -16,6 +16,8 @@ export interface OutboxMessage {
 export interface OrderEffects {
   readonly audit: AuditEntry;
   readonly events: readonly OutboxMessage[];
+  /** The bus event this change applies; recorded once, so a redelivery is refused. */
+  readonly consumed?: { readonly consumer: string; readonly eventId: string };
 }
 
 export interface OrderPage {

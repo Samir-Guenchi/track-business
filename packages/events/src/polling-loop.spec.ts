@@ -1,8 +1,7 @@
-import { Logger } from '@nestjs/common';
 import { describe, expect, it, vi } from 'vitest';
 import { PollingLoop } from './polling-loop.js';
 
-const logger = new Logger('test');
+const logger = { error: (_message: string) => undefined };
 
 describe('PollingLoop', () => {
   it('keeps going while there is work, then idles until stopped', async () => {
