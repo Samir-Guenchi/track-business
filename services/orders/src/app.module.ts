@@ -13,6 +13,7 @@ import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
 import { ConfirmationModule } from './modules/confirmation/confirmation.module.js';
 import { confirmationOpenApiPaths } from './modules/confirmation/interface/confirmation.openapi.js';
+import { fraudOpenApiPaths } from './modules/fraud/interface/fraud.openapi.js';
 import { ordersOpenApiPaths } from './modules/orders/interface/orders.openapi.js';
 import { OrdersModule } from './modules/orders/orders.module.js';
 import { ShipmentStatusModule } from './modules/shipment-status/shipment-status.module.js';
@@ -39,7 +40,7 @@ export class AppModule {
         OpenApiModule.forRoot({
           title: 'TrackEcom orders',
           version: '0.1.0',
-          paths: { ...ordersOpenApiPaths, ...confirmationOpenApiPaths },
+          paths: { ...ordersOpenApiPaths, ...confirmationOpenApiPaths, ...fraudOpenApiPaths },
         }),
         StoreAccessModule.forRoot({
           options: { identityUrl: env.IDENTITY_URL, roleCacheSeconds: env.ROLE_CACHE_SECONDS },

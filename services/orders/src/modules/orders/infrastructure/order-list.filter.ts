@@ -44,6 +44,7 @@ export function orderListFilter(storeId: string, query: ListOrdersQuery): Prisma
     ...(query.agentId ? { assignedAgentId: query.agentId } : {}),
     ...(query.carrier ? { carrier: query.carrier } : {}),
     ...(query.tag ? { tags: { has: query.tag } } : {}),
+    ...(query.flagged === undefined ? {} : { riskFlags: { isEmpty: !query.flagged } }),
     ...createdFilter(query),
     ...(query.q ? searchFilter(query.q) : {}),
   };

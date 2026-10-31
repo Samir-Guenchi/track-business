@@ -1,4 +1,10 @@
-import type { DeliveryType, OrderSource, OrderStatus, Permission } from '@trackecom/contracts';
+import type {
+  DeliveryType,
+  OrderSource,
+  OrderStatus,
+  Permission,
+  RiskFlag,
+} from '@trackecom/contracts';
 
 export interface OrderLine {
   readonly id: string;
@@ -41,6 +47,8 @@ export interface OrderRecord {
   readonly carrier: string | null;
   readonly trackingNumber: string | null;
   readonly possibleDuplicateOfId: string | null;
+  /** Fake-order signals found when the order came in (#52). */
+  readonly riskFlags: readonly RiskFlag[];
   readonly itemsFingerprint: string;
   readonly postponedUntil: Date | null;
   readonly statusChangedAt: Date;
