@@ -1,0 +1,18 @@
+// Carrier accounts (#30). Tenant data. Credentials are encrypted with a per-row data key, itself
+// wrapped by the key-encryption key from the secret manager (envelope encryption).
+
+model CarrierAccount {
+  storeId    String   @map("store_id") @db.Uuid
+  carrier    String
+  kekId      String   @map("kek_id")
+  /// Data key encrypted with the KEK: iv (12) + tag (16) + ciphertext.
+  wrappedKey Bytes    @map("wrapped_key")
+  /// Credentials JSON encrypted with the data key: iv (12) + tag (16) + ciphertext.
+  secret     Bytes
+  hint       String
+  verifiedAt DateTime @map("verified_at") @db.Timestamptz(3)
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@id([storeId, carrier])
+  @@map("carrier_accounts")
+}

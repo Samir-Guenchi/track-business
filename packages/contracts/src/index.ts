@@ -1,5 +1,6 @@
 export * from './audit/index.js';
 export * from './auth/index.js';
+export * from './carriers/index.js';
 export * from './common/error.schema.js';
 export * from './common/health.schema.js';
 export * from './common/pagination.schema.js';
