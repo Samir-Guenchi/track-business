@@ -6,4 +6,5 @@ export * from './common/pagination.schema.js';
 export * from './common/phone.schema.js';
 export * from './events/envelope.schema.js';
 export * from './geo/index.js';
+export * from './orders/index.js';
 export * from './stores/index.js';
