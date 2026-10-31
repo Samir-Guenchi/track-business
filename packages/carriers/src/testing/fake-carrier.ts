@@ -1,6 +1,13 @@
 import type { CarrierAdapter, CarrierCapabilities } from '../carrier-adapter.port.js';
 import { CarrierError } from '../carrier.errors.js';
-import type { CreatedShipment, ShipmentRequest, TrackingUpdate } from '../shipment.types.js';
+import type {
+  CarrierContext,
+  CreatedShipment,
+  ShipmentRequest,
+  TrackingEvent,
+  TrackingUpdate,
+  WebhookRequest,
+} from '../shipment.types.js';
 
 export interface FakeCarrierOptions {
   readonly code?: string;
@@ -21,13 +28,15 @@ export class FakeCarrier implements CarrierAdapter {
   readonly credentialFields = [{ key: 'token', label: 'Token', secret: true }];
   readonly capabilities: CarrierCapabilities;
   readonly parcels = new Map<string, CreatedShipment & { request: ShipmentRequest }>();
+  /** Events `getTracking` returns, by tracking number; tests push scans here. */
+  readonly tracking = new Map<string, TrackingEvent[]>();
   createCalls = 0;
   private failuresLeft: number;
 
   constructor(private readonly options: FakeCarrierOptions = {}) {
     this.code = options.code ?? 'fake';
     this.capabilities = {
-      webhooks: false,
+      webhooks: true,
       cancel: true,
       labels: false,
       rates: false,
@@ -61,7 +70,7 @@ export class FakeCarrier implements CarrierAdapter {
   }
 
   async getTracking(_ctx: unknown, trackingNumber: string): Promise<TrackingUpdate> {
-    return { trackingNumber, events: [] };
+    return { trackingNumber, events: this.tracking.get(trackingNumber) ?? [] };
   }
 
   async cancelShipment() {}
@@ -71,8 +80,21 @@ export class FakeCarrier implements CarrierAdapter {
   async getLabel(): Promise<never> {
     throw new CarrierError('not_supported', 'No labels', { carrier: this.code });
   }
-  async parseWebhook() {
-    return [];
+  /**
+   * Body: TrackingUpdate[] as JSON (dates as ISO strings). The "signature" is the store's token in
+   * `x-fake-signature`, enough to exercise the receiver's auth path.
+   */
+  async parseWebhook(ctx: CarrierContext, request: WebhookRequest): Promise<TrackingUpdate[]> {
+    if (request.headers['x-fake-signature'] !== ctx.credentials['token']) {
+      throw new CarrierError('auth', 'Bad webhook signature', { carrier: this.code });
+    }
+    const updates = JSON.parse(request.rawBody) as (TrackingUpdate & {
+      events: { at: string }[];
+    })[];
+    return updates.map((update) => ({
+      trackingNumber: update.trackingNumber,
+      events: update.events.map((event) => ({ ...event, at: new Date(event.at) }) as TrackingEvent),
+    }));
   }
   async listStopDesks() {
     return [];

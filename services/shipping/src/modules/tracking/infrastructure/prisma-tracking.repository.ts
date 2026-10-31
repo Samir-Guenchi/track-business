@@ -24,7 +24,7 @@ export class PrismaTrackingRepository implements TrackingRepository {
       const row = await tx.shipment.findUnique({
         where: { carrier_trackingNumber: { carrier, trackingNumber } },
       });
-      if (!row) return null;
+      if (!row || row.storeId !== input.storeId) return null;
       const shipment = toShipment(row);
       const fresh = await this.insertNew(tx, { shipmentId: row.id, storeId: row.storeId }, input);
       const decision = decide(shipment, fresh.map(toEvent));

@@ -15,6 +15,7 @@ export const OFFLINE_ENV = {
   /** A fresh throwaway key per test run; never a real one. */
   CARRIER_KEK: randomBytes(32).toString('base64'),
   ENABLE_FAKE_CARRIER: 'true',
+  WORKERS_ENABLED: 'false',
 };
 
 export function testEnv(overrides: Record<string, string | undefined> = {}): Env {

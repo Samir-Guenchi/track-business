@@ -21,6 +21,7 @@ const SHIPMENT = 'd0000000-0000-4000-8000-000000000001';
 const OWNER = 'b0000000-0000-4000-8000-000000000011';
 const RIVAL = 'b0000000-0000-4000-8000-000000000012';
 const CODE = 'pUbLiCcOdE_0123456789';
+const SOURCE = { storeId: STORE, carrier: 'yalidine' };
 
 const scan = (
   rawStatus: string,
@@ -100,8 +101,8 @@ describe.skipIf(!baseUrl || !redisUrl)('tracking timeline (real Postgres)', () =
       scan('En livraison', 'out_for_delivery', 9),
     );
 
-    const first = await ingest.ingest('yalidine', batch);
-    const replay = await ingest.ingest('yalidine', batch);
+    const first = await ingest.ingest(SOURCE, batch);
+    const replay = await ingest.ingest(SOURCE, batch);
 
     expect(first?.plan.transitions).toHaveLength(2);
     expect(replay?.plan.transitions).toEqual([]);
@@ -116,20 +117,20 @@ describe.skipIf(!baseUrl || !redisUrl)('tracking timeline (real Postgres)', () =
   });
 
   it('keeps unmapped carrier labels on the timeline and alerts them', async () => {
-    await ingest.ingest('yalidine', update(scan('Colis bloqué', null, 10)));
+    await ingest.ingest(SOURCE, update(scan('Colis bloqué', null, 10)));
 
     expect(await prisma.trackingEvent.count()).toBe(1);
     expect(await outboxTypes()).toEqual([TRACKING_EVENTS.unknownCarrierStatus]);
   });
 
   it('ignores a tracking number it does not know', async () => {
-    const result = await ingest.ingest('yalidine', { trackingNumber: 'other', events: [] });
+    const result = await ingest.ingest(SOURCE, { trackingNumber: 'other', events: [] });
 
     expect(result).toBeNull();
   });
 
   it('serves the order timeline to its store only', async () => {
-    await ingest.ingest('yalidine', update(scan('Livré', 'delivered', 11)));
+    await ingest.ingest(SOURCE, update(scan('Livré', 'delivered', 11)));
     const url = `/tracking/orders/${ORDER}`;
 
     const own = await app.inject({ method: 'GET', url, headers: auth['owner'] ?? {} });
@@ -145,7 +146,7 @@ describe.skipIf(!baseUrl || !redisUrl)('tracking timeline (real Postgres)', () =
   });
 
   it('serves the public page without login and without carrier notes', async () => {
-    await ingest.ingest('yalidine', update(scan('Livré', 'delivered', 11), scan('???', null, 12)));
+    await ingest.ingest(SOURCE, update(scan('Livré', 'delivered', 11), scan('???', null, 12)));
 
     const found = await app.inject({ method: 'GET', url: `/public/tracking/${CODE}` });
     const missing = await app.inject({ method: 'GET', url: '/public/tracking/nOpEnOpEnOpEnOpE' });

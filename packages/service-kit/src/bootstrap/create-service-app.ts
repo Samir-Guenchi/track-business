@@ -38,6 +38,8 @@ export async function createServiceApp(
   });
   const app = await NestFactory.create<NestFastifyApplication>(options.module, adapter, {
     bufferLogs: true,
+    // Kept next to the parsed body so webhook receivers can check signatures over exact bytes.
+    rawBody: true,
   });
   app.useLogger(app.get(Logger));
   await app.register(helmet);

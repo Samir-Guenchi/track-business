@@ -43,9 +43,13 @@ export class TrackingIngestService {
     @Inject(TRACKING_CLOCK) private readonly now: Clock,
   ) {}
 
-  /** null when no shipment has this tracking number (a parcel created outside TrackEcom). */
-  async ingest(carrier: string, update: TrackingUpdate): Promise<IngestDecision | null> {
-    const input = { carrier, trackingNumber: update.trackingNumber, events: toIncoming(update) };
+  /** null when the store has no shipment with this number (a parcel made outside TrackEcom). */
+  async ingest(
+    source: { storeId: string; carrier: string },
+    update: TrackingUpdate,
+  ): Promise<IngestDecision | null> {
+    const { carrier } = source;
+    const input = { ...source, trackingNumber: update.trackingNumber, events: toIncoming(update) };
     const decide = this.decider();
     for (let attempt = 1; ; attempt += 1) {
       try {
