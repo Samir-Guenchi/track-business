@@ -1,0 +1,11 @@
+// payments owns each store's COD money: parcels to be paid, carrier payouts and the ledger (ADR-0002).
+generator client {
+  provider               = "prisma-client"
+  output                 = "../../src/generated/prisma"
+  moduleFormat           = "esm"
+  importFileExtension    = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
