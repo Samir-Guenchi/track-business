@@ -1,4 +1,5 @@
 export * from './bootstrap/create-service-app.js';
+export type * from './bootstrap/fastify-cookie.types.js';
 export * from './config/base-env.schema.js';
 export * from './config/load-env.js';
 export * from './errors/api-exception.filter.js';

@@ -1,3 +1,4 @@
+import cookie from '@fastify/cookie';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
 import type { DynamicModule, Type } from '@nestjs/common';
@@ -16,7 +17,7 @@ export interface ServiceAppOptions {
 }
 
 /**
- * Builds a NestJS + Fastify app with the defaults every service shares: body limit, helmet,
+ * Builds a NestJS + Fastify app with the defaults every service shares: body limit, helmet, cookies,
  * CORS allowlist, rate limit, JSON logs, one error format, graceful shutdown.
  * Shared by `main.ts` and the HTTP tests so tests exercise the real setup.
  */
@@ -37,6 +38,7 @@ export async function createServiceApp(
   });
   app.useLogger(app.get(Logger));
   await app.register(helmet);
+  await app.register(cookie);
   await app.register(rateLimit, { max: env.RATE_LIMIT_PER_MINUTE, timeWindow: '1 minute' });
   app.enableCors({ origin: env.CORS_ORIGINS, credentials: true });
   app.useGlobalFilters(new ApiExceptionFilter());

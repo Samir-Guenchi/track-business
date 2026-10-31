@@ -35,6 +35,18 @@ function fromDomainError(error: DomainError): MappedError {
   return { status: STATUS_BY_KIND[error.kind], body };
 }
 
+/** Fastify plugins (rate limit, body limit, bad JSON) throw errors carrying a 4xx `statusCode`. */
+function clientErrorStatus(exception: unknown): number | undefined {
+  if (!(exception instanceof Error) || !('statusCode' in exception)) return undefined;
+  const status = exception.statusCode;
+  return typeof status === 'number' && status >= 400 && status < 500 ? status : undefined;
+}
+
+function fromClientError(status: number, exception: Error): MappedError {
+  const code = status === 429 ? 'rate_limited' : `http_${status}`;
+  return { status, body: { error: { code, message: exception.message } } };
+}
+
 const INTERNAL: MappedError = {
   status: 500,
   body: { error: { code: 'internal', message: 'Something went wrong' } },
@@ -54,6 +66,9 @@ export class ApiExceptionFilter implements ExceptionFilter {
   private map(exception: unknown): MappedError {
     if (exception instanceof DomainError) return fromDomainError(exception);
     if (exception instanceof HttpException) return fromHttpException(exception);
+    const clientStatus = clientErrorStatus(exception);
+    if (clientStatus !== undefined && exception instanceof Error)
+      return fromClientError(clientStatus, exception);
     return INTERNAL;
   }
 }
