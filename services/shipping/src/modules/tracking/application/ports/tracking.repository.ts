@@ -50,6 +50,8 @@ export interface IngestDecision {
 }
 
 export interface IngestInput {
+  /** The store the update came for: a store's webhook can never touch another store's parcel. */
+  readonly storeId: string;
   readonly carrier: string;
   readonly trackingNumber: string;
   readonly events: readonly IncomingEvent[];

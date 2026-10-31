@@ -31,10 +31,6 @@ export const carrierProviders: Provider[] = [
   {
     provide: EnvelopeCipher,
     inject: [ENV],
-    useFactory: (env: Env) =>
-      new EnvelopeCipher(
-        new Map([[env.CARRIER_KEK_ID, Buffer.from(env.CARRIER_KEK, 'base64')]]),
-        env.CARRIER_KEK_ID,
-      ),
+    useFactory: (env: Env) => new EnvelopeCipher(keyEncryptionKeys(env), env.CARRIER_KEK_ID),
   },
 ];

@@ -29,6 +29,8 @@ export const EnvSchema = BaseEnvSchema.extend({
     .string()
     .regex(/^[a-z0-9-]{1,20}:[A-Za-z0-9+/=]{44}(,[a-z0-9-]{1,20}:[A-Za-z0-9+/=]{44})*$/)
     .optional(),
+  /** Runs the background loops (outbox relay, tracking poller). Off in API tests. */
+  WORKERS_ENABLED: z.stringbool().default(true),
   /** Registers an in-memory carrier for local development and tests. Refused in production. */
   ENABLE_FAKE_CARRIER: z.stringbool().default(false),
 }).refine((env) => !(env.NODE_ENV === 'production' && env.ENABLE_FAKE_CARRIER), {
