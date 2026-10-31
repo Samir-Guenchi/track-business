@@ -86,6 +86,23 @@ services:
     image: ghcr.io/samir-guenchi/trackecom-orders:${IMAGE_TAG}
     environment: { DATABASE_URL: '${ORDERS_DATABASE_URL}' }
 
+  payments:
+    <<: *service
+    image: ghcr.io/samir-guenchi/trackecom-payments:${IMAGE_TAG}
+    environment:
+      PORT: 4004
+      NODE_ENV: production
+      RELEASE: ${IMAGE_TAG}
+      DEPLOY_ENV: ${DEPLOY_ENV}
+      REDIS_URL: redis://redis:6379
+      DATABASE_URL: ${PAYMENTS_DATABASE_URL}
+      IDENTITY_URL: http://identity:4001
+
+  payments-migrate:
+    <<: *migrate
+    image: ghcr.io/samir-guenchi/trackecom-payments:${IMAGE_TAG}
+    environment: { DATABASE_URL: '${PAYMENTS_DATABASE_URL}' }
+
   redis:
     image: redis:7-alpine
     restart: unless-stopped

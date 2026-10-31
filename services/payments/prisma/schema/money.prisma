@@ -1,0 +1,70 @@
+// COD money (#42). Tenant data: every row belongs to a store. Amounts are whole DZD.
+
+/// A parcel the store expects cash for, learnt from shipping's events.
+model Parcel {
+  id           String    @id @db.Uuid
+  storeId      String    @map("store_id") @db.Uuid
+  carrier      String
+  trackingNumber String  @map("tracking_number")
+  orderId      String?   @map("order_id") @db.Uuid
+  /// What the carrier must collect; null for a line on a payout we never saw shipped.
+  expectedCod  Int?      @map("expected_cod")
+  /// ReconciliationStatus from the contracts.
+  status       String
+  deliveredAt  DateTime? @map("delivered_at") @db.Timestamptz(3)
+  receivedCod  Int?      @map("received_cod")
+  fees         Int       @default(0)
+  payoutId     String?   @map("payout_id") @db.Uuid
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@unique([storeId, carrier, trackingNumber])
+  @@index([storeId, status])
+  @@index([status, deliveredAt])
+  @@map("parcels")
+}
+
+/// One carrier statement; imported once per (store, carrier, reference).
+model Payout {
+  id          String   @id @db.Uuid
+  storeId     String   @map("store_id") @db.Uuid
+  carrier     String
+  reference   String
+  paidAt      DateTime @map("paid_at") @db.Date
+  totalAmount Int      @map("total_amount")
+  codAmount   Int      @map("cod_amount")
+  fees        Int
+  lines       Int
+  matched     Int
+  flagged     Int
+  importedAt  DateTime @default(now()) @map("imported_at") @db.Timestamptz(3)
+
+  @@unique([storeId, carrier, reference])
+  @@index([storeId, paidAt])
+  @@map("payouts")
+}
+
+/// Double entry: the rows of one movement (same entryId) sum to zero.
+model LedgerEntry {
+  id        String   @id @db.Uuid
+  storeId   String   @map("store_id") @db.Uuid
+  entryId   String   @map("entry_id") @db.Uuid
+  /// carrier_receivable, cod_sales, cash, carrier_fees.
+  account   String
+  /// Debit positive, credit negative.
+  amount    Int
+  parcelId  String?  @map("parcel_id") @db.Uuid
+  payoutId  String?  @map("payout_id") @db.Uuid
+  at        DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([storeId, account])
+  @@index([entryId])
+  @@map("ledger_entries")
+}
+
+model MoneySettings {
+  storeId          String   @id @map("store_id") @db.Uuid
+  missingAfterDays Int      @default(14) @map("missing_after_days")
+  updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("money_settings")
+}
