@@ -28,7 +28,7 @@ jobs:
       AWS_ENDPOINT_URL: ${{ vars.BACKUP_AWS_ENDPOINT_URL }}
       AWS_DEFAULT_REGION: ${{ vars.BACKUP_AWS_REGION || 'eu-west-3' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Skip until backups are configured
         if: env.BACKUP_BUCKET == ''
         run: echo "::notice::No BACKUP_BUCKET secret in the 'backups' environment yet. See docs/runbook.md."
