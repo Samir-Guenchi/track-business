@@ -1,0 +1,53 @@
+name: Restore drill
+
+# Every Monday: restore the latest encrypted backup of each database into a throwaway Postgres
+# and check it is usable. A backup that was never restored is not a backup (issue #21).
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: backups
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env: { POSTGRES_USER: drill, POSTGRES_PASSWORD: drill, POSTGRES_DB: drill }
+        ports: ['5432:5432']
+        options: --health-cmd "pg_isready -U drill" --health-interval 5s --health-retries 10
+    env:
+      BACKUP_BUCKET: ${{ secrets.BACKUP_BUCKET }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.BACKUP_AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKUP_AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL: ${{ vars.BACKUP_AWS_ENDPOINT_URL }}
+      AWS_DEFAULT_REGION: ${{ vars.BACKUP_AWS_REGION || 'eu-west-3' }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Skip until backups are configured
+        if: env.BACKUP_BUCKET == ''
+        run: echo "::notice::No BACKUP_BUCKET secret in the 'backups' environment yet. See docs/runbook.md."
+      - name: Install tools
+        if: env.BACKUP_BUCKET != ''
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq age postgresql-client-17 || sudo apt-get install -y -qq age postgresql-client
+      - name: Restore and verify each database
+        if: env.BACKUP_BUCKET != ''
+        env:
+          AGE_KEY: ${{ secrets.BACKUP_AGE_IDENTITY }}
+        run: |
+          umask 077; printf '%s\n' "$AGE_KEY" > "$RUNNER_TEMP/age.key"
+          export AGE_IDENTITY_FILE="$RUNNER_TEMP/age.key"
+          for name in $(ls services); do
+            [ -d "services/$name/prisma" ] || continue
+            psql -q "postgresql://drill:drill@localhost:5432/drill" -c "DROP DATABASE IF EXISTS $name" -c "CREATE DATABASE $name"
+            sh deploy/backup/pg-restore.sh "$name" "postgresql://drill:drill@localhost:5432/$name"
+            applied=$(psql -tA "postgresql://drill:drill@localhost:5432/$name" -c "SELECT count(*) FROM _prisma_migrations WHERE finished_at IS NOT NULL")
+            echo "$name: $applied migrations restored" | tee -a "$GITHUB_STEP_SUMMARY"
+            [ "$applied" -gt 0 ]
+          done

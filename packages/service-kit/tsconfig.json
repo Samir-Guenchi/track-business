@@ -1,0 +1,6 @@
+{
+  "extends": "@trackecom/config/tsconfig/nestjs.json",
+  "compilerOptions": {
+    "declaration": true
+  }
+}

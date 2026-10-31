@@ -1,0 +1,6 @@
+# Applied by .github/workflows/repo-setup.yml. Issues labelled phase:N are attached to milestone N.
+- { phase: "0", title: "Phase 0 - Foundations",            due: "2026-11-30", description: "Stack, monorepo, CI, auth, roles, design system, reference data" }
+- { phase: "1", title: "Phase 1 - MVP orders to delivery", due: "2027-02-28", description: "Orders, confirmation centre, first carrier, tracking page, private beta" }
+- { phase: "2", title: "Phase 2 - Multi-carrier and money",due: "2027-05-31", description: "More carriers, smart routing, COD reconciliation, returns, notifications, store integrations, public launch" }
+- { phase: "3", title: "Phase 3 - Intelligence",           due: "2027-09-30", description: "Return-risk score, fraud detection, analytics, ETA, mobile app" }
+- { phase: "4", title: "Phase 4 - Platform and scale",     due: "2027-12-31", description: "Public API, warehouses, carrier portal, social leads, e-payment, billing" }

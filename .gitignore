@@ -5,3 +5,9 @@ node_modules/
 __pycache__/
 dist/
 .next/
+!.env.example
+.turbo/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+**/src/generated/
