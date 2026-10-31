@@ -7,3 +7,4 @@ assets/brand
 *.md
 # Existing GitHub config keeps its current layout
 .github
+src/generated
