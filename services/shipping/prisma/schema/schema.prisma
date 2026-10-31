@@ -1,0 +1,11 @@
+// shipping owns carriers, shipments, tracking, prices and geo reference data (ADR-0001). One file per module.
+generator client {
+  provider               = "prisma-client"
+  output                 = "../../src/generated/prisma"
+  moduleFormat           = "esm"
+  importFileExtension    = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
