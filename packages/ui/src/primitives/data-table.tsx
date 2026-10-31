@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, type ReactNode } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import { Button } from './button.js';
 
@@ -68,7 +68,19 @@ function useTableSelection<Row>(
   onSelectionChange?: (selectedIds: readonly string[]) => void,
 ) {
   const [selectedIds, setSelectedIds] = useState<ReadonlySet<string>>(() => new Set());
+  const selectedIdsRef = useRef(selectedIds);
+  const onSelectionChangeRef = useRef(onSelectionChange);
   const currentRowIds = useMemo(() => new Set(rows.map(getRowId)), [getRowId, rows]);
+  useLayoutEffect(() => {
+    onSelectionChangeRef.current = onSelectionChange;
+  }, [onSelectionChange]);
+  useLayoutEffect(() => {
+    const next = new Set([...selectedIdsRef.current].filter((id) => currentRowIds.has(id)));
+    if (next.size === selectedIdsRef.current.size) return;
+    selectedIdsRef.current = next;
+    setSelectedIds(next);
+    onSelectionChangeRef.current?.([...next]);
+  }, [currentRowIds]);
   const visibleSelectedIds = useMemo(
     () => new Set([...selectedIds].filter((id) => currentRowIds.has(id))),
     [currentRowIds, selectedIds],
@@ -76,8 +88,9 @@ function useTableSelection<Row>(
   const allSelected = rows.length > 0 && rows.every((row) => visibleSelectedIds.has(getRowId(row)));
   const update = (next: ReadonlySet<string>) => {
     const visibleIds = new Set([...next].filter((id) => currentRowIds.has(id)));
+    selectedIdsRef.current = visibleIds;
     setSelectedIds(visibleIds);
-    onSelectionChange?.([...visibleIds]);
+    onSelectionChangeRef.current?.([...visibleIds]);
   };
   const toggleRow = (id: string) => {
     const next = new Set(visibleSelectedIds);
