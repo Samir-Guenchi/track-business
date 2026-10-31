@@ -1,0 +1,3 @@
+{
+  "extends": "@trackecom/config/tsconfig/library.json"
+}
