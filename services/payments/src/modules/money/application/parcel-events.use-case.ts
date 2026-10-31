@@ -36,8 +36,17 @@ export class ParcelEventsUseCase {
       expectedCod: data.codAmount,
       status: 'awaiting_delivery' as const,
       deliveredAt: null,
+      receivedCod: null,
+      fees: 0,
+      payoutId: null,
     };
-    return this.money.saveParcel({ parcel, postings: [], outbox: [], consumed: consumed(event) });
+    return this.money.saveParcel({
+      parcel,
+      previousStatus: null,
+      postings: [],
+      outbox: [],
+      consumed: consumed(event),
+    });
   }
 
   /** Delivered parcels start owing their COD; returned ones owe nothing. */
@@ -51,6 +60,11 @@ export class ParcelEventsUseCase {
     const parcel = await this.money.findParcel(key);
     const move = parcel && applyParcelStatus(parcel, data.to, new Date(data.at));
     if (!move) return false;
-    return this.money.saveParcel({ ...move, outbox: [], consumed: consumed(event) });
+    return this.money.saveParcel({
+      ...move,
+      previousStatus: parcel.status,
+      outbox: [],
+      consumed: consumed(event),
+    });
   }
 }

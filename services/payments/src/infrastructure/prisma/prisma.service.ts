@@ -9,7 +9,7 @@ import { PrismaClient } from '../../generated/prisma/client.js';
 export class PrismaService extends PrismaClient implements OnModuleDestroy {
   constructor(@Inject(ENV) env: Env) {
     const options = postgresAdapterOptions(env.DATABASE_URL);
-    // Raw SQL (the confirmation queue) resolves table names through search_path, so it must
+    // Raw SQL (the payout and missing-parcel queues) resolves table names through search_path, so it must
     // point at the same schema the models use.
     const pool = {
       connectionString: env.DATABASE_URL,
