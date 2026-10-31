@@ -7,7 +7,7 @@ import {
   RegisterRequestSchema,
   type SessionResponse,
 } from '@trackecom/contracts';
-import { ZodValidationPipe } from '@trackecom/service-kit';
+import { Public, ZodValidationPipe } from '@trackecom/service-kit';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { LoginUseCase } from '../application/login.use-case.js';
 import { RegisterUseCase } from '../application/register.use-case.js';
@@ -16,6 +16,8 @@ import { sendSession } from './session-cookies.js';
 /** Brute-force protection on top of the account lockout: per IP, per route. */
 export const STRICT_RATE_LIMIT = { rateLimit: { max: 10, timeWindow: '1 minute' } };
 
+/** Reachable without a session; protected by rate limits instead. */
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(

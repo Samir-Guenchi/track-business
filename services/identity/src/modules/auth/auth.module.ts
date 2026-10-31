@@ -16,7 +16,6 @@ import { SmtpAuthMailer } from './infrastructure/mail/smtp-auth.mailer.js';
 import { PrismaOneTimeTokenStore } from './infrastructure/prisma-one-time-token.store.js';
 import { PrismaRefreshTokenStore } from './infrastructure/prisma-refresh-token.store.js';
 import { PrismaUserRepository } from './infrastructure/prisma-user.repository.js';
-import { AccessTokenGuard } from './interface/access-token.guard.js';
 import { AccountController } from './interface/account.controller.js';
 import { AuthController } from './interface/auth.controller.js';
 import { MeController } from './interface/me.controller.js';
@@ -36,7 +35,6 @@ import { SessionController } from './interface/session.controller.js';
     ...EmailAndPasswordUseCases,
     AccessTokenKeys,
     AccessTokenVerifier,
-    AccessTokenGuard,
     { provide: AUTH_PORTS.users, useClass: PrismaUserRepository },
     { provide: AUTH_PORTS.hasher, useClass: Argon2PasswordHasher },
     { provide: AUTH_PORTS.accessTokens, useClass: JoseAccessTokenIssuer },
@@ -45,6 +43,6 @@ import { SessionController } from './interface/session.controller.js';
     { provide: AUTH_PORTS.mailer, useClass: SmtpAuthMailer },
     { provide: AUTH_PORTS.clock, useValue: () => new Date() },
   ],
-  exports: [AccessTokenGuard, AccessTokenVerifier],
+  exports: [AccessTokenVerifier, AUTH_PORTS.users, AUTH_PORTS.mailer],
 })
 export class AuthModule {}

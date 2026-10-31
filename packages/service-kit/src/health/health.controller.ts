@@ -1,8 +1,10 @@
 import { Controller, Get, Inject, ServiceUnavailableException } from '@nestjs/common';
 import type { HealthStatus } from '@trackecom/contracts';
+import { Public } from '../authorization/access-policy.js';
 import { HEALTH_OPTIONS, type HealthOptions } from './health-check.port.js';
 
 /** `/health/live` = process is up. `/health/ready` = every dependency answers (503 otherwise). */
+@Public()
 @Controller('health')
 export class HealthController {
   constructor(@Inject(HEALTH_OPTIONS) private readonly options: HealthOptions) {}

@@ -1,4 +1,5 @@
 import { Controller, type DynamicModule, Get, Inject, Module } from '@nestjs/common';
+import { Public } from '../authorization/access-policy.js';
 import { type ZodOpenApiPathsObject, createDocument } from 'zod-openapi';
 
 const OPENAPI_DOCUMENT = Symbol('OPENAPI_DOCUMENT');
@@ -19,6 +20,7 @@ export function buildOpenApiDocument(options: OpenApiOptions): ReturnType<typeof
   });
 }
 
+@Public()
 @Controller('docs')
 class OpenApiController {
   constructor(@Inject(OPENAPI_DOCUMENT) private readonly document: unknown) {}

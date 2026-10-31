@@ -1,0 +1,52 @@
+// Stores (tenants), memberships and invitations (#17). Every other service references storeId.
+
+enum StoreRole {
+  owner
+  manager
+  agent
+  packer
+  accountant
+}
+
+model Store {
+  id          String       @id @db.Uuid
+  name        String
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  memberships Membership[]
+  invitations Invitation[]
+
+  @@map("stores")
+}
+
+model Membership {
+  id        String    @id @db.Uuid
+  storeId   String    @map("store_id") @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  role      StoreRole
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  store     Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([storeId, userId])
+  @@index([userId])
+  @@map("memberships")
+}
+
+/// Exactly one of email / phone is set. Only the token hash is stored.
+model Invitation {
+  id          String    @id @db.Uuid
+  storeId     String    @map("store_id") @db.Uuid
+  email       String?
+  phone       String?
+  role        StoreRole
+  tokenHash   String    @unique @map("token_hash")
+  invitedById String    @map("invited_by_id") @db.Uuid
+  expiresAt   DateTime  @map("expires_at") @db.Timestamptz(3)
+  acceptedAt  DateTime? @map("accepted_at") @db.Timestamptz(3)
+  revokedAt   DateTime? @map("revoked_at") @db.Timestamptz(3)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@index([storeId])
+  @@map("invitations")
+}
