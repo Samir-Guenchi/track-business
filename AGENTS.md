@@ -18,6 +18,7 @@ services/<name>     One business capability each: identity, orders, shipping, no
 packages/contracts  zod schemas, DTOs, event payloads shared by services and apps
 packages/events     Event bus interface + Redis Streams adapter, outbox helpers
 packages/carriers   Carrier adapter interface and one adapter per carrier
+packages/connectors Shop connector interface (Shopify, WooCommerce, YouCan)
 packages/ui         Design system (React components, tokens)
 packages/config     Shared tsconfig, ESLint, Prettier
 ```
