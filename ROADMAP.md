@@ -12,8 +12,8 @@ Goal: a solid base so features ship fast and safely.
 
 - ✅ Brand identity: logo, icon, wordmark, colours ([BRAND.md](BRAND.md))
 - ✅ README and roadmap
-- ⬜ Confirm stack (Next.js web, NestJS API, PostgreSQL, Redis) and record the decision
-- ⬜ Monorepo setup (`apps/web`, `apps/api`, `packages/ui`, `packages/carriers`)
+- 🔄 Confirm architecture (microservices) and stack (Next.js web, NestJS services, PostgreSQL, Redis) in [ADR-0001](docs/adr/0001-architecture-and-stack.md)
+- ⬜ Monorepo setup (`apps/web`, `services/*`, `packages/contracts`, `packages/ui`, `packages/carriers`)
 - ⬜ CI on GitHub Actions: lint, type-check, tests, preview deploys
 - ⬜ Authentication, organisations (stores) and roles: owner, manager, confirmation agent
 - ⬜ Design system with RTL support and AR / FR / EN translations
