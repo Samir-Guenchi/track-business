@@ -15,6 +15,7 @@ import { ConfirmationModule } from './modules/confirmation/confirmation.module.j
 import { confirmationOpenApiPaths } from './modules/confirmation/interface/confirmation.openapi.js';
 import { ordersOpenApiPaths } from './modules/orders/interface/orders.openapi.js';
 import { OrdersModule } from './modules/orders/orders.module.js';
+import { ShipmentStatusModule } from './modules/shipment-status/shipment-status.module.js';
 
 export const SERVICE_NAME = 'orders';
 
@@ -46,6 +47,7 @@ export class AppModule {
         }),
         OrdersModule,
         ConfirmationModule,
+        ShipmentStatusModule,
       ],
     };
   }

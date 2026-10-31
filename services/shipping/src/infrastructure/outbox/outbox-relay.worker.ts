@@ -5,10 +5,9 @@ import {
   type OnApplicationBootstrap,
   type OnApplicationShutdown,
 } from '@nestjs/common';
-import { OutboxRelay, RedisStreamsPublisher } from '@trackecom/events';
+import { OutboxRelay, PollingLoop, RedisStreamsPublisher } from '@trackecom/events';
 import { type Env, ENV } from '../../config/env.schema.js';
 import { RedisService } from '../redis/redis.service.js';
-import { PollingLoop } from '../workers/polling-loop.js';
 import { PrismaOutboxStore } from './prisma-outbox.store.js';
 
 /** Moves committed outbox rows to the shipping stream, on every replica. */

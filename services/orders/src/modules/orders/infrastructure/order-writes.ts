@@ -1,8 +1,8 @@
 import { toAuditRow } from '@trackecom/audit';
-import type { Prisma } from '../../../generated/prisma/client.js';
+import { Prisma } from '../../../generated/prisma/client.js';
 import type { OrderEffects } from '../application/ports/orders.ports.js';
 import type { OrderRecord } from '../domain/order.js';
-import { OrderConflictError } from '../domain/order.errors.js';
+import { EventAlreadyProcessedError, OrderConflictError } from '../domain/order.errors.js';
 
 export type Tx = Prisma.TransactionClient;
 
@@ -26,6 +26,15 @@ export async function writeOrderEffects(tx: Tx, effects: OrderEffects): Promise<
     data: { ...audit, changes: audit.changes as Prisma.InputJsonValue },
   });
   await writeOutbox(tx, effects.events);
+  if (effects.consumed) await markConsumed(tx, effects.consumed);
+}
+
+async function markConsumed(tx: Tx, consumed: NonNullable<OrderEffects['consumed']>) {
+  await tx.processedEvent.create({ data: consumed }).catch((error: unknown) => {
+    const duplicate =
+      error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002';
+    throw duplicate ? new EventAlreadyProcessedError(consumed.eventId) : error;
+  });
 }
 
 export async function writeOutbox(tx: Tx, events: OrderEffects['events']): Promise<void> {
