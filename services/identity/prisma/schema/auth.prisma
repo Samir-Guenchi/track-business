@@ -20,6 +20,7 @@ model User {
   updatedAt         DateTime       @updatedAt @map("updated_at") @db.Timestamptz(3)
   refreshTokens     RefreshToken[]
   oneTimeTokens     UserToken[]
+  memberships       Membership[]
 
   @@map("users")
 }

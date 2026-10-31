@@ -4,11 +4,13 @@ import {
   RefreshRequestSchema,
   type SessionResponse,
 } from '@trackecom/contracts';
-import { ZodValidationPipe } from '@trackecom/service-kit';
+import { Public, ZodValidationPipe } from '@trackecom/service-kit';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { LogoutUseCase, RefreshSessionUseCase } from '../application/session.use-cases.js';
 import { clearSession, readRefreshToken, sendSession } from './session-cookies.js';
 
+/** Reachable without a session; protected by rate limits instead. */
+@Public()
 @Controller('auth')
 export class SessionController {
   constructor(

@@ -1,8 +1,9 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import type { MeResponse } from '@trackecom/contracts';
 import { GetMeUseCase } from '../application/email-and-password.use-cases.js';
 import { AccessTokenKeys } from '../infrastructure/access-token.keys.js';
-import { AccessTokenGuard, CurrentUserId } from './access-token.guard.js';
+import { Authenticated, Public } from '@trackecom/service-kit';
+import { CurrentUserId } from '../../../authorization/request-context.js';
 
 @Controller()
 export class MeController {
@@ -12,12 +13,13 @@ export class MeController {
   ) {}
 
   @Get('auth/me')
-  @UseGuards(AccessTokenGuard)
+  @Authenticated()
   me(@CurrentUserId() userId: string): Promise<MeResponse> {
     return this.getMe.execute(userId);
   }
 
   /** Public keys for verifying access tokens; services cache this (ADR-0001). */
+  @Public()
   @Get('.well-known/jwks.json')
   jwks(): ReturnType<AccessTokenKeys['jwks']> {
     return this.keys.jwks();

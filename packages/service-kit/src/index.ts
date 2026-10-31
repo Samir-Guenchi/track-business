@@ -1,3 +1,4 @@
+export * from './authorization/access-policy.js';
 export * from './bootstrap/create-service-app.js';
 export type * from './bootstrap/fastify-cookie.types.js';
 export * from './config/base-env.schema.js';
@@ -10,6 +11,7 @@ export * from './health/health.module.js';
 export * from './health/with-timeout.js';
 export * from './logging/correlation-id.js';
 export * from './logging/logger.module.js';
+export * from './observability/error-reporter.js';
 export * from './openapi/openapi.module.js';
 export * from './validation/validation.error.js';
 export * from './validation/zod-validation.pipe.js';
