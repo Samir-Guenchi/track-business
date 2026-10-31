@@ -1,12 +1,13 @@
 import type { Provider } from '@nestjs/common';
-import { type CarrierAdapter, CarrierRegistry } from '@trackecom/carriers';
+import { type CarrierAdapter, CarrierRegistry, YalidineAdapter } from '@trackecom/carriers';
 import { FakeCarrier } from '@trackecom/carriers/testing';
 import { type Env, ENV } from '../../../config/env.schema.js';
 import { EnvelopeCipher } from './envelope-cipher.js';
 
 /** Real adapters are added here as they ship (#30 first carrier, #40 more). */
 export function carrierAdapters(env: Env): CarrierAdapter[] {
-  return env.ENABLE_FAKE_CARRIER ? [new FakeCarrier()] : [];
+  const adapters: CarrierAdapter[] = [new YalidineAdapter()];
+  return env.ENABLE_FAKE_CARRIER ? [...adapters, new FakeCarrier()] : adapters;
 }
 
 /** The current key plus retired ones, so rows sealed before a rotation still open. */
