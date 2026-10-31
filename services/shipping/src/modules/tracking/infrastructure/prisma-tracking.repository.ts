@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import type { Prisma } from '../../../generated/prisma/client.js';
+import { writeOutbox } from '../../../infrastructure/outbox/write-outbox.js';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service.js';
 import type {
   Decide,
@@ -38,7 +39,7 @@ export class PrismaTrackingRepository implements TrackingRepository {
         },
       });
       if (count !== 1) throw new TrackingConflictError('Shipment changed meanwhile');
-      await this.writeOutbox(tx, decision.outbox);
+      await writeOutbox(tx, decision.outbox);
       return decision;
     });
   }
@@ -69,15 +70,5 @@ export class PrismaTrackingRepository implements TrackingRepository {
       dedupeKey: key,
     }));
     return tx.trackingEvent.createManyAndReturn({ data, skipDuplicates: true });
-  }
-
-  private async writeOutbox(tx: Tx, outbox: IngestDecision['outbox']): Promise<void> {
-    if (outbox.length === 0) return;
-    await tx.outboxEvent.createMany({
-      data: outbox.map((message) => ({
-        ...message,
-        payload: message.payload as Prisma.InputJsonValue,
-      })),
-    });
   }
 }

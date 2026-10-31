@@ -1,6 +1,7 @@
 import type { EventEnvelope } from '@trackecom/contracts';
 import type { Redis } from 'ioredis';
 import type { EventHandler, EventSubscriber } from './event-bus.port.js';
+import type { LoopTask } from './polling-loop.js';
 import { DEAD_LETTER_STREAM } from './streams.js';
 
 export interface ConsumerOptions {
@@ -41,14 +42,19 @@ const envelopeOf = (fields: string[]): EventEnvelope | null => {
  * handler for its type succeeded. Failed messages stay pending, are retried after `claimIdleMs`
  * and go to the dead-letter stream after `maxDeliveries`.
  */
-export class RedisStreamsConsumer implements EventSubscriber {
+export class RedisStreamsConsumer implements EventSubscriber, LoopTask {
   private readonly handlers = new Map<string, EventHandler[]>();
   private running = false;
+  private ready = false;
 
   constructor(
     private readonly redis: Redis,
     private readonly options: ConsumerOptions,
   ) {}
+
+  get name(): string {
+    return `consumer ${this.options.group}`;
+  }
 
   subscribe<T>(type: string, handler: EventHandler<T>): void {
     this.handlers.set(type, [...(this.handlers.get(type) ?? []), handler as EventHandler]);
@@ -83,6 +89,13 @@ export class RedisStreamsConsumer implements EventSubscriber {
     for (const [stream, entries] of fresh ?? []) handled += await this.handleAll(stream, entries);
     for (const stream of this.options.streams) handled += await this.retryStale(stream);
     return handled;
+  }
+
+  /** For a PollingLoop: creates the groups on first use (Redis may be down at boot), then polls. */
+  async runOnce(): Promise<number> {
+    if (!this.ready) await this.init();
+    this.ready = true;
+    return this.pollOnce();
   }
 
   async start(): Promise<void> {
