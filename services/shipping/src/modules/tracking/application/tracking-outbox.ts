@@ -1,11 +1,11 @@
-import { randomUUID } from 'node:crypto';
 import {
   type ShipmentStatusChangedEvent,
   TRACKING_EVENTS,
   type UnknownCarrierStatusEvent,
 } from '@trackecom/contracts';
 import type { TimelinePlan } from '../domain/timeline.js';
-import type { OutboxMessage, ShipmentRecord } from './ports/tracking.repository.js';
+import { type OutboxMessage, outboxMessage } from '../../../shared/outbox-message.js';
+import type { ShipmentRecord } from './ports/tracking.repository.js';
 
 interface Context {
   readonly shipment: ShipmentRecord;
@@ -13,26 +13,8 @@ interface Context {
   readonly now: Date;
 }
 
-const message = (ctx: Context, type: string, data: unknown): OutboxMessage => {
-  const id = randomUUID();
-  const { storeId } = ctx.shipment;
-  const envelope = {
-    id,
-    type,
-    occurredAt: ctx.now.toISOString(),
-    storeId,
-    correlationId: ctx.correlationId,
-    data,
-  };
-  return {
-    id,
-    type,
-    storeId,
-    correlationId: ctx.correlationId,
-    payload: envelope,
-    occurredAt: ctx.now,
-  };
-};
+const message = (ctx: Context, type: string, data: unknown): OutboxMessage =>
+  outboxMessage({ ...ctx, storeId: ctx.shipment.storeId }, type, data);
 
 /** The domain events a timeline change publishes: status changes, then unmapped carrier labels. */
 export function trackingOutbox(ctx: Context, plan: TimelinePlan): OutboxMessage[] {

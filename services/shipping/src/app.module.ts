@@ -17,6 +17,7 @@ import { GeoModule } from './modules/geo/geo.module.js';
 import { geoOpenApiPaths } from './modules/geo/interface/geo.openapi.js';
 import { pricingOpenApiPaths } from './modules/pricing/interface/pricing.openapi.js';
 import { PricingModule } from './modules/pricing/pricing.module.js';
+import { ShipmentsModule } from './modules/shipments/shipments.module.js';
 import { trackingOpenApiPaths } from './modules/tracking/interface/tracking.openapi.js';
 import { TrackingModule } from './modules/tracking/tracking.module.js';
 
@@ -57,6 +58,7 @@ export class AppModule {
         PricingModule,
         CarriersModule,
         TrackingModule,
+        ShipmentsModule,
       ],
     };
   }

@@ -1,4 +1,5 @@
 import type { FailedAttemptReason, ParcelStatus } from '@trackecom/contracts';
+import type { OutboxMessage } from '../../../../shared/outbox-message.js';
 import type { NewTrackingEvent, TimelinePlan } from '../../domain/timeline.js';
 
 export interface ShipmentRecord {
@@ -32,15 +33,6 @@ export interface IncomingEvent extends NewTrackingEvent {
   readonly location: string | null;
   readonly note: string | null;
   readonly key: string;
-}
-
-export interface OutboxMessage {
-  readonly id: string;
-  readonly type: string;
-  readonly storeId: string;
-  readonly correlationId: string;
-  readonly payload: unknown;
-  readonly occurredAt: Date;
 }
 
 export interface IngestDecision {

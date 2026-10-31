@@ -42,16 +42,7 @@ export class ShipmentStatusConsumer implements OnApplicationBootstrap, OnApplica
     consumer.subscribe(TRACKING_EVENTS.statusChanged, async (event) => {
       await this.apply.execute(event);
     });
-    let ready = false;
-    const runOnce = async () => {
-      if (!ready) await consumer.init();
-      ready = true;
-      return consumer.pollOnce();
-    };
-    this.loop = new PollingLoop(
-      { name: 'shipment status consumer', runOnce },
-      { idleMs: 200, logger: this.logger },
-    );
+    this.loop = new PollingLoop(consumer, { idleMs: 200, logger: this.logger });
     this.loop.start();
   }
 
