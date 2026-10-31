@@ -1,0 +1,47 @@
+name: Repo setup (labels and milestones)
+
+# Run manually from the Actions tab, or automatically when the label/milestone files change on main.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/labels.yml
+      - .github/milestones.yml
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync labels
+        run: |
+          yq -o=json '.[]' .github/labels.yml | jq -c '.' | while read -r l; do
+            name=$(jq -r .name <<<"$l"); color=$(jq -r .color <<<"$l"); desc=$(jq -r .description <<<"$l")
+            gh label create "$name" --repo "$REPO" --color "$color" --description "$desc" --force
+          done
+
+      - name: Create milestones and attach phase issues
+        run: |
+          yq -o=json '.[]' .github/milestones.yml | jq -c '.' | while read -r m; do
+            phase=$(jq -r .phase <<<"$m"); title=$(jq -r .title <<<"$m")
+            due=$(jq -r .due <<<"$m"); desc=$(jq -r .description <<<"$m")
+            number=$(gh api "repos/$REPO/milestones?state=all&per_page=100" --jq ".[] | select(.title==\"$title\") | .number")
+            if [ -z "$number" ]; then
+              number=$(gh api "repos/$REPO/milestones" -f title="$title" -f description="$desc" -f due_on="${due}T23:59:59Z" --jq .number)
+              echo "Created milestone $title (#$number)"
+            fi
+            gh issue list --repo "$REPO" --label "phase:$phase" --state all --limit 500 --json number,milestone \
+              --jq '.[] | select(.milestone == null) | .number' | while read -r n; do
+                gh api -X PATCH "repos/$REPO/issues/$n" -F milestone="$number" --silent
+                echo "Issue #$n -> $title"
+              done
+          done

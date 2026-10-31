@@ -1,0 +1,23 @@
+# Source of truth for repository labels. Applied by .github/workflows/repo-setup.yml
+- { name: "type:epic",     color: "16523F", description: "Phase-level goal that groups issues" }
+- { name: "type:feature",  color: "2EA44F", description: "New user-facing capability" }
+- { name: "type:chore",    color: "C5DEF5", description: "Tooling, setup, refactor, docs" }
+- { name: "type:research", color: "D4C5F9", description: "Study or spike before building" }
+- { name: "type:bug",      color: "C8382B", description: "Something is broken" }
+- { name: "area:api",      color: "1C1A17", description: "NestJS API, database, jobs" }
+- { name: "area:web",      color: "0E5C3F", description: "Next.js web app" }
+- { name: "area:mobile",   color: "5319E7", description: "React Native app" }
+- { name: "area:infra",    color: "6A737D", description: "CI, Docker, hosting, monitoring" }
+- { name: "area:carriers", color: "C98F55", description: "Delivery company integrations" }
+- { name: "area:data",     color: "FBCA04", description: "Reference data, analytics, ML" }
+- { name: "area:design",   color: "F6EEE1", description: "Design system, UX, brand" }
+- { name: "area:product",  color: "BFD4F2", description: "Product, beta, legal, go-to-market" }
+- { name: "phase:0",       color: "EDEDED", description: "Foundations (Nov 2026)" }
+- { name: "phase:1",       color: "EDEDED", description: "MVP, orders to delivery (Dec 2026 - Feb 2027)" }
+- { name: "phase:2",       color: "EDEDED", description: "Multi-carrier and money (Mar - May 2027)" }
+- { name: "phase:3",       color: "EDEDED", description: "Intelligence (Jun - Sep 2027)" }
+- { name: "phase:4",       color: "EDEDED", description: "Platform and scale (Q4 2027+)" }
+- { name: "priority:P0",   color: "B60205", description: "Must have for the phase" }
+- { name: "priority:P1",   color: "D93F0B", description: "Should have" }
+- { name: "priority:P2",   color: "FEF2C0", description: "Nice to have" }
+- { name: "roadmap",       color: "0075CA", description: "Roadmap proposal or change" }
