@@ -1,8 +1,15 @@
 import { type DynamicModule, Module } from '@nestjs/common';
-import { HealthModule, OpenApiModule, loggingModule, probe } from '@trackecom/service-kit';
+import {
+  HealthModule,
+  OpenApiModule,
+  StoreAccessModule,
+  loggingModule,
+  probe,
+} from '@trackecom/service-kit';
 import type { Env } from './config/env.schema.js';
 import { InfrastructureModule } from './infrastructure/infrastructure.module.js';
 import { PrismaService } from './infrastructure/prisma/prisma.service.js';
+import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
 import { GeoModule } from './modules/geo/geo.module.js';
 import { geoOpenApiPaths } from './modules/geo/interface/geo.openapi.js';
@@ -30,6 +37,10 @@ export class AppModule {
           title: 'TrackEcom shipping',
           version: '0.1.0',
           paths: { ...geoOpenApiPaths },
+        }),
+        StoreAccessModule.forRoot({
+          options: { identityUrl: env.IDENTITY_URL, roleCacheSeconds: env.ROLE_CACHE_SECONDS },
+          cache: redisRoleCache,
         }),
         GeoModule,
       ],

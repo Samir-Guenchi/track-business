@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { OrderSchema } from '@trackecom/contracts';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { type FakeIdentity, startFakeIdentity } from '../../test/fake-identity.js';
+import { type FakeIdentity, startFakeIdentity } from '@trackecom/service-kit/testing';
 import { PrismaService } from '../../infrastructure/prisma/prisma.service.js';
 import { startTestApp, testEnv } from '../../test/test-app.js';
 

@@ -1,6 +1,5 @@
 import { type ExecutionContext, createParamDecorator } from '@nestjs/common';
-import { AccessDeniedError } from '../../../authorization/access.errors.js';
-import type { AuthorizedRequest } from '../../../authorization/store-access.guard.js';
+import { AccessDeniedError, type AuthorizedRequest } from '@trackecom/service-kit';
 import type { OrderActor } from '../application/order-actor.js';
 
 /** The verified store context plus the request's correlation id (also on events and logs). */

@@ -5,19 +5,19 @@ import {
   type StoreRole,
 } from '@trackecom/contracts';
 import { createRemoteJWKSet, jwtVerify } from 'jose';
-import { type Env, ENV } from '../config/env.schema.js';
 import { InvalidTokenError } from './access.errors.js';
+import { STORE_ACCESS_OPTIONS, type StoreAccessOptions } from './store-access.options.js';
 
 const ISSUER = 'trackecom-identity';
 const AUDIENCE = 'trackecom';
 
-/** The only place orders talks to identity: verify tokens and read the caller's store roles. */
+/** How a service talks to identity: verify access tokens and read the caller's store roles. */
 @Injectable()
 export class IdentityClient {
   private readonly jwks: ReturnType<typeof createRemoteJWKSet>;
 
-  constructor(@Inject(ENV) private readonly env: Env) {
-    this.jwks = createRemoteJWKSet(new URL('/.well-known/jwks.json', env.IDENTITY_URL), {
+  constructor(@Inject(STORE_ACCESS_OPTIONS) private readonly options: StoreAccessOptions) {
+    this.jwks = createRemoteJWKSet(new URL('/.well-known/jwks.json', options.identityUrl), {
       cacheMaxAge: 10 * 60_000,
     });
   }
@@ -37,7 +37,7 @@ export class IdentityClient {
 
   /** storeId -> role for every store of the token's user, as identity sees it now. */
   async rolesOf(token: string): Promise<Record<string, StoreRole>> {
-    const response = await fetch(new URL('/stores', this.env.IDENTITY_URL), {
+    const response = await fetch(new URL('/stores', this.options.identityUrl), {
       headers: { authorization: `Bearer ${token}` },
       signal: AbortSignal.timeout(3000),
     });

@@ -1,4 +1,4 @@
-import { DomainError } from '@trackecom/service-kit';
+import { DomainError } from '../errors/domain-error.js';
 
 /** Same codes as identity, so clients handle auth failures identically for every service. */
 export class InvalidTokenError extends DomainError {
