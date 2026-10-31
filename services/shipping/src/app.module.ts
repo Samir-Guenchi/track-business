@@ -13,10 +13,12 @@ import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
 import { GeoModule } from './modules/geo/geo.module.js';
 import { geoOpenApiPaths } from './modules/geo/interface/geo.openapi.js';
+import { pricingOpenApiPaths } from './modules/pricing/interface/pricing.openapi.js';
+import { PricingModule } from './modules/pricing/pricing.module.js';
 
 export const SERVICE_NAME = 'shipping';
 
-/** Root module. Each feature module (geo #19, carriers #30, tracking #32...) is one import. */
+/** Root module. Each feature module (geo #19, pricing #33, carriers #30, tracking #32...) is one import. */
 @Module({})
 export class AppModule {
   static forRoot(env: Env): DynamicModule {
@@ -36,13 +38,14 @@ export class AppModule {
         OpenApiModule.forRoot({
           title: 'TrackEcom shipping',
           version: '0.1.0',
-          paths: { ...geoOpenApiPaths },
+          paths: { ...geoOpenApiPaths, ...pricingOpenApiPaths },
         }),
         StoreAccessModule.forRoot({
           options: { identityUrl: env.IDENTITY_URL, roleCacheSeconds: env.ROLE_CACHE_SECONDS },
           cache: redisRoleCache,
         }),
         GeoModule,
+        PricingModule,
       ],
     };
   }
