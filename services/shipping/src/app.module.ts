@@ -17,6 +17,8 @@ import { GeoModule } from './modules/geo/geo.module.js';
 import { geoOpenApiPaths } from './modules/geo/interface/geo.openapi.js';
 import { pricingOpenApiPaths } from './modules/pricing/interface/pricing.openapi.js';
 import { PricingModule } from './modules/pricing/pricing.module.js';
+import { trackingOpenApiPaths } from './modules/tracking/interface/tracking.openapi.js';
+import { TrackingModule } from './modules/tracking/tracking.module.js';
 
 export const SERVICE_NAME = 'shipping';
 
@@ -40,7 +42,12 @@ export class AppModule {
         OpenApiModule.forRoot({
           title: 'TrackEcom shipping',
           version: '0.1.0',
-          paths: { ...geoOpenApiPaths, ...pricingOpenApiPaths, ...carriersOpenApiPaths },
+          paths: {
+            ...geoOpenApiPaths,
+            ...pricingOpenApiPaths,
+            ...carriersOpenApiPaths,
+            ...trackingOpenApiPaths,
+          },
         }),
         StoreAccessModule.forRoot({
           options: { identityUrl: env.IDENTITY_URL, roleCacheSeconds: env.ROLE_CACHE_SECONDS },
@@ -49,6 +56,7 @@ export class AppModule {
         GeoModule,
         PricingModule,
         CarriersModule,
+        TrackingModule,
       ],
     };
   }
