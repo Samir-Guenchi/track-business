@@ -112,6 +112,7 @@ services/gateway     Public API entry point (NestJS + Fastify)
 packages/contracts   zod schemas shared by services and apps
 packages/events      EventBus port + in-memory bus (Redis Streams adapter in #12)
 packages/carriers    CarrierAdapter port + registry
+packages/connectors  StoreConnector port + registry (shop integrations)
 packages/ui          Design system (#14)
 packages/config      Shared tsconfig and ESLint
 ```
