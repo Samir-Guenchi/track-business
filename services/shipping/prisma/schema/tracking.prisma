@@ -9,6 +9,8 @@ model Shipment {
   /// Our reference sent to the carrier, so a retried create finds the same parcel.
   reference      String
   trackingNumber String    @map("tracking_number")
+  /// Destination wilaya; null for parcels created before #41.
+  toWilayaCode   Int?      @map("to_wilaya_code")
   /// Normalised ParcelStatus from the contracts.
   status         String    @default("created")
   /// Random code for the customer's tracking link; not guessable from the tracking number.
@@ -26,6 +28,8 @@ model Shipment {
   @@unique([storeId, reference])
   @@index([storeId, orderId])
   @@index([nextPollAt])
+  /// Delivery rates per carrier and destination (#41).
+  @@index([toWilayaCode, carrier, status])
   @@map("shipments")
 }
 

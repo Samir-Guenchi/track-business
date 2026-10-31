@@ -1,0 +1,13 @@
+// Carrier suggestion (#41): how each store trades price against reliability and speed.
+
+model CarrierSuggestionSettings {
+  storeId           String   @id @map("store_id") @db.Uuid
+  priceWeight       Int      @map("price_weight")
+  reliabilityWeight Int      @map("reliability_weight")
+  speedWeight       Int      @map("speed_weight")
+  /// RoutingRule[] from the contracts: "wilaya 16 -> carrier A", first match wins.
+  rules             Json     @default("[]")
+  updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("carrier_suggestion_settings")
+}
