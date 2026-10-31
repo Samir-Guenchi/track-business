@@ -2,6 +2,7 @@ import { type DynamicModule, Module } from '@nestjs/common';
 import { HealthModule, OpenApiModule, loggingModule, probe } from '@trackecom/service-kit';
 import type { Env } from './config/env.schema.js';
 import { InfrastructureModule } from './infrastructure/infrastructure.module.js';
+import { AuditModule } from './modules/audit/audit.module.js';
 import { PrismaService } from './infrastructure/prisma/prisma.service.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
 
@@ -24,6 +25,7 @@ export class AppModule {
             { name: 'redis', isHealthy: () => probe(() => redis.ping()) },
           ],
         }),
+        AuditModule,
         OpenApiModule.forRoot({ title: 'TrackEcom identity', version: '0.1.0', paths: {} }),
       ],
     };

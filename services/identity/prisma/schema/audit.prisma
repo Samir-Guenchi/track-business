@@ -1,0 +1,17 @@
+// Audit trail (#20). Same layout in every service that audits; mapping in @trackecom/audit.
+model AuditEvent {
+  id         String   @id @db.Uuid
+  storeId    String   @map("store_id")
+  entity     String
+  entityId   String   @map("entity_id")
+  action     String
+  actorType  String   @map("actor_type")
+  actorId    String   @map("actor_id")
+  changes    Json
+  ip         String?
+  occurredAt DateTime @map("occurred_at") @db.Timestamptz(3)
+
+  @@index([storeId, entity, entityId, occurredAt(sort: Desc)])
+  @@index([occurredAt])
+  @@map("audit_events")
+}
