@@ -1,3 +1,6 @@
 {
-  "extends": "@trackecom/config/tsconfig/library.json"
+  "extends": "@trackecom/config/tsconfig/library.json",
+  "compilerOptions": {
+    "types": ["node"]
+  }
 }

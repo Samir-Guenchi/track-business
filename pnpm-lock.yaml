@@ -98,6 +98,9 @@ importers:
       '@trackecom/config':
         specifier: workspace:*
         version: link:../config
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.19.2
       eslint:
         specifier: ^10.14.0
         version: 10.14.0(jiti@2.7.0)
