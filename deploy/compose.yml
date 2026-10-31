@@ -1,0 +1,86 @@
+# Staging and production stack on one container host (ADR-0001 hosting, phases 0-2).
+# The deploy workflow copies this file and an .env to the host, then runs:
+#   docker compose pull && docker compose run --rm identity-migrate && ... && docker compose up -d
+# IMAGE_TAG and every secret come from the host's .env (written from GitHub environment secrets).
+name: trackecom
+
+x-service: &service
+  restart: unless-stopped
+  env_file: .env
+  environment:
+    NODE_ENV: production
+    RELEASE: ${IMAGE_TAG}
+    DEPLOY_ENV: ${DEPLOY_ENV}
+    REDIS_URL: redis://redis:6379
+  depends_on:
+    redis: { condition: service_healthy }
+
+x-migrate: &migrate
+  restart: 'no'
+  env_file: .env
+  command: ['node', 'node_modules/prisma/build/index.js', 'migrate', 'deploy']
+  profiles: [migrate]
+
+services:
+  gateway:
+    <<: *service
+    image: ghcr.io/samir-guenchi/trackecom-gateway:${IMAGE_TAG}
+    environment:
+      { PORT: 4000, NODE_ENV: production, RELEASE: '${IMAGE_TAG}', DEPLOY_ENV: '${DEPLOY_ENV}' }
+
+  identity:
+    <<: *service
+    image: ghcr.io/samir-guenchi/trackecom-identity:${IMAGE_TAG}
+    environment:
+      PORT: 4001
+      NODE_ENV: production
+      RELEASE: ${IMAGE_TAG}
+      DEPLOY_ENV: ${DEPLOY_ENV}
+      REDIS_URL: redis://redis:6379
+      DATABASE_URL: ${IDENTITY_DATABASE_URL}
+
+  identity-migrate:
+    <<: *migrate
+    image: ghcr.io/samir-guenchi/trackecom-identity:${IMAGE_TAG}
+    environment: { DATABASE_URL: '${IDENTITY_DATABASE_URL}' }
+
+  shipping:
+    <<: *service
+    image: ghcr.io/samir-guenchi/trackecom-shipping:${IMAGE_TAG}
+    environment:
+      PORT: 4002
+      NODE_ENV: production
+      RELEASE: ${IMAGE_TAG}
+      DEPLOY_ENV: ${DEPLOY_ENV}
+      REDIS_URL: redis://redis:6379
+      DATABASE_URL: ${SHIPPING_DATABASE_URL}
+
+  shipping-migrate:
+    <<: *migrate
+    image: ghcr.io/samir-guenchi/trackecom-shipping:${IMAGE_TAG}
+    environment: { DATABASE_URL: '${SHIPPING_DATABASE_URL}' }
+    # Migrations, then the idempotent geo seed (69 wilayas, 1,541 communes).
+    command:
+      - sh
+      - -c
+      - node node_modules/prisma/build/index.js migrate deploy && node dist/seed.js
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ['redis-server', '--appendonly', 'yes']
+    volumes: [redis-data:/data]
+    healthcheck: { test: ['CMD', 'redis-cli', 'ping'], interval: 5s, retries: 10 }
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ['80:80', '443:443']
+    environment: { API_DOMAIN: '${API_DOMAIN}' }
+    volumes: ['./Caddyfile:/etc/caddy/Caddyfile:ro', 'caddy-data:/data']
+
+# Services publish no ports: only Caddy is reachable from outside.
+# PostgreSQL is managed (daily backups by the provider) or self-hosted with deploy/backup/.
+volumes:
+  redis-data:
+  caddy-data:

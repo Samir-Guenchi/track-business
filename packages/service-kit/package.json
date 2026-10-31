@@ -9,6 +9,9 @@
       "default": "./dist/index.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
@@ -23,6 +26,7 @@
     "@nestjs/common": "^12.3.2",
     "@nestjs/core": "^12.3.2",
     "@nestjs/platform-fastify": "^12.3.2",
+    "@sentry/node": "^11.10.0",
     "@trackecom/contracts": "workspace:*",
     "fastify": "^5.12.7",
     "nestjs-pino": "^5.3.1",
