@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { Module } from '@nestjs/common';
 import { AUDIT_TRAIL_READER } from '@trackecom/audit';
+import { FraudModule } from '../fraud/fraud.module.js';
 import { BulkOrdersUseCase } from './application/bulk-orders.use-case.js';
 import { ChangeStatusUseCase } from './application/change-status.use-case.js';
 import { CreateOrderUseCase } from './application/create-order.use-case.js';
@@ -15,6 +16,7 @@ import { OrderActionsController } from './interface/order-actions.controller.js'
 import { OrderDeletionController, OrdersController } from './interface/orders.controller.js';
 
 @Module({
+  imports: [FraudModule],
   controllers: [OrdersController, OrderDeletionController, OrderActionsController],
   providers: [
     CreateOrderUseCase,

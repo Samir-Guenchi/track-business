@@ -27,6 +27,8 @@ model Order {
   carrier              String?
   trackingNumber       String?     @map("tracking_number")
   possibleDuplicateOfId String?    @map("possible_duplicate_of_id") @db.Uuid
+  /// RiskFlag[] from the contracts, set when the order came in (#52).
+  riskFlags            String[]    @default([]) @map("risk_flags")
   /// Hash of the items, compared with recent orders of the same phone (duplicates within 48 h).
   itemsFingerprint     String      @map("items_fingerprint")
   /// Lowercased ref, name and tracking number, searched with a trigram index.

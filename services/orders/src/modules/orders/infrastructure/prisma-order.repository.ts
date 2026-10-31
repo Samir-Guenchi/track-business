@@ -65,6 +65,7 @@ export class PrismaOrderRepository implements OrderRepository {
             source: order.source,
             externalRef: order.externalRef,
             possibleDuplicateOfId: order.possibleDuplicateOfId,
+            riskFlags: [...order.riskFlags],
             createdAt: order.createdAt,
           },
         });

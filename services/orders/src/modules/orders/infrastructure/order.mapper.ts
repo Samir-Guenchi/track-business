@@ -3,6 +3,7 @@ import {
   type Order,
   OrderSourceSchema,
   OrderStatusSchema,
+  type RiskFlag,
 } from '@trackecom/contracts';
 import type {
   Order as OrderRow,
@@ -60,6 +61,7 @@ export function toRecord(row: OrderRowWithItems): OrderRecord {
     carrier: row.carrier,
     trackingNumber: row.trackingNumber,
     possibleDuplicateOfId: row.possibleDuplicateOfId,
+    riskFlags: row.riskFlags as RiskFlag[],
     itemsFingerprint: row.itemsFingerprint,
     postponedUntil: row.postponedUntil,
     statusChangedAt: row.statusChangedAt,
@@ -125,8 +127,7 @@ export function toOrderDto(order: OrderRecord): Order {
     carrier: order.carrier,
     trackingNumber: order.trackingNumber,
     possibleDuplicateOfId: order.possibleDuplicateOfId,
-    // Filled in by the fake-order checks (#52) in the next change.
-    riskFlags: [],
+    riskFlags: [...order.riskFlags],
     postponedUntil: order.postponedUntil?.toISOString() ?? null,
     statusChangedAt: order.statusChangedAt.toISOString(),
     createdAt: order.createdAt.toISOString(),
