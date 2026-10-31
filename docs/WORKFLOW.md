@@ -63,7 +63,7 @@ New branch ruleset again:
   - [x] **Restrict deletions**
   - [x] **Block force pushes**
   - [x] **Require a pull request before merging**, required approvals **1**, [x] dismiss stale approvals, [x] require conversation resolution
-  - [x] **Require status checks to pass** -> add the CI job once issue "CI on GitHub Actions" is done
+  - [x] **Require status checks to pass** -> add `verify` (the job in `.github/workflows/ci.yml`; it appears after its first run). Add it to the `main` ruleset too.
 - **Create**
 
 ### 3. Make `dev` the default branch
