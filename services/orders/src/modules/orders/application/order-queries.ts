@@ -19,6 +19,7 @@ const KINDS: Record<string, OrderHistoryEntry['kind']> = {
   'order.tagged': 'tagged',
   'order.untagged': 'tagged',
   'order.deleted': 'deleted',
+  'order.call_logged': 'call_logged',
 };
 
 const statusOf = (value: unknown) => OrderStatusSchema.safeParse(value).data ?? null;

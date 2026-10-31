@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { toAuditRow } from '@trackecom/audit';
 import type { ListOrdersQuery, OrderSource } from '@trackecom/contracts';
 import { Prisma } from '../../../generated/prisma/client.js';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service.js';
@@ -10,11 +9,9 @@ import {
   RefTakenError,
 } from '../application/ports/orders.ports.js';
 import type { OrderRecord } from '../domain/order.js';
-import { OrderConflictError } from '../domain/order.errors.js';
 import { orderListFilter } from './order-list.filter.js';
+import { writeOrderEffects, writeOrderVersion } from './order-writes.js';
 import { toColumns, toItemRows, toRecord, WITH_ITEMS } from './order.mapper.js';
-
-type Tx = Prisma.TransactionClient;
 
 const isUniqueViolation = (error: unknown, field: string) =>
   error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -72,7 +69,7 @@ export class PrismaOrderRepository implements OrderRepository {
           },
         });
         await tx.orderItem.createMany({ data: toItemRows(order) });
-        await this.writeEffects(tx, effects);
+        await writeOrderEffects(tx, effects);
       });
     } catch (error) {
       if (isUniqueViolation(error, 'ref')) throw new RefTakenError();
@@ -82,10 +79,10 @@ export class PrismaOrderRepository implements OrderRepository {
 
   async update(order: OrderRecord, effects: OrderEffects): Promise<void> {
     await this.prisma.$transaction(async (tx) => {
-      await this.writeVersion(tx, order, toColumns(order));
+      await writeOrderVersion(tx, order, toColumns(order));
       await tx.orderItem.deleteMany({ where: { orderId: order.id } });
       await tx.orderItem.createMany({ data: toItemRows(order) });
-      await this.writeEffects(tx, effects);
+      await writeOrderEffects(tx, effects);
     });
   }
 
@@ -96,8 +93,8 @@ export class PrismaOrderRepository implements OrderRepository {
         updatedAt: order.updatedAt,
         deletedAt: order.updatedAt,
       };
-      await this.writeVersion(tx, order, columns);
-      await this.writeEffects(tx, effects);
+      await writeOrderVersion(tx, order, columns);
+      await writeOrderEffects(tx, effects);
     });
   }
 
@@ -112,32 +109,5 @@ export class PrismaOrderRepository implements OrderRepository {
     const page = rows.slice(0, query.limit);
     const nextCursor = rows.length > query.limit ? (page.at(-1)?.id ?? null) : null;
     return { items: page.map(toRecord), nextCursor };
-  }
-
-  /** Optimistic lock: the row must still be at the version we read. */
-  private async writeVersion(
-    tx: Tx,
-    order: OrderRecord,
-    data: Prisma.OrderUncheckedUpdateManyInput,
-  ): Promise<void> {
-    const { count } = await tx.order.updateMany({
-      where: { id: order.id, storeId: order.storeId, version: order.version - 1, deletedAt: null },
-      data,
-    });
-    if (count !== 1) throw new OrderConflictError();
-  }
-
-  private async writeEffects(tx: Tx, effects: OrderEffects): Promise<void> {
-    const audit = toAuditRow(effects.audit);
-    await tx.auditEvent.create({
-      data: { ...audit, changes: audit.changes as Prisma.InputJsonValue },
-    });
-    if (effects.events.length === 0) return;
-    await tx.outboxEvent.createMany({
-      data: effects.events.map((event) => ({
-        ...event,
-        payload: event.payload as Prisma.InputJsonValue,
-      })),
-    });
   }
 }

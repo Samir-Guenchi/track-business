@@ -33,6 +33,15 @@ model Order {
   searchText           String      @map("search_text")
   postponedUntil       DateTime?   @map("postponed_until") @db.Timestamptz(3)
   statusChangedAt      DateTime    @map("status_changed_at") @db.Timestamptz(3)
+  /// Confirmation queue (#28): when the order is due again (call-back or postponed), who holds it.
+  nextCallAt           DateTime?   @map("next_call_at") @db.Timestamptz(3)
+  lockedBy             String?     @map("locked_by") @db.Uuid
+  lockedUntil          DateTime?   @map("locked_until") @db.Timestamptz(3)
+  /// Calls that did not reach the customer (no answer, busy); at the store's limit -> unreachable.
+  unreachedCalls       Int         @default(0) @map("unreached_calls")
+  /// Calls on `lastCallDay` (Algiers date), for the per-day attempt limit.
+  callsToday           Int         @default(0) @map("calls_today")
+  lastCallDay          String?     @map("last_call_day")
   /// Optimistic locking: every write checks and increments it.
   version              Int         @default(0)
   createdAt            DateTime    @map("created_at") @db.Timestamptz(3)
@@ -48,6 +57,7 @@ model Order {
   @@index([storeId, customerPhone, createdAt(sort: Desc)])
   @@index([storeId, wilayaCode])
   @@index([storeId, assignedAgentId])
+  @@index([storeId, status, nextCallAt, createdAt])
   @@index([tags], type: Gin)
   @@index([searchText(ops: raw("gin_trgm_ops"))], type: Gin)
   @@map("orders")
