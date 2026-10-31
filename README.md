@@ -59,6 +59,9 @@ These choices are proposals and will be confirmed in Phase 0 of the [roadmap](RO
 ## Repository layout
 
 ```
+AGENTS.md          Coding rules for humans and AI agents (clean code, SOLID, microservices, security)
+CLAUDE.md          Claude Code entry point (imports AGENTS.md)
+.claude/skills/    Project skills: clean-code, service-architecture, contract-first, secure-coding, testing, pr-workflow
 assets/brand/      Logo, icon and wordmark (SVG + PNG) and the generator script
 BRAND.md           Logo usage, colours and typography
 ROADMAP.md         Product roadmap by phase
