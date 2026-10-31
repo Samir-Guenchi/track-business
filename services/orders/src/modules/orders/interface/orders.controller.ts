@@ -31,7 +31,8 @@ export class OrdersController {
   @Post()
   @RequirePermission('orders.write')
   async create(
-    @Body(new ZodValidationPipe(CreateOrderRequestSchema)) body: z.output<typeof CreateOrderRequestSchema>,
+    @Body(new ZodValidationPipe(CreateOrderRequestSchema))
+    body: z.output<typeof CreateOrderRequestSchema>,
     @CurrentActor() actor: OrderActor,
   ): Promise<Order> {
     return toOrderDto(await this.createOrder.execute(actor, body));
@@ -49,7 +50,10 @@ export class OrdersController {
 
   @Get(':id')
   @RequirePermission('orders.read')
-  async get(@Param('id', OrderIdPipe) id: string, @CurrentActor() actor: OrderActor): Promise<Order> {
+  async get(
+    @Param('id', OrderIdPipe) id: string,
+    @CurrentActor() actor: OrderActor,
+  ): Promise<Order> {
     return toOrderDto(await this.queries.get(actor.storeId, id));
   }
 
@@ -57,7 +61,8 @@ export class OrdersController {
   @RequirePermission('orders.write')
   async update(
     @Param('id', OrderIdPipe) id: string,
-    @Body(new ZodValidationPipe(UpdateOrderRequestSchema)) body: z.output<typeof UpdateOrderRequestSchema>,
+    @Body(new ZodValidationPipe(UpdateOrderRequestSchema))
+    body: z.output<typeof UpdateOrderRequestSchema>,
     @CurrentActor() actor: OrderActor,
   ): Promise<Order> {
     return toOrderDto(await this.updateOrder.execute(actor, id, body));
@@ -72,7 +77,10 @@ export class OrderDeletionController {
   @Delete(':id')
   @HttpCode(204)
   @RequirePermission('orders.write')
-  async remove(@Param('id', OrderIdPipe) id: string, @CurrentActor() actor: OrderActor): Promise<void> {
+  async remove(
+    @Param('id', OrderIdPipe) id: string,
+    @CurrentActor() actor: OrderActor,
+  ): Promise<void> {
     await this.admin.delete(actor, id);
   }
 }

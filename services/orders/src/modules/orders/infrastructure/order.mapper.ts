@@ -4,7 +4,11 @@ import {
   OrderSourceSchema,
   OrderStatusSchema,
 } from '@trackecom/contracts';
-import type { Order as OrderRow, OrderItem as OrderItemRow, Prisma } from '../../../generated/prisma/client.js';
+import type {
+  Order as OrderRow,
+  OrderItem as OrderItemRow,
+  Prisma,
+} from '../../../generated/prisma/client.js';
 import type { OrderRecord } from '../domain/order.js';
 
 export type OrderRowWithItems = OrderRow & { items: OrderItemRow[] };
@@ -15,6 +19,25 @@ export const WITH_ITEMS = { items: { orderBy: { position: 'asc' } } } as const;
 export const searchTextOf = (order: OrderRecord) =>
   [order.ref, order.customer.name, order.trackingNumber ?? ''].join(' ').toLowerCase();
 
+const customerOf = (row: OrderRow) => ({
+  name: row.customerName,
+  phone: row.customerPhone,
+  phone2: row.customerPhone2,
+  wilayaCode: row.wilayaCode,
+  communeId: row.communeId,
+  address: row.address,
+});
+
+const lineOf = ({ id, productId, name, sku, quantity, unitPrice, lineTotal }: OrderItemRow) => ({
+  id,
+  productId,
+  name,
+  sku,
+  quantity,
+  unitPrice,
+  lineTotal,
+});
+
 export function toRecord(row: OrderRowWithItems): OrderRecord {
   return {
     id: row.id,
@@ -23,17 +46,8 @@ export function toRecord(row: OrderRowWithItems): OrderRecord {
     status: OrderStatusSchema.parse(row.status),
     source: OrderSourceSchema.parse(row.source),
     externalRef: row.externalRef,
-    customer: {
-      name: row.customerName,
-      phone: row.customerPhone,
-      phone2: row.customerPhone2,
-      wilayaCode: row.wilayaCode,
-      communeId: row.communeId,
-      address: row.address,
-    },
-    items: row.items.map(({ id, productId, name, sku, quantity, unitPrice, lineTotal }) => ({
-      id, productId, name, sku, quantity, unitPrice, lineTotal,
-    })),
+    customer: customerOf(row),
+    items: row.items.map(lineOf),
     deliveryType: DeliveryTypeSchema.parse(row.deliveryType),
     stopDeskId: row.stopDeskId,
     subtotal: row.subtotal,

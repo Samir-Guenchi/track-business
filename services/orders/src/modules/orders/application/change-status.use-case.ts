@@ -24,7 +24,8 @@ export class ChangeStatusUseCase {
     const { status, reason } = request;
     if (!roleCan(actor.role, permissionToSet(status))) throw new StatusPermissionError(status);
     const before = await loadOrder(this.orders, actor.storeId, id);
-    if (!canTransition(before.status, status)) throw new IllegalTransitionError(before.status, status);
+    if (!canTransition(before.status, status))
+      throw new IllegalTransitionError(before.status, status);
     const now = this.recorder.now();
     const postponedUntil = status === 'postponed' ? new Date(request.postponedUntil ?? now) : null;
     const after = nextVersion(before, { status, postponedUntil, statusChangedAt: now }, now);

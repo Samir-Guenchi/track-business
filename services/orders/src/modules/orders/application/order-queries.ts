@@ -55,7 +55,12 @@ export class OrderQueries {
   /** The last 100 changes, newest first, read from the order's audit trail. */
   async history(storeId: string, id: string): Promise<OrderHistoryEntry[]> {
     await loadOrder(this.orders, storeId, id);
-    const page = await this.audit.list({ storeId, entity: 'order', entityId: id, limit: HISTORY_LIMIT });
+    const page = await this.audit.list({
+      storeId,
+      entity: 'order',
+      entityId: id,
+      limit: HISTORY_LIMIT,
+    });
     return page.items.map(toHistoryEntry);
   }
 }

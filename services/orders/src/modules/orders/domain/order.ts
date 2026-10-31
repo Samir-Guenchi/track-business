@@ -1,9 +1,4 @@
-import type {
-  DeliveryType,
-  OrderSource,
-  OrderStatus,
-  Permission,
-} from '@trackecom/contracts';
+import type { DeliveryType, OrderSource, OrderStatus, Permission } from '@trackecom/contracts';
 
 export interface OrderLine {
   readonly id: string;

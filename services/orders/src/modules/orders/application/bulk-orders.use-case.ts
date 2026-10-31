@@ -37,7 +37,10 @@ export class BulkOrdersUseCase {
     return result;
   }
 
-  private actionFor(actor: OrderActor, request: BulkOrdersRequest): (id: string) => Promise<unknown> {
+  private actionFor(
+    actor: OrderActor,
+    request: BulkOrdersRequest,
+  ): (id: string) => Promise<unknown> {
     switch (request.action) {
       case 'change_status':
         return (id) => this.statuses.execute(actor, id, { status: request.status });

@@ -91,7 +91,11 @@ export class PrismaOrderRepository implements OrderRepository {
 
   async softDelete(order: OrderRecord, effects: OrderEffects): Promise<void> {
     await this.prisma.$transaction(async (tx) => {
-      const columns = { version: order.version, updatedAt: order.updatedAt, deletedAt: order.updatedAt };
+      const columns = {
+        version: order.version,
+        updatedAt: order.updatedAt,
+        deletedAt: order.updatedAt,
+      };
       await this.writeVersion(tx, order, columns);
       await this.writeEffects(tx, effects);
     });

@@ -14,6 +14,10 @@ export async function loadOrder(
 }
 
 /** The next version of an order: same identity, bumped version and update time. */
-export function nextVersion(order: OrderRecord, changes: Partial<OrderRecord>, now: Date): OrderRecord {
+export function nextVersion(
+  order: OrderRecord,
+  changes: Partial<OrderRecord>,
+  now: Date,
+): OrderRecord {
   return { ...order, ...changes, version: order.version + 1, updatedAt: now };
 }

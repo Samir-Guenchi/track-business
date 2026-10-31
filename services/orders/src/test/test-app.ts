@@ -10,6 +10,7 @@ export const OFFLINE_ENV = {
   LOG_LEVEL: 'silent',
   DATABASE_URL: 'postgresql://nobody:nobody@127.0.0.1:1/none',
   REDIS_URL: 'redis://127.0.0.1:1',
+  IDENTITY_URL: 'http://127.0.0.1:1',
 };
 
 export function testEnv(overrides: Record<string, string | undefined> = {}): Env {

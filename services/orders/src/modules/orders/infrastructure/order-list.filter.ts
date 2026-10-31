@@ -23,11 +23,13 @@ function searchFilter(q: string): Prisma.OrderWhereInput {
   return { searchText: { contains: q.toLowerCase() } };
 }
 
-function createdRange(query: ListOrdersQuery): Prisma.DateTimeFilter | undefined {
-  if (!query.createdFrom && !query.createdTo) return undefined;
+function createdFilter(query: ListOrdersQuery): Prisma.OrderWhereInput {
+  if (!query.createdFrom && !query.createdTo) return {};
   return {
-    ...(query.createdFrom ? { gte: new Date(query.createdFrom) } : {}),
-    ...(query.createdTo ? { lt: new Date(query.createdTo) } : {}),
+    createdAt: {
+      ...(query.createdFrom ? { gte: new Date(query.createdFrom) } : {}),
+      ...(query.createdTo ? { lt: new Date(query.createdTo) } : {}),
+    },
   };
 }
 
@@ -42,7 +44,7 @@ export function orderListFilter(storeId: string, query: ListOrdersQuery): Prisma
     ...(query.agentId ? { assignedAgentId: query.agentId } : {}),
     ...(query.carrier ? { carrier: query.carrier } : {}),
     ...(query.tag ? { tags: { has: query.tag } } : {}),
-    ...(createdRange(query) ? { createdAt: createdRange(query) } : {}),
+    ...createdFilter(query),
     ...(query.q ? searchFilter(query.q) : {}),
   };
 }

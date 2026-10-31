@@ -44,13 +44,20 @@ export class CreateOrderUseCase {
       updatedAt: now,
     };
     const since = new Date(now.getTime() - DUPLICATE_WINDOW_MS);
-    const order = { ...draft, possibleDuplicateOfId: await this.orders.findRecentDuplicate(draft, since) };
+    const order = {
+      ...draft,
+      possibleDuplicateOfId: await this.orders.findRecentDuplicate(draft, since),
+    };
     return this.insertWithFreshRef(actor, order);
   }
 
   private async rejectReimport(storeId: string, input: CreateOrderInput): Promise<void> {
     if (!input.externalRef) return;
-    const existing = await this.orders.findIdByExternalRef(storeId, input.source, input.externalRef);
+    const existing = await this.orders.findIdByExternalRef(
+      storeId,
+      input.source,
+      input.externalRef,
+    );
     if (existing) throw new AlreadyImportedError(existing);
   }
 

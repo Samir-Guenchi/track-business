@@ -56,6 +56,13 @@ export class OrderChangeRecorder {
       correlationId: actor.correlationId,
       data: event.data,
     };
-    return { id, type: event.type, storeId: actor.storeId, correlationId: actor.correlationId, payload: envelope, occurredAt };
+    return {
+      id,
+      type: event.type,
+      storeId: actor.storeId,
+      correlationId: actor.correlationId,
+      payload: envelope,
+      occurredAt,
+    };
   }
 }
