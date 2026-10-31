@@ -65,6 +65,23 @@ services:
       - -c
       - node node_modules/prisma/build/index.js migrate deploy && node dist/seed.js
 
+  orders:
+    <<: *service
+    image: ghcr.io/samir-guenchi/trackecom-orders:${IMAGE_TAG}
+    environment:
+      PORT: 4003
+      NODE_ENV: production
+      RELEASE: ${IMAGE_TAG}
+      DEPLOY_ENV: ${DEPLOY_ENV}
+      REDIS_URL: redis://redis:6379
+      DATABASE_URL: ${ORDERS_DATABASE_URL}
+      IDENTITY_URL: http://identity:4001
+
+  orders-migrate:
+    <<: *migrate
+    image: ghcr.io/samir-guenchi/trackecom-orders:${IMAGE_TAG}
+    environment: { DATABASE_URL: '${ORDERS_DATABASE_URL}' }
+
   redis:
     image: redis:7-alpine
     restart: unless-stopped
