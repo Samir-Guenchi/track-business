@@ -62,6 +62,7 @@ These choices are proposals and will be confirmed in Phase 0 of the [roadmap](RO
 assets/brand/      Logo, icon and wordmark (SVG + PNG) and the generator script
 BRAND.md           Logo usage, colours and typography
 ROADMAP.md         Product roadmap by phase
+docs/KICKOFF.md    Team kickoff (Arabic): vision, added value, who does what, Git rules, first tasks
 ```
 
 Application code (`apps/web`, `apps/api`, `packages/*`) will be added in Phase 0.
