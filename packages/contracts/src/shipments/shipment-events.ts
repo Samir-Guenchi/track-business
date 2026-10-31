@@ -46,6 +46,8 @@ export const ShipmentCreatedEventSchema = z.strictObject({
   trackingNumber: z.string(),
   publicCode: z.string(),
   labelUrl: z.string().nullable(),
+  /** What the carrier must collect and pay back: payments (#42) expects it from this event. */
+  codAmount: z.number().int().nonnegative(),
 });
 export type ShipmentCreatedEvent = z.infer<typeof ShipmentCreatedEventSchema>;
 
