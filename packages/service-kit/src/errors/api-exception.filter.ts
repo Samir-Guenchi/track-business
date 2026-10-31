@@ -6,7 +6,8 @@ import {
   Logger,
 } from '@nestjs/common';
 import type { ApiError } from '@trackecom/contracts';
-import type { FastifyReply } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
+import { type ErrorReporter, NOOP_ERROR_REPORTER } from '../observability/error-reporter.js';
 import { DomainError, type DomainErrorKind } from './domain-error.js';
 
 const STATUS_BY_KIND: Record<DomainErrorKind, number> = {
@@ -57,10 +58,16 @@ const INTERNAL: MappedError = {
 export class ApiExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(ApiExceptionFilter.name);
 
+  constructor(private readonly reporter: ErrorReporter = NOOP_ERROR_REPORTER) {}
+
   catch(exception: unknown, host: ArgumentsHost): void {
     const mapped = this.map(exception);
-    if (mapped.status >= 500) this.logger.error(exception);
-    void host.switchToHttp().getResponse<FastifyReply>().status(mapped.status).send(mapped.body);
+    const http = host.switchToHttp();
+    if (mapped.status >= 500) {
+      this.logger.error(exception);
+      this.reporter.capture(exception, { correlationId: http.getRequest<FastifyRequest>().id });
+    }
+    void http.getResponse<FastifyReply>().status(mapped.status).send(mapped.body);
   }
 
   private map(exception: unknown): MappedError {
