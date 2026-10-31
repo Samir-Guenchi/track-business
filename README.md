@@ -47,14 +47,17 @@ TrackEcom aims to be the **operating system for an Algerian online store's back 
 - **Analytics**: delivery rate, return rate, net margin and agent productivity.
 - **Developer platform**: REST API, webhooks and SDKs.
 
-## Tech direction (proposed)
+## Tech direction (decided)
 
+Decided in [ADR-0001](docs/adr/0001-architecture-and-stack.md):
+
+- **Architecture**: coarse-grained microservices in one pnpm + Turborepo monorepo. `gateway`, `identity`, `orders`, `shipping`, `notifications` to start; each owns its PostgreSQL database and talks through zod contracts and versioned events (Redis Streams, outbox pattern).
+- **Services**: NestJS (Fastify) + TypeScript strict, Prisma, Redis + BullMQ for background jobs.
 - **Web app**: Next.js + TypeScript, Tailwind, full RTL support for Arabic.
-- **API**: NestJS (TypeScript) with PostgreSQL and Prisma; Redis + BullMQ for carrier sync and notification jobs.
 - **Mobile**: React Native app for sellers and confirmation agents (phase 3).
-- **Infra**: Docker, CI on GitHub Actions, hosting with data residency options for Algerian customers.
+- **Infra**: Docker image per service, GitHub Actions CI, OpenTelemetry; portable to an Algerian data centre.
 
-These choices are proposals and will be confirmed in Phase 0 of the [roadmap](ROADMAP.md).
+Coding rules for humans and AI agents: [AGENTS.md](AGENTS.md).
 
 ## Repository layout
 
@@ -66,12 +69,13 @@ assets/brand/      Logo, icon and wordmark (SVG + PNG) and the generator script
 BRAND.md           Logo usage, colours and typography
 ROADMAP.md         Product roadmap by phase
 docs/KICKOFF.md    Team kickoff (Arabic): vision, added value, who does what, Git rules, first tasks
+docs/adr/          Architecture decision records
 docs/PARALLEL_PLAN.md  Issue dependencies and rules to avoid merge conflicts
 docs/WORKFLOW.md   Branching, review and project board rules
 .github/           CODEOWNERS, PR and issue templates, labels, workflows
 ```
 
-Application code (`apps/web`, `apps/api`, `packages/*`) will be added in Phase 0.
+Application code (`apps/*`, `services/*`, `packages/*`) is added in Phase 0 (#9).
 
 ## Brand
 

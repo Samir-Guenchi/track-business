@@ -30,11 +30,11 @@
 ## 3. التقنيات
 
 - **الويب:** Next.js + TypeScript + Tailwind، مع دعم كامل لاتجاه RTL للعربية.
-- **الـ API:** NestJS + PostgreSQL + Prisma، وRedis + BullMQ للمهام الخلفية (مزامنة شركات التوصيل والإشعارات).
+- **الخدمات (Microservices):** NestJS + PostgreSQL + Prisma، قاعدة بيانات مستقلة لكل خدمة (`gateway` و`identity` و`orders` و`shipping` و`notifications`)، وRedis + BullMQ للمهام الخلفية، وأحداث Redis Streams بين الخدمات.
 - **الموبايل (المرحلة 3):** React Native.
-- **البنية:** Monorepo يضم `apps/web` و`apps/api` و`packages/ui` و`packages/carriers`، مع Docker وGitHub Actions.
+- **البنية:** Monorepo يضم `apps/web` و`services/*` و`packages/contracts` و`packages/ui` و`packages/carriers`، مع Docker وGitHub Actions.
 
-يُثبَّت هذا القرار رسميًا في ADR-0001 (#8).
+يُثبَّت هذا القرار رسميًا في [ADR-0001](adr/0001-architecture-and-stack.md) (#8)، وقواعد كتابة الكود في [AGENTS.md](../AGENTS.md).
 
 ## 4. توزيع العمل
 
