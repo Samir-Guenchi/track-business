@@ -150,6 +150,7 @@ describe.skipIf(!baseUrl || !redisUrl)('ship orders (real Postgres)', () => {
         trackingNumber: 'yal-ABC123',
         publicCode: 'pUbLiCcOdE_0123456789',
         labelUrl: null,
+        codAmount: 6100,
       }),
     );
     await apply.failed(
