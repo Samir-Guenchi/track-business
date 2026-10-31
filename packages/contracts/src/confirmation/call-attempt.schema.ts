@@ -44,7 +44,7 @@ export const LogCallRequestSchema = z.discriminatedUnion('outcome', [
     outcome: z.literal('postponed'),
     callBackAt: z.iso.datetime({ offset: true }),
   }),
-  /** "Call me back later": optional time; without one the order goes to the end of the queue. */
+  /** "Call me back later": optional time; without one the order goes back to the normal queue. */
   z.strictObject({
     ...base,
     outcome: z.literal('call_back'),

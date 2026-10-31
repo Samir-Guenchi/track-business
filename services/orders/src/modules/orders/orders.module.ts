@@ -29,5 +29,6 @@ import { OrderDeletionController, OrdersController } from './interface/orders.co
     { provide: ORDERS_PORTS.ids, useValue: randomUUID },
     { provide: AUDIT_TRAIL_READER, useClass: PrismaAuditStore },
   ],
+  exports: [OrderChangeRecorder, ORDERS_PORTS.repository, ORDERS_PORTS.clock],
 })
 export class OrdersModule {}

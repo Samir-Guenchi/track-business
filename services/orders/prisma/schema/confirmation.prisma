@@ -1,0 +1,31 @@
+// Confirmation centre (#28). Tenant data, scoped by store_id like orders.
+
+/// One phone call on an order. Append-only: the history and agent stats are built from it.
+model CallAttempt {
+  id          String    @id @db.Uuid
+  storeId     String    @map("store_id") @db.Uuid
+  orderId     String    @map("order_id") @db.Uuid
+  agentId     String    @map("agent_id") @db.Uuid
+  outcome     String
+  reason      String?
+  note        String?
+  callBackAt  DateTime? @map("call_back_at") @db.Timestamptz(3)
+  durationSec Int       @map("duration_sec")
+  at          DateTime  @db.Timestamptz(3)
+
+  @@index([storeId, orderId, at(sort: Desc)])
+  @@index([storeId, agentId, at])
+  @@map("call_attempts")
+}
+
+model ConfirmationSettings {
+  storeId           String   @id @map("store_id") @db.Uuid
+  assignment        String
+  /// [{ agentId, wilayaCodes, productIds }], validated by the contract on the way in.
+  agentRules        Json     @map("agent_rules")
+  maxAttemptsPerDay Int      @map("max_attempts_per_day")
+  unreachableAfter  Int      @map("unreachable_after")
+  updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("confirmation_settings")
+}
