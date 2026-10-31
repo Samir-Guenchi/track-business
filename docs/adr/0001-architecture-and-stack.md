@@ -1,6 +1,6 @@
 # ADR-0001: Microservices architecture and technology stack
 
-- Status: **Proposed** (becomes Accepted when Samir and Abdennour approve the PR)
+- Status: **Accepted** (2026-10-31, merged in #68)
 - Date: 2026-10-31
 - Issue: #8
 - Deciders: Samir Guenchi, Abdennour
