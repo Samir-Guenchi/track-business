@@ -1,0 +1,76 @@
+// Reference data (#19). Not tenant data: shared by every store, read-mostly, cached in memory.
+// Every row carries the dataset version that introduced it, so administrative reforms are
+// applied as a new version plus GeoCodeChange rows (old code -> new code), never by editing rows.
+
+model Wilaya {
+  code           Int       @id
+  nameAr         String    @map("name_ar")
+  nameFr         String    @map("name_fr")
+  datasetVersion String    @map("dataset_version")
+  retiredIn      String?   @map("retired_in")
+  communes       Commune[]
+
+  @@map("wilayas")
+}
+
+model Commune {
+  id             Int                 @id
+  wilayaCode     Int                 @map("wilaya_code")
+  nameAr         String              @map("name_ar")
+  nameFr         String              @map("name_fr")
+  /// Extra spellings sellers type (Darija, old French names), used by search only.
+  aliases        String[]            @default([])
+  postalCode     String?             @map("postal_code")
+  datasetVersion String              @map("dataset_version")
+  retiredIn      String?             @map("retired_in")
+  wilaya         Wilaya              @relation(fields: [wilayaCode], references: [code])
+  stopDesks      StopDesk[]
+  carrierCodes   CarrierGeoMapping[]
+
+  @@index([wilayaCode])
+  @@map("communes")
+}
+
+model StopDesk {
+  id         String   @id @db.Uuid
+  carrier    String
+  communeId  Int      @map("commune_id")
+  name       String
+  address    String
+  /// e.g. { "sat-thu": "08:00-17:00" }
+  hours      Json?
+  latitude   Decimal? @db.Decimal(9, 6)
+  longitude  Decimal? @db.Decimal(9, 6)
+  isActive   Boolean  @default(true) @map("is_active")
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  commune    Commune  @relation(fields: [communeId], references: [id])
+
+  @@index([communeId, carrier])
+  @@map("stop_desks")
+}
+
+/// Our commune id -> the carrier's own id/name, filled per carrier adapter (#30, #40).
+model CarrierGeoMapping {
+  carrier     String
+  communeId   Int     @map("commune_id")
+  carrierCode String  @map("carrier_code")
+  carrierName String? @map("carrier_name")
+  commune     Commune @relation(fields: [communeId], references: [id])
+
+  @@id([carrier, communeId])
+  @@unique([carrier, carrierCode])
+  @@map("carrier_geo_mappings")
+}
+
+/// Applied by a reform: orders and prices stored with an old code are remapped through this table.
+model GeoCodeChange {
+  id             Int     @id @default(autoincrement())
+  datasetVersion String  @map("dataset_version")
+  entity         String
+  oldCode        Int     @map("old_code")
+  newCode        Int     @map("new_code")
+  note           String?
+
+  @@unique([datasetVersion, entity, oldCode])
+  @@map("geo_code_changes")
+}
