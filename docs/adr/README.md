@@ -4,7 +4,7 @@ Each significant decision (new service, new infrastructure, a change of library 
 
 | ADR | Title | Status |
 |---|---|---|
-| [0001](0001-architecture-and-stack.md) | Microservices architecture and technology stack | Proposed |
+| [0001](0001-architecture-and-stack.md) | Microservices architecture and technology stack | Accepted |
 
 ## Template
 
