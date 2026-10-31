@@ -125,6 +125,8 @@ export function toOrderDto(order: OrderRecord): Order {
     carrier: order.carrier,
     trackingNumber: order.trackingNumber,
     possibleDuplicateOfId: order.possibleDuplicateOfId,
+    // Filled in by the fake-order checks (#52) in the next change.
+    riskFlags: [],
     postponedUntil: order.postponedUntil?.toISOString() ?? null,
     statusChangedAt: order.statusChangedAt.toISOString(),
     createdAt: order.createdAt.toISOString(),

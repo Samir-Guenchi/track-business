@@ -7,6 +7,7 @@ export * from './common/pagination.schema.js';
 export * from './common/phone.schema.js';
 export * from './confirmation/index.js';
 export * from './events/envelope.schema.js';
+export * from './fraud/index.js';
 export * from './geo/index.js';
 export * from './integrations/index.js';
 export * from './orders/index.js';

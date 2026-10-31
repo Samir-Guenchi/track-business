@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { RiskFlagSchema } from '../fraud/risk.schema.js';
 import { CustomerInputSchema, CustomerSchema } from './customer.schema.js';
 import { OrderStatusSchema } from './order-status.js';
 
@@ -103,6 +104,8 @@ export const OrderSchema = z.strictObject({
   trackingNumber: z.string().nullable(),
   /** Another order with the same phone and items in the previous 48 h, if any. */
   possibleDuplicateOfId: z.string().nullable(),
+  /** Fake-order and blacklist signals found when the order came in (#52); empty when clean. */
+  riskFlags: z.array(RiskFlagSchema),
   postponedUntil: z.iso.datetime().nullable(),
   statusChangedAt: z.iso.datetime(),
   createdAt: z.iso.datetime(),

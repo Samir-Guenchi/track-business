@@ -33,6 +33,8 @@ export const ListOrdersQuerySchema = CursorQuerySchema.extend({
   agentId: z.string().min(1).optional(),
   carrier: z.string().min(1).max(40).optional(),
   tag: TagSchema.optional(),
+  /** `true`: only orders with a risk flag (#52); `false`: only clean ones. */
+  flagged: z.stringbool().optional(),
   createdFrom: z.iso.datetime().optional(),
   createdTo: z.iso.datetime().optional(),
   /** Searches ref, customer name, phone (any spelling) and tracking number. */
