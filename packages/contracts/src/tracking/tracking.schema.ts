@@ -4,7 +4,8 @@ import { FailedAttemptReasonSchema, ParcelStatusSchema } from './parcel-status.j
 /** One scan or status update from a carrier, after normalisation. */
 export const TrackingEventSchema = z.strictObject({
   id: z.uuid(),
-  status: ParcelStatusSchema,
+  /** null for a carrier label we do not map yet: shown with its raw text, never dropped. */
+  status: ParcelStatusSchema.nullable(),
   /** The carrier's own label, shown in the timeline next to ours. */
   carrierStatus: z.string(),
   location: z.string().nullable(),

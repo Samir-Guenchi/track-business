@@ -1,0 +1,52 @@
+// Shipments and their tracking timeline (#32). Tenant data: every row carries its store.
+
+model Shipment {
+  id             String    @id @db.Uuid
+  storeId        String    @map("store_id") @db.Uuid
+  /// The order in the orders service; a re-shipped order has several shipments.
+  orderId        String    @map("order_id") @db.Uuid
+  carrier        String
+  /// Our reference sent to the carrier, so a retried create finds the same parcel.
+  reference      String
+  trackingNumber String    @map("tracking_number")
+  /// Normalised ParcelStatus from the contracts.
+  status         String    @default("created")
+  /// Random code for the customer's tracking link; not guessable from the tracking number.
+  publicCode     String    @unique @map("public_code")
+  lastEventAt    DateTime? @map("last_event_at") @db.Timestamptz(3)
+  /// When the polling fallback asks the carrier next; null once the parcel is final.
+  nextPollAt     DateTime? @map("next_poll_at") @db.Timestamptz(3)
+  version        Int       @default(1)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  events TrackingEvent[]
+
+  @@unique([carrier, trackingNumber])
+  @@unique([storeId, reference])
+  @@index([storeId, orderId])
+  @@index([nextPollAt])
+  @@map("shipments")
+}
+
+model TrackingEvent {
+  id            String   @id @db.Uuid
+  shipmentId    String   @map("shipment_id") @db.Uuid
+  storeId       String   @map("store_id") @db.Uuid
+  /// null when the carrier label is not mapped yet (alerted, kept on the timeline).
+  status        String?
+  carrierStatus String   @map("carrier_status")
+  location      String?
+  note          String?
+  failureReason String?  @map("failure_reason")
+  at            DateTime @db.Timestamptz(3)
+  /// Same carrier event seen twice (webhook + poll, replay) has the same key: stored once.
+  dedupeKey     String   @map("dedupe_key")
+  receivedAt    DateTime @default(now()) @map("received_at") @db.Timestamptz(3)
+
+  shipment Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  @@unique([shipmentId, dedupeKey])
+  @@index([shipmentId, at])
+  @@map("tracking_events")
+}
