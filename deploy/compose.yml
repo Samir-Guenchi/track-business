@@ -119,6 +119,11 @@ services:
       REDIS_URL: redis://redis:6379
       DATABASE_URL: ${NOTIFICATIONS_DATABASE_URL}
       IDENTITY_URL: http://identity:4001
+      ORDERS_URL: http://orders:4003
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
+      # The web app's public tracking page, e.g. https://app.example/t.
+      TRACKING_URL: ${TRACKING_URL}
+      MESSAGE_WEBHOOK_TOKEN: ${MESSAGE_WEBHOOK_TOKEN}
 
   notifications-migrate:
     <<: *migrate
