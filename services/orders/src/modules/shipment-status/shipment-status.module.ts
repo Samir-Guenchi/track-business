@@ -16,6 +16,6 @@ import { ShipOrdersController } from './interface/ship-orders.controller.js';
     SystemStatusChange,
     ShipmentStatusConsumer,
   ],
-  exports: [ApplyShipmentStatusUseCase],
+  exports: [ApplyShipmentStatusUseCase, SystemStatusChange],
 })
 export class ShipmentStatusModule {}
