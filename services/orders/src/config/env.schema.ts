@@ -14,6 +14,11 @@ export const EnvSchema = BaseEnvSchema.extend({
    * is decided; when on, only a count is used and nothing about the other stores is shown.
    */
   NETWORK_SIGNAL_ENABLED: z.stringbool().default(false),
+  /**
+   * Shared secret other services present on `/internal` routes (ADR-0004). Unset turns those
+   * routes off. From the secret manager, 32 characters or more.
+   */
+  INTERNAL_TOKEN: z.string().min(32).optional(),
   /** Base of the customer's self-confirmation page (#54); the token is appended. */
   SELF_CONFIRM_URL: z.url({ protocol: /^https?$/ }).default('http://localhost:3000/confirm'),
   /** How long a user's store roles are cached; a role change applies after at most this. */

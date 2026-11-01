@@ -1,4 +1,5 @@
 export * from './authorization/access-policy.js';
+export * from './authorization/internal-token.guard.js';
 export * from './bootstrap/create-service-app.js';
 export type * from './bootstrap/fastify-cookie.types.js';
 export * from './config/base-env.schema.js';
