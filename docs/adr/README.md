@@ -8,6 +8,7 @@ Each significant decision (new service, new infrastructure, a change of library 
 | [0002](0002-payments-service.md) | A payments service for COD reconciliation | Proposed |
 | [0003](0003-integrations-service.md) | Shop integrations behind a StoreConnector port | Proposed |
 | [0004](0004-notifications-service.md) | A notifications service for customer SMS and WhatsApp | Proposed |
+| [0005](0005-public-api.md) | Public API: API keys exchanged for tokens, outgoing webhooks | Proposed |
 
 ## Template
 
