@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
-import { OrderContactSchema, OrderSchema } from '@trackecom/contracts';
+import { OrderContactSchema, OrderOriginSchema, OrderSchema } from '@trackecom/contracts';
 import { type FakeIdentity, startFakeIdentity } from '@trackecom/service-kit/testing';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { startTestApp, testEnv } from '../../test/test-app.js';
@@ -65,6 +65,20 @@ describe.skipIf(!baseUrl || !redisUrl)('internal order contact (real Postgres)',
       orderId,
       name: 'Client Test',
       phone: '+213555000461',
+    });
+  });
+
+  it('tells integrations where the order came from', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: `/internal/stores/${STORE}/orders/${orderId}/origin`,
+      headers: { 'x-internal-token': SECRET },
+    });
+
+    expect(OrderOriginSchema.parse(response.json())).toEqual({
+      orderId,
+      source: 'manual',
+      externalRef: null,
     });
   });
 

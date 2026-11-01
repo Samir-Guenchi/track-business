@@ -12,6 +12,7 @@ import { PrismaService } from './infrastructure/prisma/prisma.service.js';
 import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
 import { ConnectionsModule } from './modules/connections/connections.module.js';
+import { FulfilmentModule } from './modules/fulfilment/fulfilment.module.js';
 import { connectionsOpenApiPaths } from './modules/connections/interface/connections.openapi.js';
 import { syncOpenApiPaths } from './modules/sync/interface/sync.openapi.js';
 import { SyncModule } from './modules/sync/sync.module.js';
@@ -46,6 +47,7 @@ export class AppModule {
         }),
         ConnectionsModule,
         SyncModule,
+        FulfilmentModule,
       ],
     };
   }

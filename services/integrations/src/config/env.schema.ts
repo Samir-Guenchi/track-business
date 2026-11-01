@@ -1,6 +1,7 @@
 import { BaseEnvSchema } from '@trackecom/service-kit';
 import { z } from 'zod';
 
+const unsetIfEmpty = (value: unknown) => (value === '' ? undefined : value);
 const KEK_PATTERN = /^[a-z0-9-]{1,20}:[A-Za-z0-9+/=]{44}(,[a-z0-9-]{1,20}:[A-Za-z0-9+/=]{44})*$/;
 
 export const EnvSchema = BaseEnvSchema.extend({
@@ -31,6 +32,12 @@ export const EnvSchema = BaseEnvSchema.extend({
   SYNC_INTERVAL_MINUTES: z.coerce.number().int().min(1).max(1440).default(5),
   /** How far back the first sync of a new shop imports orders. */
   BACKFILL_DAYS: z.coerce.number().int().min(0).max(90).default(30),
+  /** Internal URL of orders: where a shipped order came from, to push tracking back. */
+  ORDERS_URL: z.url({ protocol: /^https?$/ }).default('http://localhost:4003'),
+  /** Shared secret for orders' /internal routes; tracking is not pushed back without it. */
+  INTERNAL_TOKEN: z.preprocess(unsetIfEmpty, z.string().min(32).optional()),
+  /** The web app's public tracking page; shops get `<TRACKING_URL>/<public code>`. */
+  TRACKING_URL: z.preprocess(unsetIfEmpty, z.url().default('http://localhost:3000/t')),
   /** Runs the background loops (outbox relay, shop polling). Off in API tests. */
   WORKERS_ENABLED: z.stringbool().default(true),
   /** Registers an in-memory shop for local development and tests. Refused in production. */

@@ -142,6 +142,9 @@ services:
       DATABASE_URL: ${INTEGRATIONS_DATABASE_URL}
       IDENTITY_URL: http://identity:4001
       SHIPPING_URL: http://shipping:4002
+      ORDERS_URL: http://orders:4003
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
+      TRACKING_URL: ${TRACKING_URL}
       SHOP_KEK: ${SHOP_KEK}
       SHOP_KEK_ID: ${SHOP_KEK_ID:-v1}
 
