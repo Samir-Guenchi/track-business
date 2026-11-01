@@ -16,6 +16,8 @@ import { confirmationOpenApiPaths } from './modules/confirmation/interface/confi
 import { fraudOpenApiPaths } from './modules/fraud/interface/fraud.openapi.js';
 import { ordersOpenApiPaths } from './modules/orders/interface/orders.openapi.js';
 import { OrdersModule } from './modules/orders/orders.module.js';
+import { riskScoreOpenApiPaths } from './modules/risk-score/interface/risk-score.openapi.js';
+import { RiskScoreModule } from './modules/risk-score/risk-score.module.js';
 import { ShipmentStatusModule } from './modules/shipment-status/shipment-status.module.js';
 
 export const SERVICE_NAME = 'orders';
@@ -40,7 +42,12 @@ export class AppModule {
         OpenApiModule.forRoot({
           title: 'TrackEcom orders',
           version: '0.1.0',
-          paths: { ...ordersOpenApiPaths, ...confirmationOpenApiPaths, ...fraudOpenApiPaths },
+          paths: {
+            ...ordersOpenApiPaths,
+            ...confirmationOpenApiPaths,
+            ...fraudOpenApiPaths,
+            ...riskScoreOpenApiPaths,
+          },
         }),
         StoreAccessModule.forRoot({
           options: { identityUrl: env.IDENTITY_URL, roleCacheSeconds: env.ROLE_CACHE_SECONDS },
@@ -49,6 +56,7 @@ export class AppModule {
         OrdersModule,
         ConfirmationModule,
         ShipmentStatusModule,
+        RiskScoreModule,
       ],
     };
   }
