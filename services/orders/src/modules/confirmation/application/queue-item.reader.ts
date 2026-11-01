@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { ScriptLanguage } from '@trackecom/contracts';
+import type { BestTime, ScriptLanguage } from '@trackecom/contracts';
 import { ORDERS_PORTS, type OrderRepository } from '../../orders/application/ports/orders.ports.js';
 import type { OrderRecord } from '../../orders/domain/order.js';
 import { fillScript } from '../domain/fill-script.js';
+import { lookUpBestTime } from './best-time.lookup.js';
 import {
   CONFIRMATION_CONTENT,
   type ConfirmationContentRepository,
@@ -19,6 +20,7 @@ export interface QueueItem {
   readonly attemptsToday: number;
   readonly previousAttempts: readonly CallAttemptRecord[];
   readonly script: string | null;
+  readonly bestTime: BestTime | null;
 }
 
 export interface Claim {
@@ -27,6 +29,7 @@ export interface Claim {
   readonly lockUntil: Date;
   readonly day: string;
   readonly language: ScriptLanguage;
+  readonly now: Date;
 }
 
 const PREVIOUS_ATTEMPTS = 20;
@@ -49,12 +52,19 @@ export class QueueItemReader {
       this.content.script(storeId, claim.language),
     ]);
     if (!order || !state) return null;
+    const { phone, wilayaCode } = order.customer;
+    const bestTime = await lookUpBestTime(
+      this.repository,
+      { storeId, phone, wilayaCode },
+      claim.now,
+    );
     return {
       order,
       lockedUntil: claim.lockUntil,
       attemptsToday: state.lastCallDay === claim.day ? state.callsToday : 0,
       previousAttempts,
       script: script === null ? null : fillScript(script, order),
+      bestTime,
     };
   }
 }

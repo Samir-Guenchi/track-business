@@ -1,6 +1,8 @@
 import {
   AgentStatsQuerySchema,
   AgentStatsResponseSchema,
+  BestTimeQuerySchema,
+  BestTimeResponseSchema,
   CallScriptSchema,
   CallScriptsResponseSchema,
   ConfirmationSettingsSchema,
@@ -21,6 +23,13 @@ const json = (description: string, schema: z.ZodType, status = '200') => ({
 const body = (schema: z.ZodType) => ({ content: { 'application/json': { schema } } });
 
 export const confirmationOpenApiPaths: ZodOpenApiPathsObject = {
+  '/confirmation/best-time': {
+    get: {
+      summary: 'Answer rate per calling hour (Algiers time), overall or for one wilaya (#54)',
+      requestParams: { query: BestTimeQuerySchema },
+      responses: json('Hourly answer rates and the best hour', BestTimeResponseSchema),
+    },
+  },
   '/confirmation/next': {
     get: {
       summary: 'Take the next order to call (locked to you for 5 minutes)',

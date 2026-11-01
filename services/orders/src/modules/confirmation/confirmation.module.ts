@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { OrdersModule } from '../orders/orders.module.js';
+import { BestTimeService } from './application/best-time.service.js';
 import { ConfirmationContentService } from './application/confirmation-content.service.js';
 import { ConfirmationQueue } from './application/confirmation-queue.js';
 import { QueueItemReader } from './application/queue-item.reader.js';
@@ -22,6 +23,7 @@ import { ConfirmationController } from './interface/confirmation.controller.js';
     LogCallUseCase,
     ConfirmationSettingsService,
     ConfirmationContentService,
+    BestTimeService,
     { provide: CONFIRMATION_REPOSITORY, useClass: PrismaConfirmationRepository },
     { provide: CONFIRMATION_CONTENT, useClass: PrismaConfirmationContentRepository },
   ],
