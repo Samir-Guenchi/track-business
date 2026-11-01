@@ -11,6 +11,9 @@ export interface ShipmentRecord {
   readonly status: ParcelStatus;
   readonly publicCode: string;
   readonly lastEventAt: Date | null;
+  /** Destination wilaya, for the ETA (#55); null for parcels created before #41. */
+  readonly toWilayaCode: number | null;
+  readonly createdAt: Date;
 }
 
 export interface TrackingEventRecord {

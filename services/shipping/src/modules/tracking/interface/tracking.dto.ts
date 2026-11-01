@@ -3,10 +3,8 @@ import type {
   PublicTrackingResponse,
   TrackingEvent,
 } from '@trackecom/contracts';
-import type {
-  ShipmentTimeline,
-  TrackingEventRecord,
-} from '../application/ports/tracking.repository.js';
+import type { TrackingEventRecord } from '../application/ports/tracking.repository.js';
+import type { TimelineWithEta } from '../application/tracking-query.service.js';
 
 const toEventDto = (event: TrackingEventRecord): TrackingEvent => ({
   id: event.id,
@@ -18,8 +16,8 @@ const toEventDto = (event: TrackingEventRecord): TrackingEvent => ({
   at: event.at.toISOString(),
 });
 
-export const toOrderTracking = (timelines: readonly ShipmentTimeline[]): OrderTrackingResponse => ({
-  items: timelines.map(({ shipment, events }) => ({
+export const toOrderTracking = (timelines: readonly TimelineWithEta[]): OrderTrackingResponse => ({
+  items: timelines.map(({ shipment, events, eta }) => ({
     shipment: {
       id: shipment.id,
       orderId: shipment.orderId,
@@ -28,6 +26,7 @@ export const toOrderTracking = (timelines: readonly ShipmentTimeline[]): OrderTr
       status: shipment.status,
       lastEventAt: shipment.lastEventAt?.toISOString() ?? null,
       publicCode: shipment.publicCode,
+      eta,
     },
     events: events.map(toEventDto),
   })),
@@ -37,10 +36,12 @@ export const toOrderTracking = (timelines: readonly ShipmentTimeline[]): OrderTr
 export const toPublicTracking = ({
   shipment,
   events,
-}: ShipmentTimeline): PublicTrackingResponse => ({
+  eta,
+}: TimelineWithEta): PublicTrackingResponse => ({
   status: shipment.status,
   carrier: shipment.carrier,
   trackingNumber: shipment.trackingNumber,
+  eta,
   events: events.flatMap((event) =>
     event.status
       ? [{ status: event.status, location: event.location, at: event.at.toISOString() }]
