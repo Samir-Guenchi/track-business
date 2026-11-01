@@ -8,7 +8,7 @@ import type {
 } from '../application/ports/connection.repository.js';
 import { EnvelopeCipher } from './envelope-cipher.js';
 
-const PUBLIC_FIELDS = {
+export const PUBLIC_FIELDS = {
   id: true,
   storeId: true,
   connector: true,

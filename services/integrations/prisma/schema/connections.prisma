@@ -1,22 +1,23 @@
 // One connected shop. Credentials are sealed with envelope encryption (same scheme as carrier
 // accounts in shipping); reads never return them.
 model ShopConnection {
-  id             String    @id @db.Uuid
-  storeId        String    @map("store_id") @db.Uuid
+  id             String          @id @db.Uuid
+  storeId        String          @map("store_id") @db.Uuid
   connector      String
-  shopUrl        String    @map("shop_url")
-  shopName       String    @map("shop_name")
-  status         String    @default("connected")
-  kekId          String    @map("kek_id")
-  wrappedKey     Bytes     @map("wrapped_key")
+  shopUrl        String          @map("shop_url")
+  shopName       String          @map("shop_name")
+  status         String          @default("connected")
+  kekId          String          @map("kek_id")
+  wrappedKey     Bytes           @map("wrapped_key")
   secret         Bytes
   // Orders updated before this are already imported; the next poll asks for newer ones.
-  syncedThrough  DateTime? @map("synced_through") @db.Timestamptz(3)
-  lastSyncAt     DateTime? @map("last_sync_at") @db.Timestamptz(3)
-  ordersImported Int       @default(0) @map("orders_imported")
-  lastError      String?   @map("last_error")
-  createdAt      DateTime  @map("created_at") @db.Timestamptz(3)
-  updatedAt      DateTime  @map("updated_at") @db.Timestamptz(3)
+  syncedThrough  DateTime?       @map("synced_through") @db.Timestamptz(3)
+  lastSyncAt     DateTime?       @map("last_sync_at") @db.Timestamptz(3)
+  ordersImported Int             @default(0) @map("orders_imported")
+  lastError      String?         @map("last_error")
+  createdAt      DateTime        @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime        @map("updated_at") @db.Timestamptz(3)
+  importedOrders ImportedOrder[]
 
   @@unique([storeId, connector, shopUrl])
   @@index([status, lastSyncAt])

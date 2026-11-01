@@ -34,7 +34,7 @@ describe('integrations order-received event', () => {
 
     expect(parsed.order).not.toHaveProperty('source');
     expect(parsed.order).not.toHaveProperty('externalRef');
-    expect(parsed.order.customer.phone).toBe('+213555000001');
+    expect(parsed.order?.customer.phone).toBe('+213555000001');
   });
 
   it('refuses an order without commune codes', () => {
@@ -42,5 +42,14 @@ describe('integrations order-received event', () => {
     const broken = { ...event, order: { ...event.order, customer } };
 
     expect(OrderReceivedEventSchema.safeParse(broken).success).toBe(false);
+  });
+
+  it('accepts a cancellation without its order, but nothing else', () => {
+    const cancellation = { ...event, cancelled: true, order: null };
+
+    expect(OrderReceivedEventSchema.safeParse(cancellation).success).toBe(true);
+    expect(OrderReceivedEventSchema.safeParse({ ...cancellation, cancelled: false }).success).toBe(
+      false,
+    );
   });
 });

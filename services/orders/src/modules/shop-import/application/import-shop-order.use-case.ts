@@ -41,10 +41,13 @@ export class ImportShopOrderUseCase {
     );
     if (data.cancelled) return existing ? this.cancel(event, existing) : 'ignored';
     if (existing) return 'duplicate';
-    return this.createOrder(event, data);
+    return data.order ? this.createOrder(event, { ...data, order: data.order }) : 'ignored';
   }
 
-  private async createOrder(event: EventEnvelope, data: OrderReceivedEvent) {
+  private async createOrder(
+    event: EventEnvelope,
+    data: OrderReceivedEvent & { order: NonNullable<OrderReceivedEvent['order']> },
+  ) {
     const notes = [`${data.connector} ${data.externalName}`, data.order.notes].filter(Boolean);
     try {
       await this.create.execute(actorFor(event), {

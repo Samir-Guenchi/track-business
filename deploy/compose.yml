@@ -141,6 +141,7 @@ services:
       REDIS_URL: redis://redis:6379
       DATABASE_URL: ${INTEGRATIONS_DATABASE_URL}
       IDENTITY_URL: http://identity:4001
+      SHIPPING_URL: http://shipping:4002
       SHOP_KEK: ${SHOP_KEK}
       SHOP_KEK_ID: ${SHOP_KEK_ID:-v1}
 
