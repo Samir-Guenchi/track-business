@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { createShipmentOnce } from '../create-shipment-once.js';
 import type { FetchLike } from '../http/carrier-http.js';
 import type { ShipmentRequest } from '../shipment.types.js';
+import { carrierContract } from '../contract/carrier-contract.testkit.js';
 import { YalidineAdapter } from './yalidine.adapter.js';
+import { yalidineHarness } from './yalidine-fake-api.testkit.js';
 
 // Synthetic responses shaped like Yalidine's public docs, with test names only. Replace with
 // responses recorded from a sandbox account (personal data scrubbed) before going live.
@@ -226,3 +228,5 @@ describe('YalidineAdapter', () => {
     });
   });
 });
+
+carrierContract('YalidineAdapter', () => yalidineHarness(request));

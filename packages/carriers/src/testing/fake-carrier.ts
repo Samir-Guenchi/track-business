@@ -32,6 +32,7 @@ export class FakeCarrier implements CarrierAdapter {
   readonly tracking = new Map<string, TrackingEvent[]>();
   createCalls = 0;
   private failuresLeft: number;
+  private createdDespiteFailure: boolean;
 
   constructor(private readonly options: FakeCarrierOptions = {}) {
     this.code = options.code ?? 'fake';
@@ -44,6 +45,13 @@ export class FakeCarrier implements CarrierAdapter {
       ...options.capabilities,
     };
     this.failuresLeft = options.failCreates ?? 0;
+    this.createdDespiteFailure = options.createdDespiteFailure ?? false;
+  }
+
+  /** The next create fails with `unavailable`, after saving the parcel when `afterSaving`. */
+  failNextCreate(afterSaving: boolean): void {
+    this.failuresLeft = 1;
+    this.createdDespiteFailure = afterSaving;
   }
 
   async validateCredentials(ctx: { credentials: Record<string, string> }) {
@@ -54,7 +62,7 @@ export class FakeCarrier implements CarrierAdapter {
     this.createCalls += 1;
     const failing = this.failuresLeft > 0;
     this.failuresLeft -= 1;
-    if (failing && !this.options.createdDespiteFailure) throw this.outage();
+    if (failing && !this.createdDespiteFailure) throw this.outage();
     const shipment = {
       trackingNumber: `${this.code.toUpperCase()}-${this.parcels.size + 1}`,
       labelUrl: null,
