@@ -7,8 +7,14 @@ import {
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service.js';
 import type { StoredTemplate, TemplateKey, TemplateStore } from '../application/ports/stores.js';
 
+/** Only the key fields: callers may pass a larger object (a queued message). */
+const keyOf = ({ trigger, channel, language }: TemplateKey): TemplateKey => ({
+  trigger,
+  channel,
+  language,
+});
 const id = (storeId: string, key: TemplateKey) => ({
-  storeId_trigger_channel_language: { storeId, ...key },
+  storeId_trigger_channel_language: { storeId, ...keyOf(key) },
 });
 
 @Injectable()
@@ -42,7 +48,7 @@ export class PrismaTemplateStore implements TemplateStore {
 
   async remove(storeId: string, key: TemplateKey): Promise<boolean> {
     const { count } = await this.prisma.notificationTemplate.deleteMany({
-      where: { storeId, ...key },
+      where: { storeId, ...keyOf(key) },
     });
     return count > 0;
   }

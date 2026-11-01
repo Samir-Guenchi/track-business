@@ -11,6 +11,7 @@ import { InfrastructureModule } from './infrastructure/infrastructure.module.js'
 import { PrismaService } from './infrastructure/prisma/prisma.service.js';
 import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
+import { DeliveryModule } from './modules/delivery/delivery.module.js';
 import { notificationsOpenApiPaths } from './modules/messages/interface/notifications.openapi.js';
 import { MessagesModule } from './modules/messages/messages.module.js';
 
@@ -43,6 +44,7 @@ export class AppModule {
           cache: redisRoleCache,
         }),
         MessagesModule,
+        DeliveryModule,
       ],
     };
   }
