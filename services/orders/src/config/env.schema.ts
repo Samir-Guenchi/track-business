@@ -1,6 +1,9 @@
 import { BaseEnvSchema } from '@trackecom/service-kit';
 import { z } from 'zod';
 
+/** Compose passes an unset variable as ''; treat it as unset so the default or "off" applies. */
+const unsetIfEmpty = (value: unknown) => (value === '' ? undefined : value);
+
 export const EnvSchema = BaseEnvSchema.extend({
   PORT: z.coerce.number().int().min(1).max(65535).default(4003),
   DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
@@ -18,9 +21,12 @@ export const EnvSchema = BaseEnvSchema.extend({
    * Shared secret other services present on `/internal` routes (ADR-0004). Unset turns those
    * routes off. From the secret manager, 32 characters or more.
    */
-  INTERNAL_TOKEN: z.string().min(32).optional(),
+  INTERNAL_TOKEN: z.preprocess(unsetIfEmpty, z.string().min(32).optional()),
   /** Base of the customer's self-confirmation page (#54); the token is appended. */
-  SELF_CONFIRM_URL: z.url({ protocol: /^https?$/ }).default('http://localhost:3000/confirm'),
+  SELF_CONFIRM_URL: z.preprocess(
+    unsetIfEmpty,
+    z.url({ protocol: /^https?$/ }).default('http://localhost:3000/confirm'),
+  ),
   /** How long a user's store roles are cached; a role change applies after at most this. */
   ROLE_CACHE_SECONDS: z.coerce.number().int().min(0).max(600).default(60),
   /** Runs the background loops (outbox relay, event consumers). Off in API tests. */
