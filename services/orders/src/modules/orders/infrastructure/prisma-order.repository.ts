@@ -9,6 +9,7 @@ import {
   RefTakenError,
 } from '../application/ports/orders.ports.js';
 import type { OrderRecord } from '../domain/order.js';
+import { AlreadyImportedError } from '../domain/order.errors.js';
 import { orderListFilter } from './order-list.filter.js';
 import { writeOrderEffects, writeOrderVersion } from './order-writes.js';
 import { toColumns, toItemRows, toRecord, WITH_ITEMS } from './order.mapper.js';
@@ -73,9 +74,20 @@ export class PrismaOrderRepository implements OrderRepository {
         await writeOrderEffects(tx, effects);
       });
     } catch (error) {
+      if (isUniqueViolation(error, 'external')) throw await this.alreadyImported(order);
       if (isUniqueViolation(error, 'ref')) throw new RefTakenError();
       throw error;
     }
+  }
+
+  /** Two imports of one shop order raced; the loser points at the winner (even if deleted). */
+  private async alreadyImported(order: OrderRecord): Promise<AlreadyImportedError> {
+    const { storeId, source, externalRef } = order;
+    const row = await this.prisma.order.findFirstOrThrow({
+      where: { storeId, source, externalRef },
+      select: { id: true },
+    });
+    return new AlreadyImportedError(row.id);
   }
 
   async update(order: OrderRecord, effects: OrderEffects): Promise<void> {

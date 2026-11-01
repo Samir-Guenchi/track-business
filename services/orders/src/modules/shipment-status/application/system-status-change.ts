@@ -25,11 +25,15 @@ export interface SystemChange {
   /** Other order fields that change with the status (carrier, tracking number). */
   readonly fields?: Partial<Pick<OrderRecord, 'carrier' | 'trackingNumber'>>;
   readonly audit?: Record<string, unknown>;
+  /** Who asked for it: the inbox consumer and the audit user. Shipping when absent. */
+  readonly by?: { readonly consumer: string; readonly service: string };
 }
 
-const systemActor = (event: EventEnvelope): OrderActor => ({
+const SHIPPING = { consumer: SHIPMENT_STATUS_CONSUMER, service: 'shipping' };
+
+const systemActor = (event: EventEnvelope, service: string): OrderActor => ({
   storeId: event.storeId,
-  userId: 'shipping',
+  userId: service,
   role: 'owner',
   ip: '',
   correlationId: event.correlationId,
@@ -64,14 +68,15 @@ export class SystemStatusChange {
       actorId: null,
       reason: change.reason,
     };
-    const effects = this.recorder.effects(systemActor(event), {
+    const by = change.by ?? SHIPPING;
+    const effects = this.recorder.effects(systemActor(event, by.service), {
       action: 'status_changed',
       before,
       after,
       extra: { reason: change.reason, ...change.audit },
       events: [{ type: ORDER_EVENTS.statusChanged, data }],
     });
-    const consumed = { consumer: SHIPMENT_STATUS_CONSUMER, eventId: event.id };
+    const consumed = { consumer: by.consumer, eventId: event.id };
     try {
       await this.orders.update(after, { ...effects, consumed });
       return 'applied';

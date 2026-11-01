@@ -21,6 +21,7 @@ import { RiskScoreModule } from './modules/risk-score/risk-score.module.js';
 import { selfConfirmOpenApiPaths } from './modules/self-confirm/interface/self-confirm.openapi.js';
 import { SelfConfirmModule } from './modules/self-confirm/self-confirm.module.js';
 import { ShipmentStatusModule } from './modules/shipment-status/shipment-status.module.js';
+import { ShopImportModule } from './modules/shop-import/shop-import.module.js';
 
 export const SERVICE_NAME = 'orders';
 
@@ -61,6 +62,7 @@ export class AppModule {
         ShipmentStatusModule,
         RiskScoreModule,
         SelfConfirmModule,
+        ShopImportModule,
       ],
     };
   }
