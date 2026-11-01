@@ -34,7 +34,7 @@ describe('integrations order-received event', () => {
 
     expect(parsed.order).not.toHaveProperty('source');
     expect(parsed.order).not.toHaveProperty('externalRef');
-    expect(parsed.order.customer.phone).toBe('+213555000001');
+    expect(parsed.order?.customer.phone).toBe('+213555000001');
   });
 
   it('refuses an order without commune codes', () => {
