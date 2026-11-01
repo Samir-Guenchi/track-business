@@ -70,6 +70,8 @@ BRAND.md           Logo usage, colours and typography
 ROADMAP.md         Product roadmap by phase
 docs/KICKOFF.md    Team kickoff (Arabic): vision, added value, who does what, Git rules, first tasks
 docs/adr/          Architecture decision records
+docs/srs/          Software requirements specification (what the system must do, with status per requirement)
+docs/architecture/ Mermaid diagrams of the architecture: services, events, sequences, data, deployment
 docs/PARALLEL_PLAN.md  Issue dependencies and rules to avoid merge conflicts
 docs/WORKFLOW.md   Branching, review and project board rules
 .github/           CODEOWNERS, PR and issue templates, labels, workflows
