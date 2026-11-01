@@ -8,12 +8,15 @@ import type { CallAttempt as CallAttemptRow } from '../../../generated/prisma/cl
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service.js';
 import { writeOrderEffects, writeOrderVersion } from '../../orders/infrastructure/order-writes.js';
 import type {
+  AnswerStatsQuery,
   CallAttemptRecord,
   ClaimRequest,
   ConfirmationRepository,
   QueueState,
   RecordedCall,
 } from '../application/ports/confirmation.repository.js';
+import type { HourlyAttempts } from '../domain/best-time.js';
+import { answerStatsSql } from './answer-stats.sql.js';
 import { claimNextSql } from './claim-next.sql.js';
 
 const toAttempt = (row: CallAttemptRow): CallAttemptRecord => ({
@@ -96,5 +99,9 @@ export class PrismaConfirmationRepository implements ConfirmationRepository {
       await tx.callAttempt.create({ data: attempt });
       await writeOrderEffects(tx, effects);
     });
+  }
+
+  answerStats(query: AnswerStatsQuery): Promise<HourlyAttempts[]> {
+    return this.prisma.$queryRaw<HourlyAttempts[]>(answerStatsSql(query));
   }
 }

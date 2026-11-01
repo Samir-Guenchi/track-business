@@ -38,7 +38,7 @@ export class ConfirmationQueue {
       productIds: rule?.productIds ?? [],
     });
     if (!orderId) return null;
-    return this.items.read({ storeId: actor.storeId, orderId, lockUntil, day, language });
+    return this.items.read({ storeId: actor.storeId, orderId, lockUntil, day, language, now });
   }
 
   release(actor: OrderActor, orderId: string): Promise<boolean> {

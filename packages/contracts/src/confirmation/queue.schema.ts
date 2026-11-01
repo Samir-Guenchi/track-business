@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { OrderSchema } from '../orders/order.schema.js';
+import { BestTimeSchema } from './best-time.schema.js';
 import { CallAttemptSchema } from './call-attempt.schema.js';
 import { ScriptLanguageSchema } from './confirmation-settings.schema.js';
 
@@ -27,6 +28,8 @@ export const NextCallResponseSchema = z.strictObject({
       previousAttempts: z.array(CallAttemptSchema).max(20),
       /** The store's script in the agent's language, with placeholders already filled. */
       script: z.string().nullable(),
+      /** When this customer is most likely to answer (#54); null until there is enough history. */
+      bestTime: BestTimeSchema.nullable(),
     })
     .nullable(),
 });
