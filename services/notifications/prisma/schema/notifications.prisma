@@ -1,0 +1,81 @@
+// Tenant data: every row belongs to a store. No phone numbers or message text are stored, except
+// opt-outs (the phones that asked to receive nothing).
+
+/// A store's notification settings, validated by NotificationSettingsSchema from the contracts.
+model NotificationSettings {
+  storeId   String   @id @map("store_id") @db.Uuid
+  settings  Json
+  updatedAt DateTime @map("updated_at") @db.Timestamptz(3)
+
+  @@map("notification_settings")
+}
+
+/// A store's own text for one trigger, channel and language; the built-in text applies otherwise.
+model NotificationTemplate {
+  storeId   String   @map("store_id") @db.Uuid
+  trigger   String
+  channel   String
+  language  String
+  body      String
+  updatedAt DateTime @map("updated_at") @db.Timestamptz(3)
+
+  @@id([storeId, trigger, channel, language])
+  @@map("notification_templates")
+}
+
+/// A customer who asked the store to stop messages. Phone in E.164.
+model OptOut {
+  storeId   String   @map("store_id") @db.Uuid
+  phone     String
+  createdAt DateTime @map("created_at") @db.Timestamptz(3)
+
+  @@id([storeId, phone])
+  @@map("opt_outs")
+}
+
+/// A parcel, known from shipping.shipment.created.v1: gives the tracking link of later events.
+model Parcel {
+  shipmentId String   @id @map("shipment_id") @db.Uuid
+  storeId    String   @map("store_id") @db.Uuid
+  orderId    String   @map("order_id") @db.Uuid
+  carrier    String
+  publicCode String   @map("public_code")
+  createdAt  DateTime @map("created_at") @db.Timestamptz(3)
+
+  @@index([storeId, orderId])
+  @@map("parcels")
+}
+
+/// One message to one customer: queued by an event, sent by the sender loop, updated by receipts.
+model Message {
+  id            String    @id @db.Uuid
+  storeId       String    @map("store_id") @db.Uuid
+  orderId       String    @map("order_id") @db.Uuid
+  trigger       String
+  channel       String
+  language      String
+  status        String
+  skipReason    String?   @map("skip_reason")
+  /// The bus event that queued it: a redelivered event finds the row and queues nothing.
+  sourceEventId String    @map("source_event_id")
+  shipmentId    String?   @map("shipment_id") @db.Uuid
+  /// Not before this time: the end of the store's quiet hours, or a retry delay.
+  sendAfter     DateTime  @map("send_after") @db.Timestamptz(3)
+  attempts      Int       @default(0)
+  lockedUntil   DateTime? @map("locked_until") @db.Timestamptz(3)
+  provider      String?
+  providerId    String?   @map("provider_id")
+  /// What the provider charged, in centimes of DZD.
+  costCentimes  Int?      @map("cost_centimes")
+  lastError     String?   @map("last_error")
+  queuedAt      DateTime  @map("queued_at") @db.Timestamptz(3)
+  sentAt        DateTime? @map("sent_at") @db.Timestamptz(3)
+  deliveredAt   DateTime? @map("delivered_at") @db.Timestamptz(3)
+
+  @@unique([sourceEventId, trigger])
+  @@unique([provider, providerId])
+  @@index([status, sendAfter])
+  @@index([storeId, queuedAt(sort: Desc), id])
+  @@index([storeId, orderId])
+  @@map("messages")
+}
