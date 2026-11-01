@@ -1,12 +1,13 @@
 import { execFileSync } from 'node:child_process';
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { INTEGRATION_EVENTS, OrderReceivedEventSchema } from '@trackecom/contracts';
-import { ConnectorError, type ExternalOrder } from '@trackecom/connectors';
+import { ConnectorError } from '@trackecom/connectors';
 import type { FakeConnector } from '@trackecom/connectors/testing';
 import { type FakeIdentity, startFakeIdentity } from '@trackecom/service-kit/testing';
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PrismaService } from '../../infrastructure/prisma/prisma.service.js';
 import { type FakeGeo, startFakeGeo } from '../../test/fake-geo.js';
+import { shopOrder, withCustomer } from '../../test/shop-order.js';
 import { startTestApp, testEnv } from '../../test/test-app.js';
 import { ConnectionsService } from '../connections/application/connections.service.js';
 import { FAKE_CONNECTOR } from '../connections/infrastructure/connectors.providers.js';
@@ -15,28 +16,6 @@ import { ShopSync } from './application/shop-sync.js';
 const baseUrl = process.env['TEST_DATABASE_URL'];
 const redisUrl = process.env['TEST_REDIS_URL'];
 const STORE = '47474747-4747-4747-8747-000000000047';
-
-const shopOrder = (id: string, change: Partial<ExternalOrder> = {}): ExternalOrder => ({
-  externalId: id,
-  name: `#${id}`,
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  currency: 'DZD',
-  customer: {
-    name: 'Client Test',
-    phone: '0555 00 00 47',
-    address: 'Rue des tests',
-    city: 'Bab Ezzouar',
-    province: '16 - Alger',
-    zip: null,
-  },
-  items: [{ name: 'Robe', sku: null, quantity: 1, unitPrice: 2500 }],
-  shippingFee: 600,
-  discount: 0,
-  note: null,
-  cancelled: false,
-  ...change,
-});
 
 describe.skipIf(!baseUrl || !redisUrl)('shop order sync (real Postgres)', () => {
   const databaseUrl = `${baseUrl}?schema=integrations_test`;
@@ -93,7 +72,7 @@ describe.skipIf(!baseUrl || !redisUrl)('shop order sync (real Postgres)', () => 
   it('backfills placed orders once and holds the others back with their problem', async () => {
     shop.orders = [
       shopOrder('1'),
-      shopOrder('2', { customer: { ...shopOrder('2').customer, province: 'Paris' } }),
+      withCustomer('2', { province: 'Paris' }),
       shopOrder('3', { currency: 'EUR' }),
     ];
 

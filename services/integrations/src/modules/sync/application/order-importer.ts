@@ -1,11 +1,9 @@
-import { randomUUID } from 'node:crypto';
 import { Inject, Injectable } from '@nestjs/common';
-import { INTEGRATION_EVENTS } from '@trackecom/contracts';
 import type { ExternalOrder } from '@trackecom/connectors';
-import { outboxMessage } from '../../../shared/outbox-message.js';
 import type { ConnectionRecord } from '../../connections/application/ports/connection.repository.js';
 import { cancellationOf, type Mapped, receivedOrderOf } from '../domain/received-order.js';
 import { LocationResolver } from './location-resolver.js';
+import { receivedMessage } from './received-message.js';
 import {
   type ImportLedger,
   type ImportState,
@@ -37,7 +35,9 @@ export class OrderImporter {
       const before = known.get(order.externalId);
       if (before && before.shopUpdatedAt >= order.updatedAt) continue;
       const decision = await this.decide(connection, order, before);
-      const messages = decision.mapped?.ok ? [this.message(connection, decision.mapped)] : [];
+      const messages = decision.mapped?.ok
+        ? [receivedMessage(connection, decision.mapped.data)]
+        : [];
       const problem = decision.mapped && !decision.mapped.ok ? decision.mapped.problem : null;
       await this.ledger.record({ connection, order, state: decision.state, problem }, messages);
       emitted += messages.length;
@@ -58,10 +58,5 @@ export class OrderImporter {
     const location = await this.locations.resolve(order.customer);
     const mapped = receivedOrderOf(connection.connector, order, location);
     return { state: mapped.ok ? 'sent' : 'needs_fix', mapped };
-  }
-
-  private message(connection: ConnectionRecord, mapped: Mapped & { ok: true }) {
-    const origin = { storeId: connection.storeId, correlationId: randomUUID(), now: new Date() };
-    return outboxMessage(origin, INTEGRATION_EVENTS.orderReceived, mapped.data);
   }
 }

@@ -60,6 +60,14 @@ export class PrismaConnectionRepository implements ConnectionRepository {
     return row ? toConnection(row) : null;
   }
 
+  async findForWebhook(id: string): Promise<ConnectionRecord | null> {
+    const row = await this.prisma.shopConnection.findUnique({
+      where: { id },
+      select: PUBLIC_FIELDS,
+    });
+    return row ? toConnection(row) : null;
+  }
+
   async save(connection: NewConnection): Promise<ConnectionRecord> {
     const { storeId, connector, shopUrl, shopName, now } = connection;
     const existing = await this.prisma.shopConnection.findUnique({
