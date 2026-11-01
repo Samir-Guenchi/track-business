@@ -1,0 +1,11 @@
+// integrations owns shop connections, their encrypted tokens and sync state (ADR-0003).
+generator client {
+  provider               = "prisma-client"
+  output                 = "../../src/generated/prisma"
+  moduleFormat           = "esm"
+  importFileExtension    = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
