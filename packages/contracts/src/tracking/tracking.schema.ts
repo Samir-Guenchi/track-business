@@ -15,6 +15,13 @@ export const TrackingEventSchema = z.strictObject({
 });
 export type TrackingEvent = z.infer<typeof TrackingEventSchema>;
 
+/**
+ * When the parcel should arrive (#55): Algiers calendar dates, "Tuesday or Wednesday". Null when
+ * the parcel is final or past data is too thin or too spread to be confident.
+ */
+export const EtaSchema = z.strictObject({ earliest: z.iso.date(), latest: z.iso.date() });
+export type Eta = z.infer<typeof EtaSchema>;
+
 export const ShipmentSummarySchema = z.strictObject({
   id: z.uuid(),
   orderId: z.uuid(),
@@ -24,6 +31,7 @@ export const ShipmentSummarySchema = z.strictObject({
   lastEventAt: z.iso.datetime().nullable(),
   /** Code used by the public tracking page link (#34); not guessable from the tracking number. */
   publicCode: z.string(),
+  eta: EtaSchema.nullable(),
 });
 export type ShipmentSummary = z.infer<typeof ShipmentSummarySchema>;
 
@@ -46,6 +54,7 @@ export const PublicTrackingResponseSchema = z.strictObject({
   status: ParcelStatusSchema,
   carrier: z.string(),
   trackingNumber: z.string(),
+  eta: EtaSchema.nullable(),
   events: z.array(
     z.strictObject({
       status: ParcelStatusSchema,

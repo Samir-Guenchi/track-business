@@ -15,6 +15,8 @@ interface ShipmentRow {
   status: string;
   publicCode: string;
   lastEventAt: Date | null;
+  toWilayaCode: number | null;
+  createdAt: Date;
 }
 
 interface EventRow {
@@ -36,6 +38,8 @@ export const toShipment = (row: ShipmentRow): ShipmentRecord => ({
   status: row.status as ParcelStatus,
   publicCode: row.publicCode,
   lastEventAt: row.lastEventAt,
+  toWilayaCode: row.toWilayaCode,
+  createdAt: row.createdAt,
 });
 
 export const toEvent = (row: EventRow): TrackingEventRecord => ({

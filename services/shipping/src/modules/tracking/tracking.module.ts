@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CarriersModule } from '../carriers/carriers.module.js';
+import { EtaModule } from '../eta/eta.module.js';
 import { CarrierWebhookService } from './application/carrier-webhook.service.js';
 import { SHIPMENT_POLL_QUEUE } from './application/ports/poll-queue.js';
 import { TRACKING_REPOSITORY } from './application/ports/tracking.repository.js';
@@ -15,7 +16,7 @@ import { TrackingController } from './interface/tracking.controller.js';
 
 /** One normalised timeline per parcel (#32), fed by carrier webhooks and the polling fallback. */
 @Module({
-  imports: [CarriersModule],
+  imports: [CarriersModule, EtaModule],
   controllers: [TrackingController, PublicTrackingController, CarrierWebhookController],
   providers: [
     TrackingIngestService,
