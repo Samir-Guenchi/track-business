@@ -80,6 +80,7 @@ services:
       REDIS_URL: redis://redis:6379
       DATABASE_URL: ${ORDERS_DATABASE_URL}
       IDENTITY_URL: http://identity:4001
+      SHIPPING_URL: http://shipping:4002
 
   orders-migrate:
     <<: *migrate

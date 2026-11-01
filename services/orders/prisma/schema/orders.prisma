@@ -57,6 +57,8 @@ model Order {
   @@index([storeId, createdAt(sort: Desc), id])
   @@index([storeId, status, createdAt(sort: Desc)])
   @@index([storeId, customerPhone, createdAt(sort: Desc)])
+  // The shared refused-parcel signal (#52) looks a phone up across stores.
+  @@index([customerPhone, status])
   @@index([storeId, wilayaCode])
   @@index([storeId, assignedAgentId])
   @@index([storeId, status, nextCallAt, createdAt])

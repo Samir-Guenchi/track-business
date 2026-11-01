@@ -11,6 +11,7 @@ export const OFFLINE_ENV = {
   DATABASE_URL: 'postgresql://nobody:nobody@127.0.0.1:1/none',
   REDIS_URL: 'redis://127.0.0.1:1',
   IDENTITY_URL: 'http://127.0.0.1:1',
+  SHIPPING_URL: 'http://127.0.0.1:1',
   WORKERS_ENABLED: 'false',
 };
 
