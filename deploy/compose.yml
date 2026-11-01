@@ -83,6 +83,8 @@ services:
       SHIPPING_URL: http://shipping:4002
       # The web app's customer self-confirmation page (#54), e.g. https://app.example/confirm.
       SELF_CONFIRM_URL: ${SELF_CONFIRM_URL}
+      # Shared with notifications for /internal routes (ADR-0004).
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
 
   orders-migrate:
     <<: *migrate
