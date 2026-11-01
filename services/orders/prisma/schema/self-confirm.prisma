@@ -1,0 +1,17 @@
+// Self-confirmation links (#54). Tenant data, scoped by store_id; only the token's hash is stored.
+
+/// A one-time link the customer opens to confirm, cancel or fix the address of an order.
+model ConfirmationLink {
+  id        String    @id @db.Uuid
+  storeId   String    @map("store_id") @db.Uuid
+  orderId   String    @map("order_id") @db.Uuid
+  /// sha256 of the token in the URL; the token itself is never stored.
+  tokenHash String    @unique @map("token_hash")
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz(3)
+  usedAt    DateTime? @map("used_at") @db.Timestamptz(3)
+  createdBy String    @map("created_by")
+  createdAt DateTime  @map("created_at") @db.Timestamptz(3)
+
+  @@index([storeId, orderId])
+  @@map("confirmation_links")
+}

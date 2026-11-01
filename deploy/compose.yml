@@ -81,6 +81,8 @@ services:
       DATABASE_URL: ${ORDERS_DATABASE_URL}
       IDENTITY_URL: http://identity:4001
       SHIPPING_URL: http://shipping:4002
+      # The web app's customer self-confirmation page (#54), e.g. https://app.example/confirm.
+      SELF_CONFIRM_URL: ${SELF_CONFIRM_URL}
 
   orders-migrate:
     <<: *migrate
