@@ -18,6 +18,8 @@ import { ordersOpenApiPaths } from './modules/orders/interface/orders.openapi.js
 import { OrdersModule } from './modules/orders/orders.module.js';
 import { riskScoreOpenApiPaths } from './modules/risk-score/interface/risk-score.openapi.js';
 import { RiskScoreModule } from './modules/risk-score/risk-score.module.js';
+import { selfConfirmOpenApiPaths } from './modules/self-confirm/interface/self-confirm.openapi.js';
+import { SelfConfirmModule } from './modules/self-confirm/self-confirm.module.js';
 import { ShipmentStatusModule } from './modules/shipment-status/shipment-status.module.js';
 
 export const SERVICE_NAME = 'orders';
@@ -47,6 +49,7 @@ export class AppModule {
             ...confirmationOpenApiPaths,
             ...fraudOpenApiPaths,
             ...riskScoreOpenApiPaths,
+            ...selfConfirmOpenApiPaths,
           },
         }),
         StoreAccessModule.forRoot({
@@ -57,6 +60,7 @@ export class AppModule {
         ConfirmationModule,
         ShipmentStatusModule,
         RiskScoreModule,
+        SelfConfirmModule,
       ],
     };
   }

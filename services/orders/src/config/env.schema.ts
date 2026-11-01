@@ -14,6 +14,8 @@ export const EnvSchema = BaseEnvSchema.extend({
    * is decided; when on, only a count is used and nothing about the other stores is shown.
    */
   NETWORK_SIGNAL_ENABLED: z.stringbool().default(false),
+  /** Base of the customer's self-confirmation page (#54); the token is appended. */
+  SELF_CONFIRM_URL: z.url({ protocol: /^https?$/ }).default('http://localhost:3000/confirm'),
   /** How long a user's store roles are cached; a role change applies after at most this. */
   ROLE_CACHE_SECONDS: z.coerce.number().int().min(0).max(600).default(60),
   /** Runs the background loops (outbox relay, event consumers). Off in API tests. */
