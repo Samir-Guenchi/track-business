@@ -13,6 +13,7 @@ import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
 import { ConnectionsModule } from './modules/connections/connections.module.js';
 import { connectionsOpenApiPaths } from './modules/connections/interface/connections.openapi.js';
+import { syncOpenApiPaths } from './modules/sync/interface/sync.openapi.js';
 import { SyncModule } from './modules/sync/sync.module.js';
 
 export const SERVICE_NAME = 'integrations';
@@ -37,7 +38,7 @@ export class AppModule {
         OpenApiModule.forRoot({
           title: 'TrackEcom integrations',
           version: '0.1.0',
-          paths: { ...connectionsOpenApiPaths },
+          paths: { ...connectionsOpenApiPaths, ...syncOpenApiPaths },
         }),
         StoreAccessModule.forRoot({
           options: { identityUrl: env.IDENTITY_URL, roleCacheSeconds: env.ROLE_CACHE_SECONDS },

@@ -2,12 +2,13 @@ import type { ExternalOrder } from '@trackecom/connectors';
 import type { OutboxMessage } from '../../../../shared/outbox-message.js';
 import type { ConnectionRecord } from '../../../connections/application/ports/connection.repository.js';
 import type { Place } from '../../domain/address-match.js';
-import type { ImportProblem } from '../../domain/received-order.js';
+import type { ImportProblem } from '@trackecom/contracts';
 
 export const SYNC_PORTS = {
   geo: Symbol('GeoReference'),
   ledger: Symbol('ImportLedger'),
   claims: Symbol('SyncClaims'),
+  pending: Symbol('PendingOrders'),
 } as const;
 
 /** Wilayas and communes from shipping's reference data. Throws when it cannot be reached. */
@@ -36,6 +37,25 @@ export interface ImportLedger {
   known(connectionId: string, externalIds: readonly string[]): Promise<Map<string, KnownOrder>>;
   /** Saves the entry and its event in one transaction; counts a first `sent` on the shop. */
   record(entry: LedgerEntry, messages: readonly OutboxMessage[]): Promise<void>;
+}
+
+/** A shop order held back for the seller, with the shop data it arrived with. */
+export interface PendingOrder {
+  readonly connection: ConnectionRecord;
+  readonly order: ExternalOrder;
+  readonly problem: ImportProblem;
+  readonly receivedAt: Date;
+}
+
+export interface PendingKey {
+  readonly connectionId: string;
+  readonly externalId: string;
+}
+
+/** The seller's review queue, always read through the store that owns the shop. */
+export interface PendingOrders {
+  list(storeId: string): Promise<PendingOrder[]>;
+  find(storeId: string, key: PendingKey): Promise<PendingOrder | null>;
 }
 
 export interface SyncOutcome {

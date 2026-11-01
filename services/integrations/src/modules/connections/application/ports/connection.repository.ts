@@ -30,6 +30,8 @@ export interface NewConnection {
 export interface ConnectionRepository {
   list(storeId: string): Promise<ConnectionRecord[]>;
   find(storeId: string, id: string): Promise<ConnectionRecord | null>;
+  /** Unscoped, for signed shop webhooks only: the signature, not a login, proves the caller. */
+  findForWebhook(id: string): Promise<ConnectionRecord | null>;
   /** Inserts, or replaces the credentials of the same shop and marks it connected again. */
   save(connection: NewConnection): Promise<ConnectionRecord>;
   remove(storeId: string, id: string): Promise<boolean>;

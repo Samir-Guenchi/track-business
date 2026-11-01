@@ -1,14 +1,11 @@
 import {
   AlgerianPhoneSchema,
   type ConnectorCode,
+  type ImportProblem,
   type OrderReceivedEventInput,
   OrderReceivedEventSchema,
 } from '@trackecom/contracts';
 import type { ExternalOrder } from '@trackecom/connectors';
-
-/** Why a shop order waits for the seller instead of becoming an order. */
-export const IMPORT_PROBLEMS = ['currency', 'phone', 'address', 'invalid'] as const;
-export type ImportProblem = (typeof IMPORT_PROBLEMS)[number];
 
 export interface Location {
   readonly wilayaCode: number;
