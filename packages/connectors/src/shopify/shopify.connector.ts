@@ -16,15 +16,18 @@ const PAGE_SIZE = 50;
 const SHOP_QUERY = `query { shop { name currencyCode } }`;
 
 /**
- * Shopify (#47), through the GraphQL Admin API. Connected by OAuth, so the seller types nothing:
- * the integrations service puts the shop's `accessToken` and the app's `webhookSecret` in the
- * context. Written from Shopify's public API reference; check against a development store
- * before production.
+ * Shopify (#47), through the GraphQL Admin API. Until TrackEcom has a Shopify partner app (and
+ * OAuth), the seller creates a custom app in their Shopify admin and pastes its Admin API
+ * access token and webhook signing secret. Written from Shopify's public API reference; check
+ * against a development store before production.
  */
 export class ShopifyConnector implements StoreConnector {
   readonly code = 'shopify';
   readonly name = 'Shopify';
-  readonly credentialFields = [];
+  readonly credentialFields = [
+    { key: 'accessToken', label: 'Admin API access token', secret: true },
+    { key: 'webhookSecret', label: 'Webhook signing secret', secret: true },
+  ];
   readonly capabilities = { webhooks: true, fulfilment: true };
   private readonly client: ShopifyClient;
 
