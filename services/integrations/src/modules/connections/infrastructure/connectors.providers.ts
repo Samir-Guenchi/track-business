@@ -1,5 +1,11 @@
 import type { Provider } from '@nestjs/common';
-import { ConnectorRegistry, ShopifyConnector, type StoreConnector } from '@trackecom/connectors';
+import {
+  ConnectorRegistry,
+  GoogleSheetsConnector,
+  ServiceAccountTokens,
+  ShopifyConnector,
+  type StoreConnector,
+} from '@trackecom/connectors';
 import { FakeConnector } from '@trackecom/connectors/testing';
 import { type Env, ENV } from '../../../config/env.schema.js';
 import { EnvelopeCipher } from './envelope-cipher.js';
@@ -22,6 +28,15 @@ export function keyEncryptionKeys(env: Env): Map<string, Buffer> {
   return new Map([...previous, [env.SHOP_KEK_ID, Buffer.from(env.SHOP_KEK, 'base64')]]);
 }
 
+/** Shopify always; Google Sheets once a service account is configured; the fake in dev. */
+export function storeConnectors(env: Env, fake: FakeConnector | null): StoreConnector[] {
+  const key = env.GOOGLE_SERVICE_ACCOUNT_JSON;
+  const sheets = key
+    ? [new GoogleSheetsConnector({ tokens: new ServiceAccountTokens(key).token })]
+    : [];
+  return [new ShopifyConnector(), ...sheets, ...(fake ? [fake] : [])];
+}
+
 export const connectorProviders: Provider[] = [
   {
     provide: FAKE_CONNECTOR,
@@ -30,11 +45,9 @@ export const connectorProviders: Provider[] = [
   },
   {
     provide: ConnectorRegistry,
-    inject: [FAKE_CONNECTOR],
-    useFactory: (fake: FakeConnector | null) => {
-      const connectors: StoreConnector[] = [new ShopifyConnector()];
-      return new ConnectorRegistry(fake ? [...connectors, fake] : connectors);
-    },
+    inject: [ENV, FAKE_CONNECTOR],
+    useFactory: (env: Env, fake: FakeConnector | null) =>
+      new ConnectorRegistry(storeConnectors(env, fake)),
   },
   {
     provide: EnvelopeCipher,

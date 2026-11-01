@@ -2,8 +2,13 @@ import { describe, expect, it } from 'vitest';
 import { ConnectorCodeSchema, IntegrationSchema } from './integration.schema.js';
 
 describe('integrations contract', () => {
-  it('knows the three shop platforms', () => {
-    expect(ConnectorCodeSchema.options).toEqual(['shopify', 'woocommerce', 'youcan']);
+  it('knows the shop platforms and Google Sheets', () => {
+    expect(ConnectorCodeSchema.options).toEqual([
+      'shopify',
+      'woocommerce',
+      'youcan',
+      'google_sheets',
+    ]);
   });
 
   it('describes a shop that needs reconnecting', () => {

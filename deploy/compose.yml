@@ -147,6 +147,7 @@ services:
       TRACKING_URL: ${TRACKING_URL}
       SHOP_KEK: ${SHOP_KEK}
       SHOP_KEK_ID: ${SHOP_KEK_ID:-v1}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${GOOGLE_SERVICE_ACCOUNT_JSON:-}
 
   integrations-migrate:
     <<: *migrate

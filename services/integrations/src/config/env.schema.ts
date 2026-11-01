@@ -2,6 +2,19 @@ import { BaseEnvSchema } from '@trackecom/service-kit';
 import { z } from 'zod';
 
 const unsetIfEmpty = (value: unknown) => (value === '' ? undefined : value);
+/** Parses the key file's JSON; bad JSON is left as text so the schema reports it. */
+const jsonIfSet = (value: unknown) => {
+  if (value === '' || typeof value !== 'string') return unsetIfEmpty(value);
+  try {
+    return JSON.parse(value) as unknown;
+  } catch {
+    return value;
+  }
+};
+const ServiceAccountSchema = z.object({
+  client_email: z.email(),
+  private_key: z.string().includes('PRIVATE KEY'),
+});
 const KEK_PATTERN = /^[a-z0-9-]{1,20}:[A-Za-z0-9+/=]{44}(,[a-z0-9-]{1,20}:[A-Za-z0-9+/=]{44})*$/;
 
 export const EnvSchema = BaseEnvSchema.extend({
@@ -38,6 +51,11 @@ export const EnvSchema = BaseEnvSchema.extend({
   INTERNAL_TOKEN: z.preprocess(unsetIfEmpty, z.string().min(32).optional()),
   /** The web app's public tracking page; shops get `<TRACKING_URL>/<public code>`. */
   TRACKING_URL: z.preprocess(unsetIfEmpty, z.url().default('http://localhost:3000/t')),
+  /**
+   * TrackEcom's Google service account key file (JSON), from the secret manager. Sellers share
+   * their order sheet with its email (#26). Google Sheets is offered only when it is set.
+   */
+  GOOGLE_SERVICE_ACCOUNT_JSON: z.preprocess(jsonIfSet, ServiceAccountSchema.optional()),
   /** Runs the background loops (outbox relay, shop polling). Off in API tests. */
   WORKERS_ENABLED: z.stringbool().default(true),
   /** Registers an in-memory shop for local development and tests. Refused in production. */

@@ -4,8 +4,8 @@ import {
   CredentialFieldSchema,
 } from '../carriers/carrier-account.schema.js';
 
-/** Shop platforms TrackEcom imports orders from (#47, #48). */
-export const CONNECTOR_CODES = ['shopify', 'woocommerce', 'youcan'] as const;
+/** Shop platforms and order sheets TrackEcom imports orders from (#47, #48, #26). */
+export const CONNECTOR_CODES = ['shopify', 'woocommerce', 'youcan', 'google_sheets'] as const;
 export const ConnectorCodeSchema = z.enum(CONNECTOR_CODES);
 export type ConnectorCode = z.infer<typeof ConnectorCodeSchema>;
 
@@ -50,8 +50,8 @@ export type IntegrationsResponse = z.infer<typeof IntegrationsResponseSchema>;
  */
 export const ConnectShopRequestSchema = z.strictObject({
   connector: ConnectorCodeSchema,
-  /** e.g. `my-shop.myshopify.com` or `https://shop.dz`. */
-  shopUrl: z.string().trim().toLowerCase().min(3).max(255),
+  /** e.g. `my-shop.myshopify.com`, `https://shop.dz` or a Google Sheets link (case matters). */
+  shopUrl: z.string().trim().min(3).max(255),
   credentials: ConnectCarrierRequestSchema.shape.credentials,
 });
 export type ConnectShopRequest = z.infer<typeof ConnectShopRequestSchema>;
