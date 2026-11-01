@@ -10,6 +10,7 @@ export * from './events/envelope.schema.js';
 export * from './fraud/index.js';
 export * from './geo/index.js';
 export * from './integrations/index.js';
+export * from './notifications/index.js';
 export * from './orders/index.js';
 export * from './payments/index.js';
 export * from './pricing/index.js';
