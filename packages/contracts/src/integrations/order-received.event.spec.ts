@@ -43,4 +43,13 @@ describe('integrations order-received event', () => {
 
     expect(OrderReceivedEventSchema.safeParse(broken).success).toBe(false);
   });
+
+  it('accepts a cancellation without its order, but nothing else', () => {
+    const cancellation = { ...event, cancelled: true, order: null };
+
+    expect(OrderReceivedEventSchema.safeParse(cancellation).success).toBe(true);
+    expect(OrderReceivedEventSchema.safeParse({ ...cancellation, cancelled: false }).success).toBe(
+      false,
+    );
+  });
 });

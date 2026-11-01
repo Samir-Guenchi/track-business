@@ -1,0 +1,22 @@
+// Every shop order integrations has seen, so a webhook replay or a webhook-plus-polling overlap
+// changes nothing. `pending` holds the shop order (personal data) only while it waits for the
+// seller to fix it; it is cleared once the order is sent or skipped.
+model ImportedOrder {
+  connectionId  String         @map("connection_id") @db.Uuid
+  externalId    String         @map("external_id")
+  storeId       String         @map("store_id") @db.Uuid
+  externalName  String         @map("external_name")
+  // sent | needs_fix | skipped
+  state         String
+  // currency | phone | address | invalid, while state = needs_fix
+  problem       String?
+  pending       Json?
+  shopUpdatedAt DateTime       @map("shop_updated_at") @db.Timestamptz(3)
+  createdAt     DateTime       @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime       @map("updated_at") @db.Timestamptz(3)
+  connection    ShopConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@id([connectionId, externalId])
+  @@index([storeId, state, createdAt])
+  @@map("imported_orders")
+}

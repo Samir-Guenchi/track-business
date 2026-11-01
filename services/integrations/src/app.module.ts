@@ -13,6 +13,7 @@ import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
 import { ConnectionsModule } from './modules/connections/connections.module.js';
 import { connectionsOpenApiPaths } from './modules/connections/interface/connections.openapi.js';
+import { SyncModule } from './modules/sync/sync.module.js';
 
 export const SERVICE_NAME = 'integrations';
 
@@ -43,6 +44,7 @@ export class AppModule {
           cache: redisRoleCache,
         }),
         ConnectionsModule,
+        SyncModule,
       ],
     };
   }

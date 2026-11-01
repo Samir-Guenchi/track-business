@@ -25,6 +25,12 @@ export const EnvSchema = BaseEnvSchema.extend({
     .default('v1'),
   /** Retired keys still needed to open older rows during a rotation: "v1:base64,v2:base64". */
   SHOP_KEK_PREVIOUS: z.string().regex(KEK_PATTERN).optional(),
+  /** Internal URL of shipping: wilaya and commune reference data for address matching. */
+  SHIPPING_URL: z.url({ protocol: /^https?$/ }).default('http://localhost:4002'),
+  /** How often each shop is polled for new or changed orders (webhooks arrive in between). */
+  SYNC_INTERVAL_MINUTES: z.coerce.number().int().min(1).max(1440).default(5),
+  /** How far back the first sync of a new shop imports orders. */
+  BACKFILL_DAYS: z.coerce.number().int().min(0).max(90).default(30),
   /** Runs the background loops (outbox relay, shop polling). Off in API tests. */
   WORKERS_ENABLED: z.stringbool().default(true),
   /** Registers an in-memory shop for local development and tests. Refused in production. */
