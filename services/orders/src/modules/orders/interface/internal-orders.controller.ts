@@ -1,5 +1,5 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
-import type { OrderContact } from '@trackecom/contracts';
+import type { OrderContact, OrderOrigin } from '@trackecom/contracts';
 import { InternalTokenGuard, Public, ZodValidationPipe } from '@trackecom/service-kit';
 import { z } from 'zod';
 import { OrderQueries } from '../application/order-queries.js';
@@ -29,5 +29,15 @@ export class InternalOrdersController {
       name: order.customer.name,
       phone: order.customer.phone,
     };
+  }
+
+  /** Where the order came from: integrations pushes tracking back to the shop (ADR-0003). */
+  @Get(':orderId/origin')
+  async origin(
+    @Param('storeId', UuidPipe) storeId: string,
+    @Param('orderId', UuidPipe) orderId: string,
+  ): Promise<OrderOrigin> {
+    const order = await this.queries.get(storeId, orderId);
+    return { orderId: order.id, source: order.source, externalRef: order.externalRef };
   }
 }
