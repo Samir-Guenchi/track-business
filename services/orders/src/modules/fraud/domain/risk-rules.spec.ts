@@ -34,6 +34,8 @@ describe('assessRisk', () => {
     name: 'Mohamed Amine',
     blacklisted: false,
     recentOrders: 0,
+    communeInWilaya: true,
+    refusingStores: 0,
   };
 
   it('finds nothing on a normal order', () => {
@@ -42,8 +44,30 @@ describe('assessRisk', () => {
 
   it('lists every signal found', () => {
     expect(
-      assessRisk({ phone: '+213555123456', name: 'xzkq', blacklisted: true, recentOrders: 2 }),
-    ).toEqual(['blacklisted', 'suspicious_phone', 'order_burst', 'gibberish_name']);
+      assessRisk({
+        phone: '+213555123456',
+        name: 'xzkq',
+        blacklisted: true,
+        recentOrders: 2,
+        communeInWilaya: false,
+        refusingStores: 2,
+      }),
+    ).toEqual([
+      'blacklisted',
+      'suspicious_phone',
+      'order_burst',
+      'gibberish_name',
+      'impossible_address',
+      'network_refusals',
+    ]);
     expect(assessRisk({ ...clean, recentOrders: 1 })).toEqual([]);
+  });
+
+  it('gives the benefit of the doubt when the geo data is unavailable', () => {
+    expect(assessRisk({ ...clean, communeInWilaya: null })).toEqual([]);
+  });
+
+  it('needs refusals at more than one other store for the network flag', () => {
+    expect(assessRisk({ ...clean, refusingStores: 1 })).toEqual([]);
   });
 });

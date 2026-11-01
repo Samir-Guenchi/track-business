@@ -4,6 +4,8 @@ import type { RiskFlag } from '@trackecom/contracts';
 export const BURST_WINDOW_MS = 10 * 60_000;
 /** This many earlier orders in the window (so the new one is the third) is a burst. */
 export const BURST_THRESHOLD = 2;
+/** Refusals at this many other stores raise the network flag: one store alone never can. */
+export const NETWORK_STORE_THRESHOLD = 2;
 
 const isRun = (digits: string, step: 1 | -1): boolean =>
   [...digits].every(
@@ -47,6 +49,10 @@ export interface RiskFacts {
   readonly blacklisted: boolean;
   /** Orders already placed from this phone within BURST_WINDOW_MS. */
   readonly recentOrders: number;
+  /** False when the commune is not in the wilaya; null when the geo data could not be read. */
+  readonly communeInWilaya: boolean | null;
+  /** Other stores where this phone refused a parcel; 0 when the network signal is off. */
+  readonly refusingStores: number;
 }
 
 /** The flags an incoming order gets (#52); an empty list means nothing looked wrong. */
@@ -56,5 +62,7 @@ export function assessRisk(facts: RiskFacts): RiskFlag[] {
   if (isSuspiciousPhone(facts.phone)) flags.push('suspicious_phone');
   if (facts.recentOrders >= BURST_THRESHOLD) flags.push('order_burst');
   if (isGibberishName(facts.name)) flags.push('gibberish_name');
+  if (facts.communeInWilaya === false) flags.push('impossible_address');
+  if (facts.refusingStores >= NETWORK_STORE_THRESHOLD) flags.push('network_refusals');
   return flags;
 }

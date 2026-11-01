@@ -7,6 +7,13 @@ export const EnvSchema = BaseEnvSchema.extend({
   REDIS_URL: z.url({ protocol: /^rediss?$/ }),
   /** Internal URL of the identity service: access-token keys and the caller's store roles. */
   IDENTITY_URL: z.url({ protocol: /^https?$/ }).default('http://localhost:4001'),
+  /** Internal URL of the shipping service: the commune list of each wilaya (geo reference data). */
+  SHIPPING_URL: z.url({ protocol: /^https?$/ }).default('http://localhost:4002'),
+  /**
+   * Counts refused parcels for a phone across other stores (#52). Off until the privacy question
+   * is decided; when on, only a count is used and nothing about the other stores is shown.
+   */
+  NETWORK_SIGNAL_ENABLED: z.stringbool().default(false),
   /** How long a user's store roles are cached; a role change applies after at most this. */
   ROLE_CACHE_SECONDS: z.coerce.number().int().min(0).max(600).default(60),
   /** Runs the background loops (outbox relay, event consumers). Off in API tests. */

@@ -15,6 +15,13 @@ export const RISK_FLAGS = [
   'order_burst',
   /** A name with no vowel, keyboard mashing or digits. */
   'gibberish_name',
+  /** The commune is not in the wilaya given (a typo, or an address made up on the spot). */
+  'impossible_address',
+  /**
+   * This phone's parcels were refused at several other stores. Shared signal, off unless the
+   * platform enables it; no other store's name or data is shown.
+   */
+  'network_refusals',
 ] as const;
 export const RiskFlagSchema = z.enum(RISK_FLAGS);
 export type RiskFlag = z.infer<typeof RiskFlagSchema>;

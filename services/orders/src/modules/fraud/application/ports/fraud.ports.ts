@@ -38,7 +38,23 @@ export interface RecentOrders {
   countByPhone(storeId: string, phone: string, since: Date): Promise<number>;
 }
 
+/** The geo reference data, owned by shipping. */
+export interface GeoDirectory {
+  /** Whether the commune belongs to the wilaya; null when the reference data is unreachable. */
+  communeInWilaya(wilayaCode: number, communeId: number): Promise<boolean | null>;
+}
+
+/** The shared refused-parcel signal (#52). Only a count crosses the store boundary. */
+export interface NetworkSignal {
+  /** How many other stores had a parcel to this phone returned. */
+  refusingStores(storeId: string, phone: string): Promise<number>;
+}
+
 export const FRAUD_PORTS = {
   blacklist: Symbol('BlacklistRepository'),
   recentOrders: Symbol('RecentOrders'),
+  geo: Symbol('GeoDirectory'),
+  network: Symbol('NetworkSignal'),
+  /** Every port above in one object, for RiskAssessor. */
+  sources: Symbol('RiskSources'),
 } as const;
