@@ -1,0 +1,80 @@
+{
+  "title": "Retours",
+  "subtitle": "Colis que le transporteur dit avoir renvoyés et que vous n'avez pas encore reçus.",
+  "receiveCta": "Réceptionner des retours",
+  "tabs": { "expected": "À recevoir", "batches": "Réceptions" },
+  "overdueOnly": "En retard seulement",
+  "allCarriers": "Tous les transporteurs",
+  "empty": "Aucun retour en attente. Tout ce que les transporteurs ont renvoyé est arrivé.",
+  "emptyBatches": "Aucune réception enregistrée pour l'instant.",
+  "more": "Afficher plus",
+  "listLabel": "Retours attendus",
+  "columns": {
+    "tracking": "Suivi",
+    "carrier": "Transporteur",
+    "wilaya": "Wilaya",
+    "status": "Statut",
+    "since": "Retour depuis",
+    "waiting": "Attente"
+  },
+  "status": { "returning": "Retour en cours", "returned": "Retourné" },
+  "days": "{count, plural, =0 {aujourd'hui} one {# jour} other {# jours}}",
+  "overdueBadge": "En retard",
+  "summary": {
+    "title": "Par transporteur",
+    "expected": "{count} attendus",
+    "overdue": "{count} en retard",
+    "hint": "En retard : plus de {days} jours sans réception, probablement perdu."
+  },
+  "batches": {
+    "date": "Date",
+    "carrier": "Transporteur",
+    "courier": "Livreur",
+    "received": "Reçus",
+    "missing": "Manquants",
+    "open": "Voir le bordereau"
+  },
+  "receive": {
+    "title": "Réceptionner des retours",
+    "subtitle": "Scannez chaque colis que le livreur vous remet. Le bordereau liste ce qui manque.",
+    "carrier": "Transporteur",
+    "chooseCarrier": "Choisir le transporteur",
+    "courier": "Nom du livreur (facultatif)",
+    "scanLabel": "Numéro de suivi",
+    "scanHint": "Scannez le code-barres ou tapez le numéro puis Entrée.",
+    "add": "Ajouter",
+    "scanned": "{count, plural, =0 {Aucun colis scanné} one {# colis scanné} other {# colis scannés}}",
+    "remove": "Retirer {number}",
+    "condition": "État de {number}",
+    "declared": "Liste du livreur (facultatif)",
+    "declaredHint": "Collez les numéros de son bordereau, un par ligne : ceux qui ne sont pas scannés seront marqués manquants.",
+    "note": "Note (facultatif)",
+    "submit": "Enregistrer la réception",
+    "noScan": "Scannez au moins un colis.",
+    "noCarrier": "Choisissez le transporteur."
+  },
+  "condition": {
+    "intact": "Intact",
+    "opened": "Ouvert",
+    "damaged": "Endommagé",
+    "incomplete": "Incomplet"
+  },
+  "manifest": {
+    "title": "Bordereau de retour",
+    "date": "Date",
+    "carrier": "Transporteur",
+    "courier": "Livreur",
+    "received": "Colis reçus ({count})",
+    "missing": "Déclarés mais non remis ({count})",
+    "unknown": "Numéros inconnus ({count})",
+    "alreadyReceived": "Déjà reçus avant ({count})",
+    "unannounced": "Retour non annoncé",
+    "condition": "État",
+    "order": "Commande",
+    "print": "Imprimer",
+    "back": "Retour à la liste",
+    "signCourier": "Signature du livreur",
+    "signSeller": "Signature du vendeur",
+    "notFound": "Cette réception n'existe pas."
+  }
+}
