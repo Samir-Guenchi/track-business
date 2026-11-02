@@ -18,6 +18,8 @@ import { followupsOpenApiPaths } from './modules/delivery-followup/interface/fol
 import { ConfirmationModule } from './modules/confirmation/confirmation.module.js';
 import { confirmationOpenApiPaths } from './modules/confirmation/interface/confirmation.openapi.js';
 import { fraudOpenApiPaths } from './modules/fraud/interface/fraud.openapi.js';
+import { ExchangesModule } from './modules/exchanges/exchanges.module.js';
+import { exchangeOpenApiPaths } from './modules/exchanges/interface/exchange.openapi.js';
 import { ordersOpenApiPaths } from './modules/orders/interface/orders.openapi.js';
 import { OrdersModule } from './modules/orders/orders.module.js';
 import { riskScoreOpenApiPaths } from './modules/risk-score/interface/risk-score.openapi.js';
@@ -40,6 +42,7 @@ const OPEN_API = {
     ...selfConfirmOpenApiPaths,
     ...followupsOpenApiPaths,
     ...orderFormsOpenApiPaths,
+    ...exchangeOpenApiPaths,
   },
 };
 
@@ -73,6 +76,7 @@ export class AppModule {
         ShopImportModule,
         DeliveryFollowupModule,
         OrderFormsModule,
+        ExchangesModule,
       ],
     };
   }

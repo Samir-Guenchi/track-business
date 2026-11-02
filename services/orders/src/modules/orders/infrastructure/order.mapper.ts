@@ -98,6 +98,7 @@ export function toRecord(row: OrderRowWithItems): OrderRecord {
     trackingNumber: row.trackingNumber,
     possibleDuplicateOfId: row.possibleDuplicateOfId,
     riskFlags: row.riskFlags as RiskFlag[],
+    exchangeCollect: row.exchangeCollect,
     itemsFingerprint: row.itemsFingerprint,
     postponedUntil: row.postponedUntil,
     statusChangedAt: row.statusChangedAt,
@@ -130,6 +131,7 @@ export function toColumns(order: OrderRecord) {
     assignedAgentId: order.assignedAgentId,
     carrier: order.carrier,
     trackingNumber: order.trackingNumber,
+    exchangeCollect: order.exchangeCollect,
     itemsFingerprint: order.itemsFingerprint,
     searchText: searchTextOf(order),
     postponedUntil: order.postponedUntil,
@@ -142,6 +144,11 @@ export function toColumns(order: OrderRecord) {
 export function toItemRows(order: OrderRecord): Prisma.OrderItemCreateManyInput[] {
   return order.items.map((item, position) => ({ ...item, orderId: order.id, position }));
 }
+
+const exchangeOf = ({ source, externalRef, exchangeCollect }: OrderRecord): Order['exchange'] =>
+  source === 'exchange' && externalRef && exchangeCollect
+    ? { ofOrderId: externalRef, collect: exchangeCollect }
+    : null;
 
 /** API shape (contracts OrderSchema). */
 export function toOrderDto(order: OrderRecord): Order {
@@ -166,6 +173,7 @@ export function toOrderDto(order: OrderRecord): Order {
     trackingNumber: order.trackingNumber,
     possibleDuplicateOfId: order.possibleDuplicateOfId,
     riskFlags: [...order.riskFlags],
+    exchange: exchangeOf(order),
     postponedUntil: order.postponedUntil?.toISOString() ?? null,
     statusChangedAt: order.statusChangedAt.toISOString(),
     createdAt: order.createdAt.toISOString(),

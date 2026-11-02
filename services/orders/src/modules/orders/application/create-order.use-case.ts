@@ -12,6 +12,8 @@ import { ORDERS_PORTS, type OrderRepository, RefTakenError } from './ports/order
 export interface CreateOrderInput extends OrderInput {
   readonly source: OrderSource;
   readonly externalRef?: string | undefined;
+  /** Exchanges only (#138): what the courier takes back. */
+  readonly exchangeCollect?: string | undefined;
 }
 
 const REF_ATTEMPTS = 3;
@@ -40,6 +42,7 @@ export class CreateOrderUseCase {
       trackingNumber: null,
       possibleDuplicateOfId: null,
       riskFlags: [],
+      exchangeCollect: input.exchangeCollect ?? null,
       postponedUntil: null,
       statusChangedAt: now,
       version: 0,

@@ -67,7 +67,8 @@
     "assigned": "Agent assigné",
     "tagged": "Étiquette",
     "deleted": "Supprimée",
-    "call_logged": "Appel enregistré"
+    "call_logged": "Appel enregistré",
+    "exchanged": "Échange créé"
   },
   "moveTo": "Passer à",
   "status": {

@@ -67,7 +67,8 @@
     "assigned": "Agent assigned",
     "tagged": "Tag",
     "deleted": "Deleted",
-    "call_logged": "Call logged"
+    "call_logged": "Call logged",
+    "exchanged": "Exchange created"
   },
   "moveTo": "Move to",
   "status": {
