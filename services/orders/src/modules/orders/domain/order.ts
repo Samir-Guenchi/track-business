@@ -62,6 +62,8 @@ export interface OrderRecord {
   readonly possibleDuplicateOfId: string | null;
   /** Fake-order signals found when the order came in (#52). */
   readonly riskFlags: readonly RiskFlag[];
+  /** On an exchange (#138): what the courier takes back; null on every other order. */
+  readonly exchangeCollect: string | null;
   readonly itemsFingerprint: string;
   readonly postponedUntil: Date | null;
   readonly statusChangedAt: Date;

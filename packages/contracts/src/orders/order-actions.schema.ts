@@ -84,6 +84,8 @@ export const OrderHistoryEntrySchema = z.strictObject({
     'tagged',
     'deleted',
     'call_logged',
+    /** An exchange order was created from this one (#138); the note holds its ref. */
+    'exchanged',
   ]),
   fromStatus: OrderStatusSchema.nullable(),
   toStatus: OrderStatusSchema.nullable(),

@@ -67,7 +67,8 @@
     "assigned": "إسناد إلى عون",
     "tagged": "وسم",
     "deleted": "حذف",
-    "call_logged": "تسجيل مكالمة"
+    "call_logged": "تسجيل مكالمة",
+    "exchanged": "تم إنشاء استبدال"
   },
   "moveTo": "نقل إلى",
   "status": {

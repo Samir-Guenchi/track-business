@@ -20,6 +20,8 @@ export const OrderSourceSchema = z.enum([
   'api',
   /** The embeddable COD order form (#134). */
   'form',
+  /** A size or colour swap of a delivered order (#138); `externalRef` is the original order id. */
+  'exchange',
 ]);
 export type OrderSource = z.infer<typeof OrderSourceSchema>;
 
@@ -108,6 +110,8 @@ export const OrderSchema = z.strictObject({
   possibleDuplicateOfId: z.string().nullable(),
   /** Fake-order and blacklist signals found when the order came in (#52); empty when clean. */
   riskFlags: z.array(RiskFlagSchema),
+  /** Set on an exchange (#138): the order it replaces and what the courier takes back. */
+  exchange: z.strictObject({ ofOrderId: z.string(), collect: z.string() }).nullable(),
   postponedUntil: z.iso.datetime().nullable(),
   statusChangedAt: z.iso.datetime(),
   createdAt: z.iso.datetime(),

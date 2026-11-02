@@ -5,3 +5,4 @@ export * from './order-status.js';
 export * from './order.schema.js';
 export * from './order-contact.schema.js';
 export * from './location.schema.js';
+export * from './exchange.schema.js';
