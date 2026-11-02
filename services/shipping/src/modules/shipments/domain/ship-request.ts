@@ -5,6 +5,8 @@ export interface PlaceNames {
   readonly originWilayaName: string;
   readonly wilayaName: string;
   readonly communeName: string;
+  /** The carrier's id for the chosen stop-desk (#137); null for home delivery or no match. */
+  readonly stopDeskCode: string | null;
 }
 
 /** The carrier-neutral parcel for one ship request. */
@@ -18,8 +20,7 @@ export function toShipmentRequest(event: ShipRequestedEvent, places: PlaceNames)
     communeId: event.communeId,
     communeName: places.communeName,
     deliveryType: event.deliveryType,
-    // Our stop desks are not mapped to carrier codes yet; stop-desk parcels fail with a reason.
-    stopDeskCode: null,
+    stopDeskCode: event.deliveryType === 'stopdesk' ? places.stopDeskCode : null,
     codAmount: event.codAmount,
     declaredValue: event.declaredValue,
     weightGrams: null,

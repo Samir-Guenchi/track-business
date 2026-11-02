@@ -18,20 +18,25 @@ const event: ShipRequestedEvent = {
   notes: null,
 };
 
+const places = { originWilayaName: 'Alger', wilayaName: 'Oran', communeName: 'Oran' };
+
 describe('toShipmentRequest', () => {
   it('fills the place names the carrier needs', () => {
-    const request = toShipmentRequest(event, {
-      originWilayaName: 'Alger',
-      wilayaName: 'Oran',
-      communeName: 'Oran',
-    });
+    const request = toShipmentRequest(event, { ...places, stopDeskCode: 'ignored-for-home' });
 
     expect(request).toMatchObject({
       reference: 'ORD-1001-v4',
       origin: { wilayaCode: 16, wilayaName: 'Alger' },
       wilayaName: 'Oran',
       codAmount: 3100,
+      stopDeskCode: null,
     });
+  });
+
+  it("sends the carrier's desk code for a stop-desk parcel (#137)", () => {
+    const desk = { ...event, deliveryType: 'stopdesk' as const, stopDeskId: 'some-desk' };
+    const request = toShipmentRequest(desk, { ...places, stopDeskCode: '31-ES-SENIA' });
+    expect(request.stopDeskCode).toBe('31-ES-SENIA');
   });
 });
 

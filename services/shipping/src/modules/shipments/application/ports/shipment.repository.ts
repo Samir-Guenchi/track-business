@@ -22,6 +22,8 @@ export interface ShipmentRepository {
   create(shipment: NewShipment, outbox: readonly OutboxMessage[]): Promise<boolean>;
   /** Records a failed request: only its outbox event, nothing else is stored. */
   recordFailure(outbox: readonly OutboxMessage[]): Promise<void>;
+  /** The carrier's code for a desk given by our id or by its carrier code; null if unknown. */
+  stopDeskCode(carrier: string, stopDeskId: string): Promise<string | null>;
 }
 
 export const SHIPMENT_REPOSITORY = Symbol('ShipmentRepository');

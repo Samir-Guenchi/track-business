@@ -8,6 +8,8 @@ import type { NewShipment, ShipmentRepository } from '../application/ports/shipm
 const isUniqueViolation = (error: unknown) =>
   error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002';
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 @Injectable()
 export class PrismaShipmentRepository implements ShipmentRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -35,5 +37,14 @@ export class PrismaShipmentRepository implements ShipmentRepository {
 
   async recordFailure(outbox: readonly OutboxMessage[]): Promise<void> {
     await this.prisma.$transaction(async (tx) => writeOutbox(tx, outbox));
+  }
+
+  async stopDeskCode(carrier: string, stopDeskId: string): Promise<string | null> {
+    const byId = UUID.test(stopDeskId) ? [{ id: stopDeskId }] : [];
+    const desk = await this.prisma.stopDesk.findFirst({
+      where: { carrier, isActive: true, OR: [...byId, { code: stopDeskId }] },
+      select: { code: true },
+    });
+    return desk?.code ?? null;
   }
 }

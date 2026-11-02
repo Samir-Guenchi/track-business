@@ -21,6 +21,8 @@ import { DeliveryRequestsModule } from './modules/delivery-requests/delivery-req
 import { deliveryRequestsOpenApiPaths } from './modules/delivery-requests/interface/delivery-requests.openapi.js';
 import { returnsOpenApiPaths } from './modules/returns/interface/returns.openapi.js';
 import { ReturnsModule } from './modules/returns/returns.module.js';
+import { stopDesksOpenApiPaths } from './modules/stop-desks/interface/stop-desks.openapi.js';
+import { StopDesksModule } from './modules/stop-desks/stop-desks.module.js';
 import { ShipmentsModule } from './modules/shipments/shipments.module.js';
 import { suggestionOpenApiPaths } from './modules/suggestion/interface/suggestion.openapi.js';
 import { SuggestionModule } from './modules/suggestion/suggestion.module.js';
@@ -40,6 +42,7 @@ const OPEN_API = {
     ...suggestionOpenApiPaths,
     ...returnsOpenApiPaths,
     ...deliveryRequestsOpenApiPaths,
+    ...stopDesksOpenApiPaths,
   },
 };
 
@@ -73,6 +76,7 @@ export class AppModule {
         SuggestionModule,
         ReturnsModule,
         DeliveryRequestsModule,
+        StopDesksModule,
       ],
     };
   }
