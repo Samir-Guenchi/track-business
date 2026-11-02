@@ -2,6 +2,7 @@ import {
   type BulkOrdersRequest,
   BulkOrdersResponseSchema,
   type ChangeStatusRequest,
+  type CreateOrderRequest,
   ListOrdersResponseSchema,
   OrderHistoryResponseSchema,
   OrderSchema,
@@ -14,6 +15,8 @@ const orderPath = (id: string) => `/orders/${encodeURIComponent(id)}`;
 export const ordersApi = {
   list: (query: URLSearchParams) =>
     apiRequest({ path: `/orders?${query.toString()}`, schema: ListOrdersResponseSchema }),
+  create: (body: CreateOrderRequest) =>
+    apiRequest({ path: '/orders', schema: OrderSchema, method: 'POST', body }),
   get: (id: string) => apiRequest({ path: orderPath(id), schema: OrderSchema }),
   history: (id: string) =>
     apiRequest({ path: `${orderPath(id)}/history`, schema: OrderHistoryResponseSchema }),
