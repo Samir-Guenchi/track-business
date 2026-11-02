@@ -7,6 +7,8 @@ import { useOrder } from '../../../lib/orders/order-queries';
 import { Link } from '../../../i18n/navigation';
 import { FormAlert } from '../../auth/form-alert';
 import { useErrorMessage } from '../../auth/use-error-message';
+import { ExchangeBanner } from '../exchange/exchange-banner';
+import { ExchangeDialog } from '../exchange/exchange-dialog';
 import { CustomerCard } from './customer-card';
 import { DeliveryRequestsCard } from './delivery-requests-card';
 import { HistoryCard } from './history-card';
@@ -33,7 +35,13 @@ export function OrderDetail({ orderId }: { readonly orderId: string }) {
             </h1>
             <StatusBadge status={order.data.status}>{t(`status.${order.data.status}`)}</StatusBadge>
           </header>
+          <ExchangeBanner order={order.data} />
           <StatusActions order={order.data} />
+          {order.data.status === 'delivered' && !order.data.exchange && (
+            <div>
+              <ExchangeDialog order={order.data} />
+            </div>
+          )}
           <div className="grid gap-4 lg:grid-cols-2">
             <CustomerCard order={order.data} />
             <ItemsCard order={order.data} />

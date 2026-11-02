@@ -2,6 +2,7 @@ import {
   type BulkOrdersRequest,
   BulkOrdersResponseSchema,
   type ChangeStatusRequest,
+  type CreateExchangeRequest,
   type CreateOrderRequest,
   ListOrdersResponseSchema,
   OrderHistoryResponseSchema,
@@ -24,4 +25,6 @@ export const ordersApi = {
     apiRequest({ path: `${orderPath(id)}/status`, schema: OrderSchema, method: 'POST', body }),
   bulk: (body: BulkOrdersRequest) =>
     apiRequest({ path: '/orders/bulk', schema: BulkOrdersResponseSchema, method: 'POST', body }),
+  exchange: (id: string, body: CreateExchangeRequest) =>
+    apiRequest({ path: `${orderPath(id)}/exchange`, schema: OrderSchema, method: 'POST', body }),
 };
