@@ -57,6 +57,17 @@ export class GeoCatalog {
     return snapshot.communesByWilaya.get(wilayaCode) ?? [];
   }
 
+  /** null when the code is not a current wilaya. */
+  async wilaya(code: number): Promise<Wilaya | null> {
+    return (await this.current()).wilayas.find((wilaya) => wilaya.code === code) ?? null;
+  }
+
+  /** null when the commune is not in that wilaya. */
+  async commune(wilayaCode: number, communeId: number): Promise<Commune | null> {
+    const communes = (await this.current()).communesByWilaya.get(wilayaCode) ?? [];
+    return communes.find((commune) => commune.id === communeId) ?? null;
+  }
+
   async search(query: string, options: SearchOptions): Promise<CommuneMatch[]> {
     return (await this.current()).index.search(query, options);
   }

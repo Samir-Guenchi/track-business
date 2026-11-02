@@ -8,12 +8,15 @@ import { Logger } from 'nestjs-pino';
 import type { BaseEnv } from '../config/base-env.schema.js';
 import { ApiExceptionFilter } from '../errors/api-exception.filter.js';
 import { CORRELATION_HEADER, correlationIdOf } from '../logging/correlation-id.js';
+import { initErrorReporting } from '../observability/error-reporter.js';
 
 const BODY_LIMIT_BYTES = 1_048_576;
 
 export interface ServiceAppOptions {
   readonly module: Type<unknown> | DynamicModule;
   readonly env: BaseEnv;
+  /** Tags error reports; defaults to `service`. */
+  readonly service?: string;
 }
 
 /**
@@ -35,13 +38,21 @@ export async function createServiceApp(
   });
   const app = await NestFactory.create<NestFastifyApplication>(options.module, adapter, {
     bufferLogs: true,
+    // Kept next to the parsed body so webhook receivers can check signatures over exact bytes.
+    rawBody: true,
   });
   app.useLogger(app.get(Logger));
   await app.register(helmet);
   await app.register(cookie);
   await app.register(rateLimit, { max: env.RATE_LIMIT_PER_MINUTE, timeWindow: '1 minute' });
   app.enableCors({ origin: env.CORS_ORIGINS, credentials: true });
-  app.useGlobalFilters(new ApiExceptionFilter());
+  const reporter = initErrorReporting({
+    dsn: env.SENTRY_DSN,
+    service: options.service ?? 'service',
+    environment: env.DEPLOY_ENV,
+    release: env.RELEASE,
+  });
+  app.useGlobalFilters(new ApiExceptionFilter(reporter));
   app.enableShutdownHooks();
   return app;
 }

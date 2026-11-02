@@ -1,0 +1,6 @@
+# Only the gateway is public (ADR-0001). Caddy gets and renews the TLS certificate.
+{$API_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy gateway:4000
+	header -Server
+}

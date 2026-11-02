@@ -1,0 +1,39 @@
+// Prices (#33). Tenant data: every row belongs to a store. Two prices per wilaya and delivery type:
+// the store's selling price (what the customer pays) and the carrier's cost (rate card).
+
+model StorePrice {
+  storeId      String   @map("store_id") @db.Uuid
+  wilayaCode   Int      @map("wilaya_code")
+  deliveryType String   @map("delivery_type")
+  /// null: the store does not deliver this way to this wilaya.
+  price        Int?
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@id([storeId, wilayaCode, deliveryType])
+  @@map("store_prices")
+}
+
+model StoreShippingSettings {
+  storeId          String   @id @map("store_id") @db.Uuid
+  /// Orders whose items total reaches this amount ship for free.
+  freeShippingFrom Int?     @map("free_shipping_from")
+  updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("store_shipping_settings")
+}
+
+/// What a carrier charges the store, replaced as a whole on each import (API or Excel).
+model RateCard {
+  storeId          String   @map("store_id") @db.Uuid
+  carrier          String
+  fromWilaya       Int      @map("from_wilaya")
+  toWilaya         Int      @map("to_wilaya")
+  deliveryType     String   @map("delivery_type")
+  price            Int
+  returnFee        Int      @map("return_fee")
+  weightLimitGrams Int?     @map("weight_limit_grams")
+  importedAt       DateTime @map("imported_at") @db.Timestamptz(3)
+
+  @@id([storeId, carrier, fromWilaya, toWilaya, deliveryType])
+  @@map("rate_cards")
+}

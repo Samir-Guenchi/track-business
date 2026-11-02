@@ -1,0 +1,11 @@
+// notifications sends customers SMS and WhatsApp messages on order and parcel events (ADR-0004).
+generator client {
+  provider               = "prisma-client"
+  output                 = "../../src/generated/prisma"
+  moduleFormat           = "esm"
+  importFileExtension    = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}

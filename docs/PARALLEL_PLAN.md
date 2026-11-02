@@ -14,7 +14,7 @@ Git conflicts come from **two branches editing the same file at the same time**,
 | `services/<service>/prisma/` | owner of the service (Samir for the first five services) | same |
 | `apps/web/app/[locale]/(app)/<feature>/` | owner of the issue | same |
 | `packages/ui/` | Abdennour | add a component in a new file |
-| `packages/carriers/`, `packages/events/` | Samir | - |
+| `packages/carriers/`, `packages/connectors/`, `packages/events/` | Samir | - |
 | `packages/contracts/src/<module>/` (zod schemas, types, status enums, events) | owner of the API part | read only |
 | `.github/`, `docker-compose.yml`, root configs, `packages/config/` | Samir | propose in a small separate PR |
 | `apps/mobile/` | Abdennour | - |

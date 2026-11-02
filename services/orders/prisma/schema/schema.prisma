@@ -1,0 +1,11 @@
+// orders owns orders, customers as typed by sellers, confirmation and their audit trail (ADR-0001). One file per module.
+generator client {
+  provider               = "prisma-client"
+  output                 = "../../src/generated/prisma"
+  moduleFormat           = "esm"
+  importFileExtension    = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
