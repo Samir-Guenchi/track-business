@@ -2,6 +2,7 @@ import proxy from '@fastify/http-proxy';
 import type { IncomingHttpHeaders } from 'node:http';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { ROUTES } from './route-table.js';
+import { sendUpstreamError } from './upstream-error.js';
 import type { Upstreams } from './upstreams.js';
 
 const UPSTREAM_TIMEOUT_MS = 30_000;
@@ -34,7 +35,7 @@ export async function registerRoutes(
       prefix: route.prefix,
       rewritePrefix: route.prefix,
       http: { requestOptions: { timeout: UPSTREAM_TIMEOUT_MS } },
-      replyOptions: { rewriteRequestHeaders: forwardedHeaders },
+      replyOptions: { rewriteRequestHeaders: forwardedHeaders, onError: sendUpstreamError },
     });
   }
 }
