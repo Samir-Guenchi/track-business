@@ -1,0 +1,45 @@
+{
+  "cod": "Paiement à la livraison",
+  "product": "Produit",
+  "variant": "Taille ou couleur",
+  "chooseVariant": "Choisir",
+  "quantity": "Quantité",
+  "name": "Nom complet",
+  "phone": "Téléphone",
+  "phoneHint": "Le magasin vous appelle pour confirmer.",
+  "wilaya": "Wilaya",
+  "chooseWilaya": "Choisir la wilaya",
+  "commune": "Commune",
+  "chooseCommune": "Choisir la commune",
+  "delivery": "Livraison",
+  "deliveryType": { "home": "À domicile", "stopdesk": "Au bureau du transporteur" },
+  "address": "Adresse",
+  "stopDeskNote": "Le magasin vous indiquera le bureau le plus proche lors de l'appel.",
+  "summary": {
+    "subtotal": "Produits",
+    "shipping": "Livraison",
+    "free": "Gratuite",
+    "toConfirm": "Confirmée par téléphone",
+    "total": "Total à payer à la livraison"
+  },
+  "submit": "Commander",
+  "thanks": {
+    "title": "Merci, commande reçue !",
+    "body": "Votre numéro de commande est {ref}. Le magasin vous appelle bientôt pour la confirmer.",
+    "total": "Total : {total}"
+  },
+  "errors": {
+    "duplicate": "Vous avez déjà commandé ce produit. Le magasin va vous appeler.",
+    "rate_limited": "Trop de commandes en peu de temps. Réessayez dans une heure.",
+    "spam": "Commande refusée.",
+    "invalid_product": "Ce choix n'est plus disponible. Rechargez la page.",
+    "delivery_unavailable": "Le magasin ne livre pas encore ici de cette façon.",
+    "validation": "Vérifiez les champs en rouge.",
+    "generic": "La commande n'a pas pu être envoyée. Réessayez."
+  },
+  "notFound": {
+    "title": "Formulaire introuvable",
+    "body": "Ce formulaire n'existe pas ou n'est plus actif."
+  },
+  "poweredBy": "Commandes gérées avec TrackEcom"
+}
