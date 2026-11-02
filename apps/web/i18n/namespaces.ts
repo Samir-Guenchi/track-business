@@ -15,6 +15,7 @@ export const namespaces = [
   'orderForm',
   'deliveryChoices',
   'deliveryRequests',
+  'stopDesks',
   'forms',
 ] as const;
 

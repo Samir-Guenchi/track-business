@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import type { Locale } from '../../i18n/routing';
 import { formatDzd } from '../../lib/format';
 import { type DeliveryOption, deliveryOptions } from '../../lib/forms/form-total';
+import { StopDeskField } from '../stop-desks/stop-desk-field';
 import type { CodForm } from './use-cod-form';
 
 interface Props {
@@ -37,7 +38,12 @@ export function DeliveryChoice({ form, state }: Props) {
         </label>
       )}
       {fields.deliveryType === 'stopdesk' && (
-        <p className="text-sm text-muted">{t('stopDeskNote')}</p>
+        <StopDeskField
+          wilayaCode={fields.wilayaCode}
+          communeId={fields.communeId}
+          value={fields.stopDeskId}
+          onChange={(stopDeskId) => state.patch({ stopDeskId })}
+        />
       )}
     </fieldset>
   );

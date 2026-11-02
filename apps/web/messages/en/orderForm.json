@@ -12,9 +12,11 @@
   "commune": "Commune",
   "chooseCommune": "Choose the commune",
   "delivery": "Delivery",
-  "deliveryType": { "home": "To your door", "stopdesk": "At the carrier's office" },
+  "deliveryType": {
+    "home": "To your door",
+    "stopdesk": "At the carrier's office"
+  },
   "address": "Address",
-  "stopDeskNote": "The shop will tell you the nearest office on the call.",
   "summary": {
     "subtotal": "Products",
     "shipping": "Delivery",
