@@ -16,3 +16,15 @@ export function createQueryClient(): QueryClient {
     },
   });
 }
+
+let browserQueryClient: QueryClient | undefined;
+
+/**
+ * One client per server request, but one per browser tab: the seller app, the auth pages and
+ * onboarding have separate layouts and must share the session cache when moving between them.
+ */
+export function getQueryClient(): QueryClient {
+  if (typeof window === 'undefined') return createQueryClient();
+  browserQueryClient ??= createQueryClient();
+  return browserQueryClient;
+}
