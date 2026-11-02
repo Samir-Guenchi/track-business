@@ -41,6 +41,12 @@ import { OrderDeletionController, OrdersController } from './interface/orders.co
     { provide: INTERNAL_TOKEN, inject: [ENV], useFactory: (env: Env) => env.INTERNAL_TOKEN },
     InternalTokenGuard,
   ],
-  exports: [CreateOrderUseCase, OrderChangeRecorder, ORDERS_PORTS.repository, ORDERS_PORTS.clock],
+  exports: [
+    CreateOrderUseCase,
+    OrderChangeRecorder,
+    ORDERS_PORTS.repository,
+    ORDERS_PORTS.clock,
+    ORDERS_PORTS.ids,
+  ],
 })
 export class OrdersModule {}

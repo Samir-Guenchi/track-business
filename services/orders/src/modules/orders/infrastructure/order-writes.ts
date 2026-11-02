@@ -29,7 +29,7 @@ export async function writeOrderEffects(tx: Tx, effects: OrderEffects): Promise<
   if (effects.consumed) await markConsumed(tx, effects.consumed);
 }
 
-async function markConsumed(tx: Tx, consumed: NonNullable<OrderEffects['consumed']>) {
+export async function markConsumed(tx: Tx, consumed: NonNullable<OrderEffects['consumed']>) {
   await tx.processedEvent.create({ data: consumed }).catch((error: unknown) => {
     const duplicate =
       error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002';
