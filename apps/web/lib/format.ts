@@ -35,3 +35,13 @@ export function formatDateTime(date: Date, locale: Locale): string {
     timeZone: ALGIERS_TIME_ZONE,
   }).format(date);
 }
+
+/** "mardi 4 novembre" for a calendar date (`YYYY-MM-DD`) that has no time or zone. */
+export function formatCalendarDay(isoDate: string, locale: Locale): string {
+  return new Intl.DateTimeFormat(intlLocale[locale], {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    timeZone: 'UTC',
+  }).format(new Date(`${isoDate}T00:00:00Z`));
+}

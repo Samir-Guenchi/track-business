@@ -1,0 +1,34 @@
+{
+  "title": "Suivre mon colis",
+  "headline": {
+    "created": "Votre commande est en préparation",
+    "picked_up": "Remis au livreur",
+    "in_transit": "En route vers vous",
+    "out_for_delivery": "En cours de livraison",
+    "delivered": "Livré",
+    "failed_attempt": "Tentative de livraison échouée",
+    "returning": "En retour vers la boutique",
+    "returned": "Retourné à la boutique",
+    "cancelled": "Expédition annulée"
+  },
+  "steps": {
+    "created": "Préparé",
+    "picked_up": "Récupéré",
+    "in_transit": "En route",
+    "out_for_delivery": "En livraison",
+    "delivered": "Livré"
+  },
+  "eta": "Prévu {day}",
+  "etaRange": "Prévu entre {earliest} et {latest}",
+  "carrier": "Livreur",
+  "trackingNumber": "Numéro de suivi",
+  "history": "Historique",
+  "noEvents": "Pas encore de nouvelles du livreur.",
+  "attentionHelp": "Le livreur n'a pas pu livrer votre colis. Gardez votre téléphone allumé : il va vous rappeler.",
+  "stoppedHelp": "Contactez la boutique pour plus d'informations.",
+  "updated": "Mis à jour chaque minute.",
+  "poweredBy": "Suivi par TrackEcom",
+  "notFoundTitle": "Colis introuvable",
+  "notFoundBody": "Vérifiez le lien reçu par SMS ou WhatsApp.",
+  "shareDescription": "Suivez votre livraison en direct."
+}

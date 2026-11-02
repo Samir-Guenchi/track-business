@@ -1,0 +1,34 @@
+{
+  "title": "تتبع طردي",
+  "headline": {
+    "created": "طلبك قيد التحضير",
+    "picked_up": "تم تسليمه لشركة التوصيل",
+    "in_transit": "في الطريق إليك",
+    "out_for_delivery": "قيد التوصيل",
+    "delivered": "تم التسليم",
+    "failed_attempt": "تعذر التسليم",
+    "returning": "في طريق العودة إلى المتجر",
+    "returned": "أعيد إلى المتجر",
+    "cancelled": "تم إلغاء الشحنة"
+  },
+  "steps": {
+    "created": "تحضير",
+    "picked_up": "استلام",
+    "in_transit": "في الطريق",
+    "out_for_delivery": "قيد التوصيل",
+    "delivered": "تم التسليم"
+  },
+  "eta": "متوقع {day}",
+  "etaRange": "متوقع بين {earliest} و{latest}",
+  "carrier": "شركة التوصيل",
+  "trackingNumber": "رقم التتبع",
+  "history": "السجل",
+  "noEvents": "لا توجد تحديثات من شركة التوصيل بعد.",
+  "attentionHelp": "لم يتمكن الموصل من تسليم طردك. أبقِ هاتفك مفتوحاً: سيتصل بك مجدداً.",
+  "stoppedHelp": "تواصل مع المتجر لمزيد من المعلومات.",
+  "updated": "يُحدَّث كل دقيقة.",
+  "poweredBy": "التتبع بواسطة TrackEcom",
+  "notFoundTitle": "الطرد غير موجود",
+  "notFoundBody": "تحقق من الرابط الذي وصلك عبر SMS أو واتساب.",
+  "shareDescription": "تابع توصيل طلبك مباشرة."
+}
