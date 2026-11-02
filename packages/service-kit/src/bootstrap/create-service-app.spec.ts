@@ -122,4 +122,15 @@ describe('createServiceApp', () => {
     expect(response.headers['x-correlation-id']).toBe('corr-12345678');
     expect(response.headers['x-content-type-options']).toBe('nosniff');
   });
+
+  it('lets the web app send edits and deletes across origins', async () => {
+    const response = await app.inject({
+      method: 'OPTIONS',
+      url: '/probe/echo',
+      headers: { origin: 'http://localhost:3000', 'access-control-request-method': 'PUT' },
+    });
+
+    const methods = String(response.headers['access-control-allow-methods']).split(/,\s*/);
+    expect(methods).toEqual(expect.arrayContaining(['PUT', 'PATCH', 'DELETE']));
+  });
 });
