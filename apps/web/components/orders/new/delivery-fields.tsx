@@ -3,6 +3,7 @@
 import { DeliveryTypeSchema } from '@trackecom/contracts';
 import { Input } from '@trackecom/ui';
 import { useTranslations } from 'next-intl';
+import { StopDeskField } from '../../stop-desks/stop-desk-field';
 import { DetailCard } from '../detail/detail-card';
 import { type DraftSectionProps, fieldError } from './field-error';
 import type { DraftControls } from './use-order-draft';
@@ -32,6 +33,29 @@ function HomeAddressFields({ controls, errors }: DeliveryFieldsProps) {
   );
 }
 
+/** The desk picker (#137), and the carrier's code typed by hand where no desk is known yet. */
+function StopDeskFields({ controls, errors }: DeliveryFieldsProps) {
+  const t = useTranslations('orders.new');
+  const { draft, patch } = controls;
+  const typed = (
+    <Input
+      label={t('stopDesk')}
+      value={draft.stopDeskId}
+      onChange={(event) => patch({ stopDeskId: event.currentTarget.value })}
+      {...fieldError(errors, 'stopDesk', t('errors.stopDesk'))}
+    />
+  );
+  return (
+    <StopDeskField
+      wilayaCode={draft.wilayaCode}
+      communeId={draft.communeId}
+      value={draft.stopDeskId}
+      onChange={(stopDeskId) => patch({ stopDeskId })}
+      fallback={typed}
+    />
+  );
+}
+
 export function DeliveryFields({ controls, errors }: DeliveryFieldsProps) {
   const t = useTranslations('orders.new');
   const { draft, patch } = controls;
@@ -55,12 +79,7 @@ export function DeliveryFields({ controls, errors }: DeliveryFieldsProps) {
       {draft.deliveryType === 'home' ? (
         <HomeAddressFields controls={controls} errors={errors} />
       ) : (
-        <Input
-          label={t('stopDesk')}
-          value={draft.stopDeskId}
-          onChange={(event) => patch({ stopDeskId: event.currentTarget.value })}
-          {...fieldError(errors, 'stopDesk', t('errors.stopDesk'))}
-        />
+        <StopDeskFields controls={controls} errors={errors} />
       )}
     </DetailCard>
   );

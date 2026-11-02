@@ -12,9 +12,11 @@
   "commune": "Commune",
   "chooseCommune": "Choisir la commune",
   "delivery": "Livraison",
-  "deliveryType": { "home": "À domicile", "stopdesk": "Au bureau du transporteur" },
+  "deliveryType": {
+    "home": "À domicile",
+    "stopdesk": "Au bureau du transporteur"
+  },
   "address": "Adresse",
-  "stopDeskNote": "Le magasin vous indiquera le bureau le plus proche lors de l'appel.",
   "summary": {
     "subtotal": "Produits",
     "shipping": "Livraison",

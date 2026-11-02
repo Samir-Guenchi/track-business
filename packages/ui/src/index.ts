@@ -61,3 +61,9 @@ export {
   type WilayaCommuneSelectProps,
 } from './domain/wilaya-commune-select.js';
 export { MoneyDZD, type MoneyDZDProps, type UiLocale } from './domain/money-dzd.js';
+export {
+  StopDeskPicker,
+  type StopDeskOption,
+  type StopDeskPickerLabels,
+  type StopDeskPickerProps,
+} from './domain/stop-desk-picker.js';

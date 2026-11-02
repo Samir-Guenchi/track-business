@@ -15,6 +15,8 @@ export interface CodFields {
   readonly communeId: number | undefined;
   readonly deliveryType: DeliveryType | undefined;
   readonly address: string;
+  /** Our desk id from the picker (#137); empty when the wilaya has no known desk. */
+  readonly stopDeskId: string;
   /** Honeypot, hidden from people. */
   readonly website: string;
 }
@@ -74,6 +76,7 @@ function initialFields(form: PublicOrderForm): CodFields {
     communeId: undefined,
     deliveryType: form.deliveryTypes.length === 1 ? form.deliveryTypes[0] : undefined,
     address: '',
+    stopDeskId: '',
     website: '',
   };
 }
@@ -89,7 +92,7 @@ function postOrder(key: string, fields: CodFields) {
     deliveryType: fields.deliveryType,
     productId: fields.productId,
     quantity: fields.quantity,
-    ...(isHome ? { address: fields.address } : { stopDeskId: 'to-confirm' }),
+    ...(isHome ? { address: fields.address } : { stopDeskId: fields.stopDeskId || 'to-confirm' }),
     ...(fields.variant ? { variant: fields.variant } : {}),
     ...(fields.website ? { website: fields.website } : {}),
     ...(utm ? { utm } : {}),

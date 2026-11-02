@@ -12,9 +12,11 @@
   "commune": "البلدية",
   "chooseCommune": "اختر البلدية",
   "delivery": "التوصيل",
-  "deliveryType": { "home": "إلى المنزل", "stopdesk": "إلى مكتب شركة التوصيل" },
+  "deliveryType": {
+    "home": "إلى المنزل",
+    "stopdesk": "إلى مكتب شركة التوصيل"
+  },
   "address": "العنوان",
-  "stopDeskNote": "سيخبرك المتجر بأقرب مكتب خلال المكالمة.",
   "summary": {
     "subtotal": "المنتجات",
     "shipping": "التوصيل",
