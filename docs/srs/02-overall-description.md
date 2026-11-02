@@ -14,7 +14,7 @@ The system is a set of small services in one monorepo (ADR-0001). The context, c
 
 | Element | Role | State in `dev` |
 |---|---|---|
-| `services/gateway` (port 4000) | Only public entry point; auth check, rate limits, routing (BFF) | 🟡 Runs and serves health; proxy routes not added yet |
+| `services/gateway` (port 4000) | Only public entry point; auth check, rate limits, routing (BFF) | 🟡 Routes public paths to every service; JWKS check at the edge and downstream readiness not yet |
 | `services/identity` (4001) | Users, sessions, JWKS, stores, memberships, invitations, audit | ✅ |
 | `services/shipping` (4002) | Geography, prices, carrier accounts, parcels, tracking, ETA, suggestion | ✅ |
 | `services/orders` (4003) | Orders, confirmation, fraud flags, blacklist, risk score, self-confirm, shop import | ✅ |

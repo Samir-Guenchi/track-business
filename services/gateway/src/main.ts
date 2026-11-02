@@ -1,15 +1,11 @@
 import 'reflect-metadata';
-import { createServiceApp, loadEnv } from '@trackecom/service-kit';
-import { AppModule, SERVICE_NAME } from './app.module.js';
+import { loadEnv } from '@trackecom/service-kit';
 import { EnvSchema } from './config/env.schema.js';
+import { createGatewayApp } from './create-gateway-app.js';
 
 async function bootstrap(): Promise<void> {
   const env = loadEnv(EnvSchema);
-  const app = await createServiceApp({
-    module: AppModule.forRoot(env),
-    env,
-    service: SERVICE_NAME,
-  });
+  const app = await createGatewayApp(env);
   await app.listen({ port: env.PORT, host: '0.0.0.0' });
 }
 

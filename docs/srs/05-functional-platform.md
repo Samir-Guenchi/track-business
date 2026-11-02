@@ -8,8 +8,8 @@
 |---|---|---|---|---|---|
 | GW-001 | The gateway shall be the only service reachable from the internet (Caddy terminates TLS and proxies only to it). | P0 | ✅ | ADR-0001 | I |
 | GW-002 | The gateway shall expose `/health/live` and `/health/ready`, and readiness shall include its downstream dependencies. | P0 | 🟡 live/ready exist; downstream checks not yet | #12 | T |
-| GW-003 | The gateway shall route the public paths of identity, orders, shipping, payments, notifications and integrations to the owning service, forwarding the access token, `x-store-id` and `x-correlation-id`. | P0 | ⬜ | #12 | T |
-| GW-004 | The gateway shall never route `/internal/*` paths. | P0 | ⬜ | ADR-0004 | T |
+| GW-003 | The gateway shall route the public paths of identity, orders, shipping, payments, notifications and integrations to the owning service, forwarding the access token, `x-store-id` and `x-correlation-id`. | P0 | ✅ `services/gateway/src/routing` | #12 | T |
+| GW-004 | The gateway shall never route `/internal/*` paths. | P0 | ✅ | ADR-0004 | T |
 | GW-005 | The gateway shall verify access tokens with identity's JWKS before routing authenticated paths, and apply rate limits per IP, user and (later) API key in Redis. | P0 | ⬜ | ADR-0001, ADR-0005 | T |
 | GW-006 | The gateway should merge the services' OpenAPI documents into one public spec. | P1 | ⬜ | ADR-0005 | I |
 
