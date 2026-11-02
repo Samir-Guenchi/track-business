@@ -11,6 +11,8 @@ model Shipment {
   trackingNumber String    @map("tracking_number")
   /// Destination wilaya; null for parcels created before #41.
   toWilayaCode   Int?      @map("to_wilaya_code")
+  /// home or stopdesk, as ordered; null for parcels created before #136.
+  deliveryType   String?   @map("delivery_type")
   /// Normalised ParcelStatus from the contracts.
   status         String    @default("created")
   /// Random code for the customer's tracking link; not guessable from the tracking number.
@@ -24,6 +26,7 @@ model Shipment {
 
   events        TrackingEvent[]
   returnReceipt ReturnReceipt?
+  deliveryRequests DeliveryRequest[]
 
   @@unique([carrier, trackingNumber])
   @@unique([storeId, reference])

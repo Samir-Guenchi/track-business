@@ -17,5 +17,6 @@ import { PricingController } from './interface/pricing.controller.js';
     { provide: INTERNAL_TOKEN, inject: [ENV], useFactory: (env: Env) => env.INTERNAL_TOKEN },
     InternalTokenGuard,
   ],
+  exports: [PricingService],
 })
 export class PricingModule {}

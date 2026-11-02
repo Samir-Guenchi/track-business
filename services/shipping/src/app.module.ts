@@ -17,6 +17,8 @@ import { GeoModule } from './modules/geo/geo.module.js';
 import { geoOpenApiPaths } from './modules/geo/interface/geo.openapi.js';
 import { pricingOpenApiPaths } from './modules/pricing/interface/pricing.openapi.js';
 import { PricingModule } from './modules/pricing/pricing.module.js';
+import { DeliveryRequestsModule } from './modules/delivery-requests/delivery-requests.module.js';
+import { deliveryRequestsOpenApiPaths } from './modules/delivery-requests/interface/delivery-requests.openapi.js';
 import { returnsOpenApiPaths } from './modules/returns/interface/returns.openapi.js';
 import { ReturnsModule } from './modules/returns/returns.module.js';
 import { ShipmentsModule } from './modules/shipments/shipments.module.js';
@@ -26,6 +28,20 @@ import { trackingOpenApiPaths } from './modules/tracking/interface/tracking.open
 import { TrackingModule } from './modules/tracking/tracking.module.js';
 
 export const SERVICE_NAME = 'shipping';
+
+const OPEN_API = {
+  title: 'TrackEcom shipping',
+  version: '0.1.0',
+  paths: {
+    ...geoOpenApiPaths,
+    ...pricingOpenApiPaths,
+    ...carriersOpenApiPaths,
+    ...trackingOpenApiPaths,
+    ...suggestionOpenApiPaths,
+    ...returnsOpenApiPaths,
+    ...deliveryRequestsOpenApiPaths,
+  },
+};
 
 /** Root module. Each feature module (geo #19, pricing #33, carriers #30, tracking #32...) is one import. */
 @Module({})
@@ -44,18 +60,7 @@ export class AppModule {
             { name: 'redis', isHealthy: () => probe(() => redis.ping()) },
           ],
         }),
-        OpenApiModule.forRoot({
-          title: 'TrackEcom shipping',
-          version: '0.1.0',
-          paths: {
-            ...geoOpenApiPaths,
-            ...pricingOpenApiPaths,
-            ...carriersOpenApiPaths,
-            ...trackingOpenApiPaths,
-            ...suggestionOpenApiPaths,
-            ...returnsOpenApiPaths,
-          },
-        }),
+        OpenApiModule.forRoot(OPEN_API),
         StoreAccessModule.forRoot({
           options: { identityUrl: env.IDENTITY_URL, roleCacheSeconds: env.ROLE_CACHE_SECONDS },
           cache: redisRoleCache,
@@ -67,6 +72,7 @@ export class AppModule {
         ShipmentsModule,
         SuggestionModule,
         ReturnsModule,
+        DeliveryRequestsModule,
       ],
     };
   }

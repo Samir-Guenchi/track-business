@@ -6,6 +6,7 @@ export * from './common/health.schema.js';
 export * from './common/pagination.schema.js';
 export * from './common/phone.schema.js';
 export * from './confirmation/index.js';
+export * from './delivery-requests/index.js';
 export * from './events/envelope.schema.js';
 export * from './followups/index.js';
 export * from './forms/index.js';

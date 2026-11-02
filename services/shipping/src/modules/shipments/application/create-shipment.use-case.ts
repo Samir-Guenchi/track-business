@@ -70,6 +70,7 @@ export class CreateShipmentUseCase {
       reference: request.reference,
       trackingNumber: parcel.trackingNumber,
       toWilayaCode: request.wilayaCode,
+      deliveryType: request.deliveryType,
       publicCode: newPublicCode(),
       nextPollAt: nextPollAt('created', origin.now) ?? origin.now,
     };

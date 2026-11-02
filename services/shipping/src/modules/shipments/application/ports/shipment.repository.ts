@@ -1,3 +1,4 @@
+import type { DeliveryType } from '@trackecom/contracts';
 import type { OutboxMessage } from '../../../../shared/outbox-message.js';
 
 export interface NewShipment {
@@ -9,6 +10,8 @@ export interface NewShipment {
   readonly trackingNumber: string;
   /** Destination wilaya, for delivery rates per carrier and wilaya (#41). */
   readonly toWilayaCode: number;
+  /** Which choices the customer gets on the tracking page (#136). */
+  readonly deliveryType: DeliveryType;
   readonly publicCode: string;
   readonly nextPollAt: Date;
 }
