@@ -15,6 +15,7 @@ export * from './notifications/index.js';
 export * from './orders/index.js';
 export * from './payments/index.js';
 export * from './pricing/index.js';
+export * from './returns/index.js';
 export * from './shipments/index.js';
 export * from './stores/index.js';
 export * from './tracking/index.js';
