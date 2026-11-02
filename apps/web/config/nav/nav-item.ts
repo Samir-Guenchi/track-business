@@ -6,6 +6,7 @@ export type NavKey =
   | 'orders'
   | 'followups'
   | 'returns'
+  | 'forms'
   | 'confirmation'
   | 'shipments'
   | 'money'
