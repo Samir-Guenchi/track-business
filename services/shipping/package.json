@@ -12,14 +12,14 @@
   "scripts": {
     "generate": "prisma generate",
     "build": "nest build -p tsconfig.build.json",
-    "dev": "nest start --watch -p tsconfig.build.json",
+    "dev": "nest start --watch -p tsconfig.build.json --exec \"node --env-file-if-exists=.env\"",
     "start": "node dist/main.js",
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
-    "db:seed": "node dist/seed.js"
+    "db:seed": "node --env-file-if-exists=.env dist/seed.js"
   },
   "dependencies": {
     "@nestjs/common": "^12.3.2",

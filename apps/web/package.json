@@ -3,6 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "files": [
+    ".next",
+    "!.next/cache",
+    "public",
+    "next.config.ts"
+  ],
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build",

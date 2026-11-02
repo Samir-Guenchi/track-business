@@ -11,7 +11,7 @@
   "scripts": {
     "generate": "prisma generate",
     "build": "nest build -p tsconfig.build.json",
-    "dev": "nest start --watch -p tsconfig.build.json",
+    "dev": "nest start --watch -p tsconfig.build.json --exec \"node --env-file-if-exists=.env\"",
     "start": "node dist/main.js",
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
