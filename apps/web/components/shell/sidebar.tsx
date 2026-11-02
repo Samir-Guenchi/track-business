@@ -6,7 +6,7 @@ import { NavLinks } from './nav-links';
 export function Sidebar() {
   const t = useTranslations('shell');
   return (
-    <aside className="hidden w-60 shrink-0 border-e border-border bg-surface lg:flex lg:flex-col">
+    <aside className="hidden w-60 shrink-0 border-e border-border bg-surface lg:flex lg:flex-col print:hidden">
       <div className="flex h-16 items-center px-5">
         <BrandMark />
       </div>

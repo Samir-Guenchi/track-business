@@ -6,7 +6,7 @@ import { ThemeToggle } from './theme-toggle';
 
 export function TopBar() {
   return (
-    <header className="flex h-16 items-center gap-3 border-b border-border bg-surface px-4 lg:px-6">
+    <header className="flex h-16 items-center gap-3 border-b border-border bg-surface px-4 lg:px-6 print:hidden">
       <MobileNav />
       <StoreSwitcher />
       <div className="ms-auto flex items-center gap-2">

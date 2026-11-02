@@ -1,0 +1,80 @@
+{
+  "title": "Returns",
+  "subtitle": "Parcels the carrier says it sent back that you have not received yet.",
+  "receiveCta": "Receive returns",
+  "tabs": { "expected": "To receive", "batches": "Hand-overs" },
+  "overdueOnly": "Overdue only",
+  "allCarriers": "All carriers",
+  "empty": "No return pending. Everything the carriers sent back has arrived.",
+  "emptyBatches": "No hand-over recorded yet.",
+  "more": "Show more",
+  "listLabel": "Expected returns",
+  "columns": {
+    "tracking": "Tracking",
+    "carrier": "Carrier",
+    "wilaya": "Wilaya",
+    "status": "Status",
+    "since": "Returning since",
+    "waiting": "Waiting"
+  },
+  "status": { "returning": "Returning", "returned": "Returned" },
+  "days": "{count, plural, =0 {today} one {# day} other {# days}}",
+  "overdueBadge": "Overdue",
+  "summary": {
+    "title": "By carrier",
+    "expected": "{count} expected",
+    "overdue": "{count} overdue",
+    "hint": "Overdue: more than {days} days without reception, likely lost."
+  },
+  "batches": {
+    "date": "Date",
+    "carrier": "Carrier",
+    "courier": "Courier",
+    "received": "Received",
+    "missing": "Missing",
+    "open": "Open manifest"
+  },
+  "receive": {
+    "title": "Receive returns",
+    "subtitle": "Scan each parcel the courier hands you. The manifest lists what is missing.",
+    "carrier": "Carrier",
+    "chooseCarrier": "Choose the carrier",
+    "courier": "Courier name (optional)",
+    "scanLabel": "Tracking number",
+    "scanHint": "Scan the barcode or type the number, then press Enter.",
+    "add": "Add",
+    "scanned": "{count, plural, =0 {No parcel scanned} one {# parcel scanned} other {# parcels scanned}}",
+    "remove": "Remove {number}",
+    "condition": "Condition of {number}",
+    "declared": "Courier's list (optional)",
+    "declaredHint": "Paste the numbers from the courier's sheet, one per line: any not scanned are marked missing.",
+    "note": "Note (optional)",
+    "submit": "Save hand-over",
+    "noScan": "Scan at least one parcel.",
+    "noCarrier": "Choose the carrier."
+  },
+  "condition": {
+    "intact": "Intact",
+    "opened": "Opened",
+    "damaged": "Damaged",
+    "incomplete": "Incomplete"
+  },
+  "manifest": {
+    "title": "Return manifest",
+    "date": "Date",
+    "carrier": "Carrier",
+    "courier": "Courier",
+    "received": "Parcels received ({count})",
+    "missing": "Declared but not handed over ({count})",
+    "unknown": "Unknown numbers ({count})",
+    "alreadyReceived": "Already received before ({count})",
+    "unannounced": "Return not announced",
+    "condition": "Condition",
+    "order": "Order",
+    "print": "Print",
+    "back": "Back to the list",
+    "signCourier": "Courier's signature",
+    "signSeller": "Seller's signature",
+    "notFound": "This hand-over does not exist."
+  }
+}
