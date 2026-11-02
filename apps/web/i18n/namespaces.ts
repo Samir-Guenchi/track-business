@@ -12,6 +12,7 @@ export const namespaces = [
   'tracking',
   'followups',
   'returns',
+  'orderForm',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];

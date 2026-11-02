@@ -1,0 +1,45 @@
+{
+  "cod": "Cash on delivery",
+  "product": "Product",
+  "variant": "Size or colour",
+  "chooseVariant": "Choose",
+  "quantity": "Quantity",
+  "name": "Full name",
+  "phone": "Phone",
+  "phoneHint": "The shop calls you to confirm.",
+  "wilaya": "Wilaya",
+  "chooseWilaya": "Choose the wilaya",
+  "commune": "Commune",
+  "chooseCommune": "Choose the commune",
+  "delivery": "Delivery",
+  "deliveryType": { "home": "To your door", "stopdesk": "At the carrier's office" },
+  "address": "Address",
+  "stopDeskNote": "The shop will tell you the nearest office on the call.",
+  "summary": {
+    "subtotal": "Products",
+    "shipping": "Delivery",
+    "free": "Free",
+    "toConfirm": "Confirmed on the call",
+    "total": "Total to pay on delivery"
+  },
+  "submit": "Order",
+  "thanks": {
+    "title": "Thank you, order received!",
+    "body": "Your order number is {ref}. The shop will call you soon to confirm it.",
+    "total": "Total: {total}"
+  },
+  "errors": {
+    "duplicate": "You already ordered this product. The shop will call you.",
+    "rate_limited": "Too many orders in a short time. Try again in an hour.",
+    "spam": "Order refused.",
+    "invalid_product": "This choice is no longer available. Reload the page.",
+    "delivery_unavailable": "The shop does not deliver here this way yet.",
+    "validation": "Check the fields in red.",
+    "generic": "The order could not be sent. Try again."
+  },
+  "notFound": {
+    "title": "Form not found",
+    "body": "This form does not exist or is no longer active."
+  },
+  "poweredBy": "Orders handled with TrackEcom"
+}
