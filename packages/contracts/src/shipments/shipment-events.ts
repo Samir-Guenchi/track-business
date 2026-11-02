@@ -35,6 +35,8 @@ export const ShipRequestedEventSchema = z.strictObject({
   /** Short label text, e.g. "2 x Robe". */
   contents: z.string().min(1).max(200),
   notes: z.string().nullable(),
+  /** Exchanges (#138): what the courier takes back on delivery; absent or null otherwise. */
+  collect: z.string().max(200).nullable().optional(),
 });
 export type ShipRequestedEvent = z.infer<typeof ShipRequestedEventSchema>;
 

@@ -37,5 +37,6 @@ export function toShipRequested(
     declaredValue: order.subtotal,
     contents: parcelContents(order.items),
     notes: order.notes,
+    collect: order.exchangeCollect,
   };
 }

@@ -18,6 +18,8 @@ export interface CarrierCapabilities {
   readonly rates: boolean;
   /** Can find a parcel by our reference, which makes create safe to retry. */
   readonly findByReference: boolean;
+  /** Delivers and takes items back in one trip ("échange", #138). */
+  readonly exchanges: boolean;
 }
 
 /**

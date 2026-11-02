@@ -12,6 +12,8 @@ export interface NewShipment {
   readonly toWilayaCode: number;
   /** Which choices the customer gets on the tracking page (#136). */
   readonly deliveryType: DeliveryType;
+  /** Exchanges (#138): what the courier takes back, so the return chain expects it. */
+  readonly exchangeCollect: string | null;
   readonly publicCode: string;
   readonly nextPollAt: Date;
 }

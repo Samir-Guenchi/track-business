@@ -16,7 +16,7 @@ import {
   CarrierNotSupportedError,
 } from '../../carriers/domain/carrier-account.errors.js';
 import { nextPollAt } from '../../tracking/domain/poll-schedule.js';
-import { failureFor, toShipmentRequest } from '../domain/ship-request.js';
+import { failureFor, toShipmentRequest, withExchangeFallback } from '../domain/ship-request.js';
 import { UnknownPlaceError } from '../domain/shipment.errors.js';
 import { PlaceNamesResolver } from './place-names.js';
 import { SHIPMENT_REPOSITORY, type ShipmentRepository } from './ports/shipment.repository.js';
@@ -58,7 +58,8 @@ export class CreateShipmentUseCase {
   private async createParcel(storeId: string, request: ShipRequestedEvent) {
     const { adapter, ctx } = await this.carriers.connection(storeId, request.carrier);
     const parcel = toShipmentRequest(request, await this.places.resolve(request));
-    return createShipmentOnce({ adapter, ctx, request: parcel });
+    const sent = withExchangeFallback(parcel, adapter.capabilities.exchanges);
+    return createShipmentOnce({ adapter, ctx, request: sent });
   }
 
   private async save(origin: EventOrigin, request: ShipRequestedEvent, parcel: CreatedShipment) {
@@ -71,6 +72,7 @@ export class CreateShipmentUseCase {
       trackingNumber: parcel.trackingNumber,
       toWilayaCode: request.wilayaCode,
       deliveryType: request.deliveryType,
+      exchangeCollect: request.collect ?? null,
       publicCode: newPublicCode(),
       nextPollAt: nextPollAt('created', origin.now) ?? origin.now,
     };

@@ -1,6 +1,6 @@
 import type { ShipRequestedEvent } from '@trackecom/contracts';
 import { describe, expect, it } from 'vitest';
-import { failureFor, toShipmentRequest } from './ship-request.js';
+import { failureFor, toShipmentRequest, withExchangeFallback } from './ship-request.js';
 
 const event: ShipRequestedEvent = {
   orderId: '11111111-1111-4111-8111-111111111111',
@@ -37,6 +37,23 @@ describe('toShipmentRequest', () => {
     const desk = { ...event, deliveryType: 'stopdesk' as const, stopDeskId: 'some-desk' };
     const request = toShipmentRequest(desk, { ...places, stopDeskCode: '31-ES-SENIA' });
     expect(request.stopDeskCode).toBe('31-ES-SENIA');
+  });
+});
+
+describe('withExchangeFallback', () => {
+  const exchange = toShipmentRequest(
+    { ...event, collect: '1 x Robe - M' },
+    { ...places, stopDeskCode: null },
+  );
+
+  it('keeps the exchange for a carrier that offers it', () => {
+    expect(withExchangeFallback(exchange, true).collect).toBe('1 x Robe - M');
+  });
+
+  it("writes what to take back in the courier's notes otherwise", () => {
+    const sent = withExchangeFallback(exchange, false);
+    expect(sent.collect).toBeNull();
+    expect(sent.notes).toBe('ÉCHANGE - récupérer : 1 x Robe - M');
   });
 });
 

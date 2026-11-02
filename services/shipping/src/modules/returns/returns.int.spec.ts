@@ -121,6 +121,16 @@ describe.skipIf(!baseUrl || !redisUrl)('return-to-seller chain (real Postgres)',
     expect(ListExpectedReturnsResponseSchema.parse(rival.json()).items).toEqual([]);
   });
 
+  it("expects a delivered exchange's old items back (#138)", async () => {
+    await prisma.shipment.update({
+      where: { id: 'd0000000-0000-4000-8000-000000000004' },
+      data: { status: 'delivered', exchangeCollect: '1 x Robe - M', lastEventAt: new Date() },
+    });
+    const all = await call('packer', { method: 'GET', url: '/returns/expected' });
+    const items = ListExpectedReturnsResponseSchema.parse(all.json()).items;
+    expect(items.map((i) => i.trackingNumber)).toContain('TRK-4');
+  });
+
   it('pages the expected list with a cursor', async () => {
     const first = await call('packer', { method: 'GET', url: '/returns/expected?limit=2' });
     const page = ListExpectedReturnsResponseSchema.parse(first.json());

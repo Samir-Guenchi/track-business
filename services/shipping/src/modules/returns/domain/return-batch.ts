@@ -7,6 +7,8 @@ export interface KnownParcel {
   readonly orderId: string;
   readonly trackingNumber: string;
   readonly status: string;
+  /** A delivered exchange: its old items coming back are expected (#138). */
+  readonly collectsExchange: boolean;
   readonly alreadyReceived: boolean;
 }
 
@@ -61,6 +63,6 @@ function toReceipt(parcel: KnownParcel, condition: ReturnCondition): Receipt {
     orderId: parcel.orderId,
     trackingNumber: parcel.trackingNumber,
     condition,
-    unannounced: !isAnnouncedReturn(parcel.status),
+    unannounced: !isAnnouncedReturn(parcel.status) && !parcel.collectsExchange,
   };
 }

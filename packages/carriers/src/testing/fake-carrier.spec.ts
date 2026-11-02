@@ -18,6 +18,7 @@ const request = {
   notes: null,
   fragile: false,
   canOpen: true,
+  collect: null,
 };
 
 carrierContract('FakeCarrier', () => {

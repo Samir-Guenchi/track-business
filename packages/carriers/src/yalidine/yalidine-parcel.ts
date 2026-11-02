@@ -34,6 +34,7 @@ export function toYalidineParcel(request: ShipmentRequest): YalidineParcelInput 
     freeshipping: false,
     is_stopdesk: stopDesk,
     ...(stopDesk && request.stopDeskCode ? { stopdesk_id: request.stopDeskCode } : {}),
-    has_exchange: false,
+    has_exchange: request.collect !== null,
+    ...(request.collect ? { product_to_collect: request.collect } : {}),
   };
 }

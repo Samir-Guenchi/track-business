@@ -28,7 +28,21 @@ export function toShipmentRequest(event: ShipRequestedEvent, places: PlaceNames)
     notes: event.notes,
     fragile: false,
     canOpen: false,
+    collect: event.collect ?? null,
   };
+}
+
+/**
+ * A carrier without an exchange service still gets the parcel: what to take back goes in the
+ * courier's notes, and the seller follows the pickup by hand (#138).
+ */
+export function withExchangeFallback(
+  request: ShipmentRequest,
+  supported: boolean,
+): ShipmentRequest {
+  if (supported || request.collect === null) return request;
+  const note = `ÉCHANGE - récupérer : ${request.collect}`;
+  return { ...request, collect: null, notes: request.notes ? `${note}. ${request.notes}` : note };
 }
 
 const FAILURE_BY_KIND: Readonly<Record<CarrierErrorKind, ShipmentFailure>> = {

@@ -7,6 +7,7 @@ const parcel = (trackingNumber: string, extra: Partial<KnownParcel> = {}): Known
   orderId: `o-${trackingNumber}`,
   trackingNumber,
   status: 'returned',
+  collectsExchange: false,
   alreadyReceived: false,
   ...extra,
 });
@@ -35,6 +36,12 @@ describe('sortBatch', () => {
   it('marks a parcel the carrier never announced as returning', () => {
     const sort = sortBatch([scan('A1')], known(parcel('A1', { status: 'in_transit' })));
     expect(sort.received[0]?.unannounced).toBe(true);
+  });
+
+  it("expects a delivered exchange's old items back (#138)", () => {
+    const exchange = parcel('E1', { status: 'delivered', collectsExchange: true });
+    const sort = sortBatch([scan('E1')], known(exchange));
+    expect(sort.received[0]?.unannounced).toBe(false);
   });
 
   it('lists declared numbers that were not handed over', () => {

@@ -13,6 +13,8 @@ model Shipment {
   toWilayaCode   Int?      @map("to_wilaya_code")
   /// home or stopdesk, as ordered; null for parcels created before #136.
   deliveryType   String?   @map("delivery_type")
+  /// Exchanges (#138): what the courier takes back; the return chain expects it once delivered.
+  exchangeCollect String?  @map("exchange_collect")
   /// Normalised ParcelStatus from the contracts.
   status         String    @default("created")
   /// Random code for the customer's tracking link; not guessable from the tracking number.
