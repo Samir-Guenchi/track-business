@@ -69,6 +69,14 @@ Goal: open TrackEcom to partners and larger merchants.
 
 ---
 
+## Next ideas (Nov 2026 brainstorm)
+
+New issues #132-#155 from [docs/research/pains-and-features-2026-11.md](docs/research/pains-and-features-2026-11.md), placed in the phases above:
+
+- ⬜ Phase 2: failed-delivery action centre, return-to-seller chain, embeddable COD order form, location pins, customer delivery choices, stop-desk picker, exchanges, carrier claims and scorecard, legal invoices
+- ⬜ Phase 3: deposits for risky orders, open-box and partial delivery, ad spend and true profit, agent pay, automated confirmation (IVR / WhatsApp), upsells, abandoned forms, packing proof
+- ⬜ Phase 4: customer CRM, confirmation agencies, COD advance research, courier app, dispatch, hub operations, carrier-to-carrier hand-off
+
 ## Success measures
 
 | Measure | Phase 1 target | Phase 3 target |
