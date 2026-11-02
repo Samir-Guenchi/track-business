@@ -12,7 +12,7 @@ import { AuthCard } from '../auth/auth-card';
 import { FormAlert } from '../auth/form-alert';
 import { useAuthForm } from '../auth/use-auth-form';
 
-// TODO(#16): wilaya of origin, logo, orders per day and current carriers need a store profile endpoint in identity.
+// TODO(#160): wilaya of origin, logo, orders per day and current carriers need a store profile endpoint in identity.
 export function CreateStoreForm() {
   const t = useTranslations('onboarding');
   const router = useRouter();
