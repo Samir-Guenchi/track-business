@@ -18,6 +18,8 @@ export const OrderSourceSchema = z.enum([
   'youcan',
   'social',
   'api',
+  /** The embeddable COD order form (#134). */
+  'form',
 ]);
 export type OrderSource = z.infer<typeof OrderSourceSchema>;
 

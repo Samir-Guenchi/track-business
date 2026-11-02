@@ -37,6 +37,7 @@ export const ROUTES: readonly Route[] = [
   { prefix: '/confirmation', service: 'orders' },
   { prefix: '/blacklist', service: 'orders' },
   { prefix: '/public/confirm', service: 'orders' },
+  { prefix: '/public/forms', service: 'orders' },
   { prefix: '/money', service: 'payments' },
   { prefix: '/payouts', service: 'payments' },
   { prefix: '/notifications', service: 'notifications' },

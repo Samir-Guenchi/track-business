@@ -11,6 +11,8 @@ import { InfrastructureModule } from './infrastructure/infrastructure.module.js'
 import { PrismaService } from './infrastructure/prisma/prisma.service.js';
 import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
+import { orderFormsOpenApiPaths } from './modules/order-forms/interface/order-forms.openapi.js';
+import { OrderFormsModule } from './modules/order-forms/order-forms.module.js';
 import { DeliveryFollowupModule } from './modules/delivery-followup/delivery-followup.module.js';
 import { followupsOpenApiPaths } from './modules/delivery-followup/interface/followups.openapi.js';
 import { ConfirmationModule } from './modules/confirmation/confirmation.module.js';
@@ -26,6 +28,20 @@ import { ShipmentStatusModule } from './modules/shipment-status/shipment-status.
 import { ShopImportModule } from './modules/shop-import/shop-import.module.js';
 
 export const SERVICE_NAME = 'orders';
+
+const OPEN_API = {
+  title: 'TrackEcom orders',
+  version: '0.1.0',
+  paths: {
+    ...ordersOpenApiPaths,
+    ...confirmationOpenApiPaths,
+    ...fraudOpenApiPaths,
+    ...riskScoreOpenApiPaths,
+    ...selfConfirmOpenApiPaths,
+    ...followupsOpenApiPaths,
+    ...orderFormsOpenApiPaths,
+  },
+};
 
 /** Root module. Each feature module (orders #22, confirmation #28...) is one import. */
 @Module({})
@@ -44,18 +60,7 @@ export class AppModule {
             { name: 'redis', isHealthy: () => probe(() => redis.ping()) },
           ],
         }),
-        OpenApiModule.forRoot({
-          title: 'TrackEcom orders',
-          version: '0.1.0',
-          paths: {
-            ...ordersOpenApiPaths,
-            ...confirmationOpenApiPaths,
-            ...fraudOpenApiPaths,
-            ...riskScoreOpenApiPaths,
-            ...selfConfirmOpenApiPaths,
-            ...followupsOpenApiPaths,
-          },
-        }),
+        OpenApiModule.forRoot(OPEN_API),
         StoreAccessModule.forRoot({
           options: { identityUrl: env.IDENTITY_URL, roleCacheSeconds: env.ROLE_CACHE_SECONDS },
           cache: redisRoleCache,
@@ -67,6 +72,7 @@ export class AppModule {
         SelfConfirmModule,
         ShopImportModule,
         DeliveryFollowupModule,
+        OrderFormsModule,
       ],
     };
   }
