@@ -5,16 +5,28 @@ import { RETURN_STATUSES, overdueCutoff } from '../domain/return-window.js';
 
 type ShipmentWhere = Prisma.ShipmentWhereInput;
 
-/** Parcels the carrier sent back that nobody has scanned in yet. */
+/**
+ * Parcels the carrier sent back, and delivered exchanges whose old items the courier took back
+ * (#138), that nobody has scanned in yet.
+ */
 export const outstandingReturns = (storeId: string): ShipmentWhere => ({
   storeId,
-  status: { in: [...RETURN_STATUSES] },
   returnReceipt: { is: null },
+  OR: [
+    { status: { in: [...RETURN_STATUSES] } },
+    { status: 'delivered', exchangeCollect: { not: null } },
+  ],
 });
 
 /** Announced as returning before the cutoff: likely lost if still not here. */
 export const announcedBefore = (cutoff: Date): ShipmentWhere => ({
-  events: { some: { status: { in: [...RETURN_STATUSES] }, at: { lt: cutoff } } },
+  OR: [
+    { events: { some: { status: { in: [...RETURN_STATUSES] }, at: { lt: cutoff } } } },
+    {
+      exchangeCollect: { not: null },
+      events: { some: { status: 'delivered', at: { lt: cutoff } } },
+    },
+  ],
 });
 
 export function expectedWhere(storeId: string, query: ListExpectedReturnsQuery, now: Date) {

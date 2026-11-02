@@ -31,6 +31,7 @@ const request: ShipmentRequest = {
   notes: null,
   fragile: false,
   canOpen: true,
+  collect: null,
 };
 
 interface Call {

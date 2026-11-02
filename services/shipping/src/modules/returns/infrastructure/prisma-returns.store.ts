@@ -72,6 +72,7 @@ export class PrismaReturnsStore implements ReturnsStore {
       orderId: row.orderId,
       trackingNumber: row.trackingNumber,
       status: row.status,
+      collectsExchange: row.exchangeCollect !== null && row.status === 'delivered',
       alreadyReceived: row.returnReceipt !== null,
     }));
     return new Map(parcels.map((parcel) => [parcel.trackingNumber, parcel]));

@@ -45,6 +45,8 @@ export interface ShipmentRequest {
   readonly fragile: boolean;
   /** The customer may open the parcel before paying. */
   readonly canOpen: boolean;
+  /** Exchanges (#138): what the courier takes back; null for a plain delivery. */
+  readonly collect: string | null;
 }
 
 export interface CreatedShipment {

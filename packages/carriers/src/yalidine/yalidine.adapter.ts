@@ -39,6 +39,7 @@ export class YalidineAdapter implements CarrierAdapter {
     labels: true,
     rates: false,
     findByReference: true,
+    exchanges: true,
   };
   private readonly http: CarrierHttp;
 

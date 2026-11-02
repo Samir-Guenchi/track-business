@@ -45,6 +45,7 @@ export class FakeCarrier implements CarrierAdapter {
       labels: false,
       rates: false,
       findByReference: true,
+      exchanges: true,
       ...options.capabilities,
     };
     this.failuresLeft = options.failCreates ?? 0;

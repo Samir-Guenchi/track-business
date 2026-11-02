@@ -30,6 +30,8 @@ export interface YalidineParcelInput {
   readonly is_stopdesk: boolean;
   readonly stopdesk_id?: string;
   readonly has_exchange: boolean;
+  /** What the courier takes back when `has_exchange` is true. */
+  readonly product_to_collect?: string;
 }
 
 export interface YalidineCreateResult {
