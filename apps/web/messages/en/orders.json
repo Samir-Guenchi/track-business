@@ -54,7 +54,11 @@
     "notes": "Notes",
     "tracking": "Tracking",
     "history": "History",
-    "source": "Source"
+    "source": "Source",
+    "landmark": "Landmark",
+    "pin": "Location",
+    "pinByCustomer": "Open the location the customer shared",
+    "pinByAgent": "Open the location the agent saved"
   },
   "history": {
     "created": "Order created",
@@ -133,6 +137,7 @@
       "abusive": "abusive",
       "other": "other reason"
     },
-    "customer": "Customer"
+    "customer": "Customer",
+    "landmark": "Landmark (facing, behind...)"
   }
 }

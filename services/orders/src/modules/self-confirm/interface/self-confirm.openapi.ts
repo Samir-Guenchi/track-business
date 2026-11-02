@@ -3,6 +3,7 @@ import {
   SelfConfirmRequestSchema,
   SelfConfirmResponseSchema,
   SelfConfirmViewSchema,
+  ShareLocationRequestSchema,
 } from '@trackecom/contracts';
 import type { z } from 'zod';
 import type { ZodOpenApiPathsObject } from 'zod-openapi';
@@ -33,6 +34,16 @@ export const selfConfirmOpenApiPaths: ZodOpenApiPathsObject = {
       responses: {
         '200': json('New order status', SelfConfirmResponseSchema),
         '409': { description: 'Link already used, or the order is past confirmation' },
+      },
+    },
+  },
+  '/public/confirm/{token}/location': {
+    post: {
+      summary: 'Public: drop or move a map pin, with an optional landmark (#135)',
+      requestBody: { content: { 'application/json': { schema: ShareLocationRequestSchema } } },
+      responses: {
+        '204': { description: 'Saved on the order' },
+        '409': { description: 'The parcel is delivered, returned or cancelled' },
       },
     },
   },

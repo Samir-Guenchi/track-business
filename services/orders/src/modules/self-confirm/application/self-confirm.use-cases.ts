@@ -10,18 +10,19 @@ import { nextVersion } from '../../orders/application/load-order.js';
 import type { OrderActor } from '../../orders/application/order-actor.js';
 import { OrderChangeRecorder } from '../../orders/application/order-change.recorder.js';
 import { ORDERS_PORTS, type OrderRepository } from '../../orders/application/ports/orders.ports.js';
-import type { OrderRecord } from '../../orders/domain/order.js';
+import type { LocationPinRecord, OrderRecord } from '../../orders/domain/order.js';
 import {
   LinkClosedError,
   LinkNotFoundError,
   type LinkRecord,
   answerStatus,
   canAnswer,
+  canShareLocation,
 } from '../domain/self-confirm.js';
 import { LINK_STORE, type LinkStore } from './link-store.port.js';
 import { hashToken } from './token.js';
 
-interface Opened {
+export interface Opened {
   readonly link: LinkRecord;
   readonly order: OrderRecord;
 }
@@ -41,6 +42,9 @@ const newAddress = (
   { wilayaCode, communeId, address }: Extract<SelfConfirmRequest, { action: 'change_address' }>,
 ): OrderRecord['customer'] => ({ ...order.customer, wilayaCode, communeId, address });
 
+const pinDto = (pin: LocationPinRecord | null) =>
+  pin ? { ...pin, setAt: pin.setAt.toISOString() } : null;
+
 /** What the public self-confirmation page reads and does (#54); the token is the only key. */
 @Injectable()
 export class SelfConfirmUseCases {
@@ -52,6 +56,7 @@ export class SelfConfirmUseCases {
 
   async view(token: string): Promise<SelfConfirmView> {
     const { link, order } = await this.open(token);
+    const now = this.recorder.now();
     return {
       ref: order.ref,
       status: order.status,
@@ -61,7 +66,10 @@ export class SelfConfirmUseCases {
       wilayaCode: order.customer.wilayaCode,
       communeId: order.customer.communeId,
       address: order.customer.address,
-      canAnswer: canAnswer(link, order.status, this.recorder.now()),
+      landmark: order.customer.landmark,
+      location: pinDto(order.customer.location),
+      canShareLocation: canShareLocation(link, order.status, now),
+      canAnswer: canAnswer(link, order.status, now),
       expiresAt: link.expiresAt.toISOString(),
     };
   }
@@ -84,7 +92,7 @@ export class SelfConfirmUseCases {
     }
   }
 
-  private async open(token: string): Promise<Opened> {
+  async open(token: string): Promise<Opened> {
     const link = await this.links.findByTokenHash(hashToken(token));
     if (!link || link.expiresAt <= this.recorder.now()) throw new LinkNotFoundError();
     const order = await this.orders.findById(link.storeId, link.orderId);

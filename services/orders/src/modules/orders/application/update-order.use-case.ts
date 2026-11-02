@@ -19,11 +19,9 @@ export class UpdateOrderUseCase {
   async execute(actor: OrderActor, id: string, input: OrderInput): Promise<OrderRecord> {
     const before = await loadOrder(this.orders, actor.storeId, id);
     if (!EDITABLE_STATUSES.includes(before.status)) throw new OrderLockedError(before.status);
-    const after = nextVersion(
-      before,
-      draftFromInput(input, this.recorder.newId),
-      this.recorder.now(),
-    );
+    const now = this.recorder.now();
+    const context = { newId: this.recorder.newId, now, previousPin: before.customer.location };
+    const after = nextVersion(before, draftFromInput(input, context), now);
     await this.orders.update(
       after,
       this.recorder.effects(actor, { action: 'edited', before, after }),
