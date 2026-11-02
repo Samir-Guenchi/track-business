@@ -24,7 +24,10 @@ export function StoreSwitcher() {
 
   return (
     <Select value={storeId} onValueChange={change} disabled={stores.length < 2}>
-      <SelectTrigger aria-label={t('label')} className="w-32 whitespace-nowrap sm:w-44">
+      <SelectTrigger
+        aria-label={t('label')}
+        className="w-36 overflow-hidden whitespace-nowrap sm:w-52 [&>span]:truncate"
+      >
         <SelectValue placeholder={t('placeholder')} />
       </SelectTrigger>
       <SelectContent>

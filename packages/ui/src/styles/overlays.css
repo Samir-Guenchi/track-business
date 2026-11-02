@@ -108,6 +108,13 @@
 .tk-table tbody tr[data-selected='true'] {
   background: color-mix(in srgb, var(--trackecom-tape-green) 7%, var(--trackecom-surface));
 }
+.tk-table tbody tr[data-active='true'] {
+  background: color-mix(in srgb, var(--trackecom-tape-green) 12%, var(--trackecom-surface));
+  box-shadow: inset 3px 0 0 var(--trackecom-tape-green);
+}
+[dir='rtl'] .tk-table tbody tr[data-active='true'] {
+  box-shadow: inset -3px 0 0 var(--trackecom-tape-green);
+}
 .tk-table__check {
   width: 2.75rem;
   text-align: center !important;

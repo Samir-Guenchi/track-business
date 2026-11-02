@@ -1,0 +1,85 @@
+{
+  "title": "Commandes",
+  "tabs": {
+    "to_confirm": "À confirmer",
+    "to_ship": "À expédier",
+    "on_the_way": "En route",
+    "delivered": "Livrées",
+    "returns": "Retours",
+    "cancelled": "Annulées",
+    "all": "Toutes"
+  },
+  "search": "Rechercher (réf., nom, téléphone, suivi)",
+  "allWilayas": "Toutes les wilayas",
+  "wilaya": "Wilaya",
+  "columns": {
+    "ref": "Réf.",
+    "customer": "Client",
+    "wilaya": "Wilaya",
+    "total": "À encaisser",
+    "status": "Statut",
+    "created": "Créée le"
+  },
+  "tableLabel": "Liste des commandes",
+  "selectAll": "Tout sélectionner",
+  "selectRow": "Sélectionner la commande {ref}",
+  "selected": "{count, plural, one {# commande sélectionnée} other {# commandes sélectionnées}}",
+  "actions": {
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "open": "Ouvrir",
+    "more": "Charger plus"
+  },
+  "bulkDone": "{ok, plural, one {# commande mise à jour} other {# commandes mises à jour}}{failed, plural, =0 {} other {, # refusées}}.",
+  "empty": {
+    "title": "Aucune commande ici",
+    "description": "Les commandes de ce filtre apparaîtront ici."
+  },
+  "shortcuts": "Raccourcis : j / k pour se déplacer, Entrée pour ouvrir, c pour confirmer, x pour annuler.",
+  "risk": "Signal de risque",
+  "back": "Retour aux commandes",
+  "detail": {
+    "customer": "Client",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "delivery": "Livraison",
+    "home": "À domicile",
+    "stopdesk": "Stop-desk",
+    "items": "Articles",
+    "quantity": "Qté",
+    "subtotal": "Sous-total",
+    "shipping": "Livraison",
+    "discount": "Remise",
+    "cod": "À encaisser",
+    "notes": "Notes",
+    "tracking": "Suivi",
+    "history": "Historique",
+    "source": "Source"
+  },
+  "history": {
+    "created": "Commande créée",
+    "edited": "Commande modifiée",
+    "status_changed": "Statut changé",
+    "assigned": "Agent assigné",
+    "tagged": "Étiquette",
+    "deleted": "Supprimée",
+    "call_logged": "Appel enregistré"
+  },
+  "moveTo": "Passer à",
+  "status": {
+    "new": "Nouvelle",
+    "to_confirm": "À confirmer",
+    "confirmed": "Confirmée",
+    "cancelled": "Annulée",
+    "unreachable": "Injoignable",
+    "postponed": "Reportée",
+    "ready_to_ship": "Prête à expédier",
+    "shipped": "Expédiée",
+    "in_transit": "En transit",
+    "out_for_delivery": "En livraison",
+    "delivered": "Livrée",
+    "failed_attempt": "Échec de livraison",
+    "returning": "En retour",
+    "returned": "Retournée"
+  }
+}

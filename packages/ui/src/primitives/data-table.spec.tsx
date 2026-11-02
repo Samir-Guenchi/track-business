@@ -101,4 +101,19 @@ describe('DataTable', () => {
     await user.click(screen.getByRole('button', { name: 'Total' }));
     expect(getOrderNames()).toEqual(['Order A', 'Order B']);
   });
+
+  it('marks the active row for keyboard users and scrolls it into view', () => {
+    const scrollIntoView = vi.fn();
+    HTMLElement.prototype.scrollIntoView = scrollIntoView;
+    const rows = [
+      { id: 'order-a', name: 'Order A', total: 20 },
+      { id: 'order-b', name: 'Order B', total: 10 },
+    ];
+    render(<DataTable {...baseProps} rows={rows} activeRowId="order-b" />);
+
+    const active = screen.getByText('Order B').closest('tr');
+    expect(active?.getAttribute('aria-current')).toBe('true');
+    expect(screen.getByText('Order A').closest('tr')?.hasAttribute('aria-current')).toBe(false);
+    expect(scrollIntoView).toHaveBeenCalledWith({ block: 'nearest' });
+  });
 });
