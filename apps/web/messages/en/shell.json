@@ -1,0 +1,16 @@
+{
+  "mainNav": "Main navigation",
+  "openMenu": "Open menu",
+  "closeMenu": "Close menu",
+  "language": "Language",
+  "theme": { "label": "Theme", "light": "Light", "dark": "Dark" },
+  "store": { "label": "Store", "placeholder": "My store" },
+  "nav": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "confirmation": "Confirmation",
+    "shipments": "Shipments",
+    "money": "Cash collection",
+    "settings": "Settings"
+  }
+}
