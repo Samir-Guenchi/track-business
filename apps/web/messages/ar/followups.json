@@ -1,0 +1,50 @@
+{
+  "title": "التوصيلات الفاشلة",
+  "subtitle": "طرود لم يتمكن الموصل من تسليمها. قرر قبل جولته القادمة وإلا ستعود كمرتجعات.",
+  "status": {
+    "open": "بانتظار القرار",
+    "decided": "تم القرار",
+    "closed": "مغلقة"
+  },
+  "reason": {
+    "absent": "الزبون غائب",
+    "refused": "مرفوض",
+    "wrong_address": "عنوان خاطئ",
+    "phone_off": "الهاتف مغلق",
+    "no_answer": "لا يرد",
+    "postponed_by_customer": "أجّله الزبون",
+    "other": "سبب آخر"
+  },
+  "allReasons": "كل الأسباب",
+  "overdue": "المتأخرة فقط",
+  "attempts": "{count, plural, one {محاولة واحدة} two {محاولتان} few {# محاولات} many {# محاولة} other {# محاولة}}",
+  "due": "قرر قبل {time}",
+  "overdueBadge": "متأخر",
+  "decision": {
+    "reattempt": "إعادة المحاولة",
+    "switch_to_stopdesk": "التحويل إلى مكتب التوصيل",
+    "return": "إرجاع"
+  },
+  "decided": "القرار: {decision}",
+  "outcome": {
+    "delivered": "سُلّم بعد المتابعة",
+    "returned": "أُرجع"
+  },
+  "stopDesk": "رمز مكتب التوصيل",
+  "confirmStopDesk": "تحويل",
+  "cancel": "إلغاء",
+  "saved": "تم حفظ القرار للطلب {ref}.",
+  "empty": "لا شيء بانتظار القرار. تظهر التوصيلات الفاشلة هنا فور إبلاغ الموصل عنها.",
+  "more": "عرض المزيد",
+  "metrics": "الاسترجاع حسب شركة التوصيل",
+  "metricsEmpty": "لا توجد توصيلات فاشلة بعد.",
+  "columns": {
+    "carrier": "شركة التوصيل",
+    "reason": "السبب",
+    "failed": "فاشلة",
+    "recovered": "مسترجعة",
+    "returned": "مرتجعة",
+    "rate": "نسبة الاسترجاع"
+  },
+  "listLabel": "التوصيلات الفاشلة"
+}

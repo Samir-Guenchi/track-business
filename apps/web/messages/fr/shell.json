@@ -8,6 +8,7 @@
   "nav": {
     "dashboard": "Tableau de bord",
     "orders": "Commandes",
+    "followups": "Échecs de livraison",
     "confirmation": "Confirmation",
     "shipments": "Expéditions",
     "money": "Encaissements",
