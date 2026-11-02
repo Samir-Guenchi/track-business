@@ -1,0 +1,34 @@
+{
+  "title": "Track my parcel",
+  "headline": {
+    "created": "Your order is being prepared",
+    "picked_up": "Handed to the courier",
+    "in_transit": "On its way to you",
+    "out_for_delivery": "Out for delivery",
+    "delivered": "Delivered",
+    "failed_attempt": "Delivery attempt failed",
+    "returning": "Going back to the shop",
+    "returned": "Returned to the shop",
+    "cancelled": "Shipment cancelled"
+  },
+  "steps": {
+    "created": "Prepared",
+    "picked_up": "Picked up",
+    "in_transit": "On the way",
+    "out_for_delivery": "Out for delivery",
+    "delivered": "Delivered"
+  },
+  "eta": "Expected {day}",
+  "etaRange": "Expected between {earliest} and {latest}",
+  "carrier": "Courier",
+  "trackingNumber": "Tracking number",
+  "history": "History",
+  "noEvents": "No update from the courier yet.",
+  "attentionHelp": "The courier could not deliver your parcel. Keep your phone on: they will call you again.",
+  "stoppedHelp": "Contact the shop for more information.",
+  "updated": "Updated every minute.",
+  "poweredBy": "Tracking by TrackEcom",
+  "notFoundTitle": "Parcel not found",
+  "notFoundBody": "Check the link you received by SMS or WhatsApp.",
+  "shareDescription": "Follow your delivery live."
+}

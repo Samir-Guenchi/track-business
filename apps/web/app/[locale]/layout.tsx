@@ -1,9 +1,7 @@
 import type { Metadata, Viewport } from 'next';
-import { NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { AppProviders } from '../../components/providers/app-providers';
 import { ThemeScript } from '../../components/providers/theme-script';
 import { directionOf, isLocale, locales } from '../../i18n/routing';
 import '../globals.css';
@@ -39,11 +37,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       <head>
         <ThemeScript />
       </head>
-      <body>
-        <NextIntlClientProvider>
-          <AppProviders>{children}</AppProviders>
-        </NextIntlClientProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
