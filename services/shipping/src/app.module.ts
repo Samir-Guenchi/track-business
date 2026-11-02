@@ -17,6 +17,8 @@ import { GeoModule } from './modules/geo/geo.module.js';
 import { geoOpenApiPaths } from './modules/geo/interface/geo.openapi.js';
 import { pricingOpenApiPaths } from './modules/pricing/interface/pricing.openapi.js';
 import { PricingModule } from './modules/pricing/pricing.module.js';
+import { returnsOpenApiPaths } from './modules/returns/interface/returns.openapi.js';
+import { ReturnsModule } from './modules/returns/returns.module.js';
 import { ShipmentsModule } from './modules/shipments/shipments.module.js';
 import { suggestionOpenApiPaths } from './modules/suggestion/interface/suggestion.openapi.js';
 import { SuggestionModule } from './modules/suggestion/suggestion.module.js';
@@ -51,6 +53,7 @@ export class AppModule {
             ...carriersOpenApiPaths,
             ...trackingOpenApiPaths,
             ...suggestionOpenApiPaths,
+            ...returnsOpenApiPaths,
           },
         }),
         StoreAccessModule.forRoot({
@@ -63,6 +66,7 @@ export class AppModule {
         TrackingModule,
         ShipmentsModule,
         SuggestionModule,
+        ReturnsModule,
       ],
     };
   }

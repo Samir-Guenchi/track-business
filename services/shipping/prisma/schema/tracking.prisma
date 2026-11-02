@@ -22,7 +22,8 @@ model Shipment {
   createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
 
-  events TrackingEvent[]
+  events        TrackingEvent[]
+  returnReceipt ReturnReceipt?
 
   @@unique([carrier, trackingNumber])
   @@unique([storeId, reference])

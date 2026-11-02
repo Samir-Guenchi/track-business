@@ -1,0 +1,41 @@
+// Return-to-seller chain (#133): what the courier hands back, scanned by the seller.
+
+/// One hand-over by a courier: the scan, the courier's own list and what did not match.
+model ReturnBatch {
+  id              String   @id @db.Uuid
+  storeId         String   @map("store_id") @db.Uuid
+  carrier         String
+  courierName     String?  @map("courier_name")
+  note            String?
+  /// The user who scanned the batch.
+  receivedBy      String   @map("received_by") @db.Uuid
+  /// Declared by the courier, not scanned.
+  missing         String[]
+  /// Scanned, but no parcel of this store and carrier has that number.
+  unknown         String[]
+  alreadyReceived String[] @map("already_received")
+  receivedCount   Int      @map("received_count")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  receipts ReturnReceipt[]
+
+  @@index([storeId, createdAt(sort: Desc), id])
+  @@map("return_batches")
+}
+
+/// A returned parcel in the seller's hands. One per shipment: a parcel is received once.
+model ReturnReceipt {
+  shipmentId  String   @id @map("shipment_id") @db.Uuid
+  storeId     String   @map("store_id") @db.Uuid
+  batchId     String   @map("batch_id") @db.Uuid
+  condition   String
+  /// The carrier had not announced the return when it was scanned.
+  unannounced Boolean
+  receivedAt  DateTime @map("received_at") @db.Timestamptz(3)
+
+  shipment Shipment    @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  batch    ReturnBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@index([batchId])
+  @@map("return_receipts")
+}
