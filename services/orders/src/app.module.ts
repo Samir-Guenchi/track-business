@@ -11,6 +11,8 @@ import { InfrastructureModule } from './infrastructure/infrastructure.module.js'
 import { PrismaService } from './infrastructure/prisma/prisma.service.js';
 import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
+import { DeliveryFollowupModule } from './modules/delivery-followup/delivery-followup.module.js';
+import { followupsOpenApiPaths } from './modules/delivery-followup/interface/followups.openapi.js';
 import { ConfirmationModule } from './modules/confirmation/confirmation.module.js';
 import { confirmationOpenApiPaths } from './modules/confirmation/interface/confirmation.openapi.js';
 import { fraudOpenApiPaths } from './modules/fraud/interface/fraud.openapi.js';
@@ -51,6 +53,7 @@ export class AppModule {
             ...fraudOpenApiPaths,
             ...riskScoreOpenApiPaths,
             ...selfConfirmOpenApiPaths,
+            ...followupsOpenApiPaths,
           },
         }),
         StoreAccessModule.forRoot({
@@ -63,6 +66,7 @@ export class AppModule {
         RiskScoreModule,
         SelfConfirmModule,
         ShopImportModule,
+        DeliveryFollowupModule,
       ],
     };
   }
