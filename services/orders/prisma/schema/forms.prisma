@@ -19,3 +19,29 @@ model OrderForm {
   @@index([storeId, createdAt])
   @@map("order_forms")
 }
+
+/// Every attempt on a public form, accepted or not: rate limits, duplicates and ad analytics.
+model FormSubmission {
+  id          String   @id @db.Uuid
+  formId      String   @map("form_id") @db.Uuid
+  storeId     String   @map("store_id") @db.Uuid
+  /// Set when the attempt became an order.
+  orderId     String?  @map("order_id") @db.Uuid
+  /// created, duplicate, rate_limited or spam.
+  outcome     String
+  phone       String
+  productId   String   @map("product_id")
+  /// SHA-256 of the caller's address: enough to count, not to locate anyone.
+  ipHash      String   @map("ip_hash")
+  utmSource   String?  @map("utm_source")
+  utmMedium   String?  @map("utm_medium")
+  utmCampaign String?  @map("utm_campaign")
+  utmContent  String?  @map("utm_content")
+  utmTerm     String?  @map("utm_term")
+  createdAt   DateTime @map("created_at") @db.Timestamptz(3)
+
+  @@index([ipHash, createdAt])
+  @@index([storeId, phone, createdAt])
+  @@index([formId, createdAt])
+  @@map("form_submissions")
+}
