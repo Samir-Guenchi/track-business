@@ -29,6 +29,7 @@ model Shipment {
   events        TrackingEvent[]
   returnReceipt ReturnReceipt?
   deliveryRequests DeliveryRequest[]
+  claim         Claim?
 
   @@unique([carrier, trackingNumber])
   @@unique([storeId, reference])
