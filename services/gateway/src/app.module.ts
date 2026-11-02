@@ -4,7 +4,7 @@ import type { Env } from './config/env.schema.js';
 
 export const SERVICE_NAME = 'gateway';
 
-/** Public entry point. Routes to identity and the other services are added per feature. */
+/** Public entry point. Forwarding to the services is registered in `create-gateway-app.ts`. */
 @Module({})
 export class AppModule {
   static forRoot(env: Env): DynamicModule {

@@ -26,7 +26,16 @@ services:
     <<: *service
     image: ghcr.io/samir-guenchi/trackecom-gateway:${IMAGE_TAG}
     environment:
-      { PORT: 4000, NODE_ENV: production, RELEASE: '${IMAGE_TAG}', DEPLOY_ENV: '${DEPLOY_ENV}' }
+      PORT: 4000
+      NODE_ENV: production
+      RELEASE: ${IMAGE_TAG}
+      DEPLOY_ENV: ${DEPLOY_ENV}
+      IDENTITY_URL: http://identity:4001
+      SHIPPING_URL: http://shipping:4002
+      ORDERS_URL: http://orders:4003
+      PAYMENTS_URL: http://payments:4004
+      NOTIFICATIONS_URL: http://notifications:4005
+      INTEGRATIONS_URL: http://integrations:4006
 
   identity:
     <<: *service
