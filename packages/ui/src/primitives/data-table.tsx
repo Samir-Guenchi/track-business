@@ -19,6 +19,8 @@ export interface DataTableProps<Row> {
   readonly selectAllLabel: string;
   readonly selectionLabel: (id: string) => string;
   readonly onSelectionChange?: (selectedIds: readonly string[]) => void;
+  /** Row highlighted for keyboard work (j/k in the orders list); scrolled into view when it changes. */
+  readonly activeRowId?: string | undefined;
 }
 
 type SortDirection = 'ascending' | 'descending';
@@ -160,6 +162,18 @@ interface TableBodyProps<Row> {
   readonly selectedIds: ReadonlySet<string>;
   readonly selectionLabel: (id: string) => string;
   readonly onToggleRow: (id: string) => void;
+  readonly activeRowId?: string | undefined;
+}
+
+function TableRowScroller({ activeRowId }: { readonly activeRowId?: string | undefined }) {
+  useLayoutEffect(() => {
+    if (!activeRowId) return;
+    const rows = document.querySelectorAll<HTMLElement>('tr[data-row-id]');
+    [...rows]
+      .find((row) => row.dataset['rowId'] === activeRowId)
+      ?.scrollIntoView({ block: 'nearest' });
+  }, [activeRowId]);
+  return null;
 }
 
 function TableBody<Row>({
@@ -169,13 +183,20 @@ function TableBody<Row>({
   selectedIds,
   selectionLabel,
   onToggleRow,
+  activeRowId,
 }: TableBodyProps<Row>) {
   return (
     <tbody>
       {rows.map((row) => {
         const id = getRowId(row);
         return (
-          <tr key={id} data-selected={selectedIds.has(id) || undefined}>
+          <tr
+            key={id}
+            data-row-id={id}
+            data-selected={selectedIds.has(id) || undefined}
+            data-active={id === activeRowId || undefined}
+            aria-current={id === activeRowId ? 'true' : undefined}
+          >
             <td className="tk-table__check">
               <input
                 type="checkbox"
@@ -215,8 +236,10 @@ export function DataTable<Row>(props: DataTableProps<Row>) {
           selectedIds={selection.selectedIds}
           selectionLabel={props.selectionLabel}
           onToggleRow={selection.toggleRow}
+          activeRowId={props.activeRowId}
         />
       </table>
+      <TableRowScroller activeRowId={props.activeRowId} />
     </div>
   );
 }

@@ -1,0 +1,85 @@
+{
+  "title": "Orders",
+  "tabs": {
+    "to_confirm": "To confirm",
+    "to_ship": "To ship",
+    "on_the_way": "On the way",
+    "delivered": "Delivered",
+    "returns": "Returns",
+    "cancelled": "Cancelled",
+    "all": "All"
+  },
+  "search": "Search (ref, name, phone, tracking)",
+  "allWilayas": "All wilayas",
+  "wilaya": "Wilaya",
+  "columns": {
+    "ref": "Ref",
+    "customer": "Customer",
+    "wilaya": "Wilaya",
+    "total": "To collect",
+    "status": "Status",
+    "created": "Created"
+  },
+  "tableLabel": "Orders list",
+  "selectAll": "Select all",
+  "selectRow": "Select order {ref}",
+  "selected": "{count, plural, one {# order selected} other {# orders selected}}",
+  "actions": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "open": "Open",
+    "more": "Load more"
+  },
+  "bulkDone": "{ok, plural, one {# order updated} other {# orders updated}}{failed, plural, =0 {} other {, # refused}}.",
+  "empty": {
+    "title": "No orders here",
+    "description": "Orders matching this filter will show up here."
+  },
+  "shortcuts": "Shortcuts: j / k to move, Enter to open, c to confirm, x to cancel.",
+  "risk": "Risk signal",
+  "back": "Back to orders",
+  "detail": {
+    "customer": "Customer",
+    "phone": "Phone",
+    "address": "Address",
+    "delivery": "Delivery",
+    "home": "Home",
+    "stopdesk": "Stop-desk",
+    "items": "Items",
+    "quantity": "Qty",
+    "subtotal": "Subtotal",
+    "shipping": "Delivery",
+    "discount": "Discount",
+    "cod": "To collect",
+    "notes": "Notes",
+    "tracking": "Tracking",
+    "history": "History",
+    "source": "Source"
+  },
+  "history": {
+    "created": "Order created",
+    "edited": "Order edited",
+    "status_changed": "Status changed",
+    "assigned": "Agent assigned",
+    "tagged": "Tag",
+    "deleted": "Deleted",
+    "call_logged": "Call logged"
+  },
+  "moveTo": "Move to",
+  "status": {
+    "new": "New",
+    "to_confirm": "To confirm",
+    "confirmed": "Confirmed",
+    "cancelled": "Cancelled",
+    "unreachable": "Unreachable",
+    "postponed": "Postponed",
+    "ready_to_ship": "Ready to ship",
+    "shipped": "Shipped",
+    "in_transit": "In transit",
+    "out_for_delivery": "Out for delivery",
+    "delivered": "Delivered",
+    "failed_attempt": "Failed attempt",
+    "returning": "Returning",
+    "returned": "Returned"
+  }
+}

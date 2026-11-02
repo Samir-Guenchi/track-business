@@ -1,0 +1,85 @@
+{
+  "title": "الطلبات",
+  "tabs": {
+    "to_confirm": "للتأكيد",
+    "to_ship": "للشحن",
+    "on_the_way": "في الطريق",
+    "delivered": "مسلّمة",
+    "returns": "المرتجعات",
+    "cancelled": "ملغاة",
+    "all": "الكل"
+  },
+  "search": "بحث (المرجع، الاسم، الهاتف، رقم التتبع)",
+  "allWilayas": "كل الولايات",
+  "wilaya": "الولاية",
+  "columns": {
+    "ref": "المرجع",
+    "customer": "الزبون",
+    "wilaya": "الولاية",
+    "total": "للتحصيل",
+    "status": "الحالة",
+    "created": "تاريخ الإنشاء"
+  },
+  "tableLabel": "قائمة الطلبات",
+  "selectAll": "تحديد الكل",
+  "selectRow": "تحديد الطلب {ref}",
+  "selected": "{count, plural, zero {لا طلب محدد} one {طلب واحد محدد} two {طلبان محددان} few {# طلبات محددة} many {# طلبًا محددًا} other {# طلب محدد}}",
+  "actions": {
+    "confirm": "تأكيد",
+    "cancel": "إلغاء",
+    "open": "فتح",
+    "more": "تحميل المزيد"
+  },
+  "bulkDone": "تم تحديث {ok} طلب{failed, plural, =0 {} other {، ورُفض #}}.",
+  "empty": {
+    "title": "لا توجد طلبات هنا",
+    "description": "ستظهر هنا الطلبات المطابقة لهذا التصفية."
+  },
+  "shortcuts": "اختصارات: j / k للتنقل، Enter للفتح، c للتأكيد، x للإلغاء.",
+  "risk": "مؤشر خطر",
+  "back": "العودة إلى الطلبات",
+  "detail": {
+    "customer": "الزبون",
+    "phone": "الهاتف",
+    "address": "العنوان",
+    "delivery": "التوصيل",
+    "home": "إلى المنزل",
+    "stopdesk": "مكتب التوصيل",
+    "items": "المنتجات",
+    "quantity": "الكمية",
+    "subtotal": "المجموع الفرعي",
+    "shipping": "التوصيل",
+    "discount": "التخفيض",
+    "cod": "للتحصيل",
+    "notes": "ملاحظات",
+    "tracking": "التتبع",
+    "history": "السجل",
+    "source": "المصدر"
+  },
+  "history": {
+    "created": "إنشاء الطلب",
+    "edited": "تعديل الطلب",
+    "status_changed": "تغيير الحالة",
+    "assigned": "إسناد إلى عون",
+    "tagged": "وسم",
+    "deleted": "حذف",
+    "call_logged": "تسجيل مكالمة"
+  },
+  "moveTo": "نقل إلى",
+  "status": {
+    "new": "جديدة",
+    "to_confirm": "للتأكيد",
+    "confirmed": "مؤكدة",
+    "cancelled": "ملغاة",
+    "unreachable": "تعذّر الاتصال",
+    "postponed": "مؤجلة",
+    "ready_to_ship": "جاهزة للشحن",
+    "shipped": "مشحونة",
+    "in_transit": "في الطريق",
+    "out_for_delivery": "قيد التوصيل",
+    "delivered": "مسلّمة",
+    "failed_attempt": "فشل التوصيل",
+    "returning": "قيد الإرجاع",
+    "returned": "مرتجعة"
+  }
+}
