@@ -1,0 +1,21 @@
+// Embeddable COD order forms (#134). Customers order through the public key; the store id stays private.
+
+model OrderForm {
+  id            String   @id @db.Uuid
+  storeId       String   @map("store_id") @db.Uuid
+  /// Random public key in the embed snippet; the only thing a landing page knows.
+  key           String   @unique
+  name          String
+  title         String
+  /// FormProduct[] from the contracts.
+  products      Json
+  deliveryTypes String[] @map("delivery_types")
+  maxQuantity   Int      @map("max_quantity")
+  accent        String
+  enabled       Boolean  @default(true)
+  createdAt     DateTime @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime @map("updated_at") @db.Timestamptz(3)
+
+  @@index([storeId, createdAt])
+  @@map("order_forms")
+}

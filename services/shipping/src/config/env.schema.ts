@@ -1,6 +1,8 @@
 import { BaseEnvSchema } from '@trackecom/service-kit';
 import { z } from 'zod';
 
+const unsetIfEmpty = (value: unknown) => (value === '' ? undefined : value);
+
 export const EnvSchema = BaseEnvSchema.extend({
   PORT: z.coerce.number().int().min(1).max(65535).default(4002),
   DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
@@ -29,6 +31,11 @@ export const EnvSchema = BaseEnvSchema.extend({
     .string()
     .regex(/^[a-z0-9-]{1,20}:[A-Za-z0-9+/=]{44}(,[a-z0-9-]{1,20}:[A-Za-z0-9+/=]{44})*$/)
     .optional(),
+  /**
+   * Shared secret other services present on `/internal` routes (ADR-0004). Unset turns those
+   * routes off. From the secret manager, 32 characters or more.
+   */
+  INTERNAL_TOKEN: z.preprocess(unsetIfEmpty, z.string().min(32).optional()),
   /** Runs the background loops (outbox relay, tracking poller). Off in API tests. */
   WORKERS_ENABLED: z.stringbool().default(true),
   /** Registers an in-memory carrier for local development and tests. Refused in production. */
