@@ -13,6 +13,8 @@ export const namespaces = [
   'followups',
   'returns',
   'orderForm',
+  'deliveryChoices',
+  'deliveryRequests',
   'forms',
 ] as const;
 

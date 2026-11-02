@@ -8,6 +8,7 @@ import { Link } from '../../../i18n/navigation';
 import { FormAlert } from '../../auth/form-alert';
 import { useErrorMessage } from '../../auth/use-error-message';
 import { CustomerCard } from './customer-card';
+import { DeliveryRequestsCard } from './delivery-requests-card';
 import { HistoryCard } from './history-card';
 import { ItemsCard } from './items-card';
 import { StatusActions } from './status-actions';
@@ -37,6 +38,7 @@ export function OrderDetail({ orderId }: { readonly orderId: string }) {
             <CustomerCard order={order.data} />
             <ItemsCard order={order.data} />
           </div>
+          <DeliveryRequestsCard orderId={orderId} />
           <HistoryCard orderId={orderId} />
         </>
       )}
