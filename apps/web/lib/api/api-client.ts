@@ -1,6 +1,9 @@
-import { ApiErrorSchema } from '@trackecom/contracts';
+import { ApiErrorSchema, STORE_HEADER } from '@trackecom/contracts';
 import type { z } from 'zod';
+import { getActiveStoreId } from '../session/active-store';
+import { apiBaseUrl } from './api-base-url';
 import { ApiClientError } from './api-client-error';
+import { canRefreshAfter, refreshSession } from './session-refresh';
 
 export interface ApiRequest<TSchema extends z.ZodType> {
   readonly path: string;
@@ -11,11 +14,18 @@ export interface ApiRequest<TSchema extends z.ZodType> {
   readonly signal?: AbortSignal;
 }
 
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+async function readBody(response: Response): Promise<unknown> {
+  const text = await response.text();
+  if (text === '') return undefined;
+  try {
+    return JSON.parse(text) as unknown;
+  } catch {
+    return text;
+  }
+}
 
 async function toError(response: Response): Promise<ApiClientError> {
-  const payload: unknown = await response.json().catch(() => null);
-  const parsed = ApiErrorSchema.safeParse(payload);
+  const parsed = ApiErrorSchema.safeParse(await readBody(response));
   if (parsed.success) return new ApiClientError(response.status, parsed.data.error);
   return new ApiClientError(response.status, {
     code: 'UNEXPECTED_RESPONSE',
@@ -23,25 +33,36 @@ async function toError(response: Response): Promise<ApiClientError> {
   });
 }
 
-function toInit(request: ApiRequest<z.ZodType>): RequestInit {
-  const init: RequestInit = { method: request.method ?? 'GET', credentials: 'include' };
+function headersFor(request: ApiRequest<z.ZodType>): Record<string, string> {
+  const headers: Record<string, string> = {};
+  const storeId = getActiveStoreId();
+  if (storeId) headers[STORE_HEADER] = storeId;
+  if (request.body !== undefined) headers['content-type'] = 'application/json';
+  return headers;
+}
+
+function send(request: ApiRequest<z.ZodType>): Promise<Response> {
+  const init: RequestInit = {
+    method: request.method ?? 'GET',
+    credentials: 'include',
+    headers: headersFor(request),
+  };
   if (request.signal) init.signal = request.signal;
-  if (request.body !== undefined) {
-    init.headers = { 'content-type': 'application/json' };
-    init.body = JSON.stringify(request.body);
-  }
-  return init;
+  if (request.body !== undefined) init.body = JSON.stringify(request.body);
+  return fetch(new URL(request.path, apiBaseUrl), init);
 }
 
 /**
  * Typed call to the gateway. Types come from the zod contract, never hand-written.
- * The session cookie travels with `credentials: 'include'`; storeId is never sent by the client.
+ * Session cookies travel with `credentials: 'include'`; an expired access token is refreshed once.
  */
 export async function apiRequest<TSchema extends z.ZodType>(
   request: ApiRequest<TSchema>,
 ): Promise<z.infer<TSchema>> {
-  const response = await fetch(new URL(request.path, apiBaseUrl), toInit(request));
+  let response = await send(request);
+  if (response.status === 401 && canRefreshAfter(request.path) && (await refreshSession())) {
+    response = await send(request);
+  }
   if (!response.ok) throw await toError(response);
-  if (response.status === 204) return request.schema.parse(undefined);
-  return request.schema.parse(await response.json());
+  return request.schema.parse(await readBody(response));
 }

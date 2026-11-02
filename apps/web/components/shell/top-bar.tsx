@@ -1,4 +1,5 @@
 import { LocaleSwitcher } from './locale-switcher';
+import { LogoutButton } from './logout-button';
 import { MobileNav } from './mobile-nav';
 import { StoreSwitcher } from './store-switcher';
 import { ThemeToggle } from './theme-toggle';
@@ -11,6 +12,7 @@ export function TopBar() {
       <div className="ms-auto flex items-center gap-2">
         <LocaleSwitcher />
         <ThemeToggle />
+        <LogoutButton />
       </div>
     </header>
   );

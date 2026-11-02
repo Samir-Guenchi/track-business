@@ -1,7 +1,11 @@
 import type { ReactNode } from 'react';
+import { SessionGate } from '../../../components/session/session-gate';
 import { AppShell } from '../../../components/shell/app-shell';
 
-// TODO(#16): redirect to sign-in when there is no session.
 export default function SellerAppLayout({ children }: { readonly children: ReactNode }) {
-  return <AppShell>{children}</AppShell>;
+  return (
+    <SessionGate>
+      <AppShell>{children}</AppShell>
+    </SessionGate>
+  );
 }

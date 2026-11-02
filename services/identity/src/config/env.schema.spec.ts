@@ -21,4 +21,14 @@ describe('identity EnvSchema', () => {
       /Invalid environment/,
     );
   });
+
+  it('treats an empty JWT_PRIVATE_KEY from .env as unset in development', () => {
+    expect(loadEnv(EnvSchema, { ...valid, JWT_PRIVATE_KEY: '' }).JWT_PRIVATE_KEY).toBeUndefined();
+  });
+
+  it('still requires the key in production', () => {
+    expect(() =>
+      loadEnv(EnvSchema, { ...valid, NODE_ENV: 'production', JWT_PRIVATE_KEY: '' }),
+    ).toThrow(/JWT_PRIVATE_KEY/);
+  });
 });
