@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
+import { DeliveryChoicesPanel } from '../../../../components/tracking/choices/delivery-choices';
 import { TrackingView } from '../../../../components/tracking/tracking-view';
 import { fetchPublicTracking } from '../../../../lib/tracking/public-tracking';
 
@@ -31,5 +32,10 @@ export default async function Page({ params }: PageProps) {
   setRequestLocale(locale);
   const tracking = await trackingFor(code);
   if (!tracking) notFound();
-  return <TrackingView tracking={tracking} />;
+  return (
+    <div className="flex flex-col gap-4">
+      <TrackingView tracking={tracking} />
+      <DeliveryChoicesPanel code={code} />
+    </div>
+  );
 }

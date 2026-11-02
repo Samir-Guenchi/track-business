@@ -1,0 +1,43 @@
+{
+  "title": "Not available that day?",
+  "kinds": {
+    "reschedule": "Pick another day",
+    "switch_stopdesk": "Collect at a stop-desk",
+    "fix_address": "Fix my address",
+    "call_after": "Call me after a time"
+  },
+  "fields": {
+    "date": "Delivery day",
+    "time": "Call me after",
+    "address": "Full address",
+    "landmark": "Landmark (facing, behind...)"
+  },
+  "stopDesk": {
+    "cheaper": "You pay {amount} less at the stop-desk.",
+    "dearer": "The stop-desk costs {amount} more.",
+    "samePrice": "Same price as home delivery.",
+    "priceUnknown": "The seller will confirm the price."
+  },
+  "send": "Send to the seller",
+  "sent": "Request sent. The seller passes it on to the courier.",
+  "limitReached": "You have made the most requests allowed today.",
+  "yourRequests": "Your requests",
+  "state": {
+    "pending": "Waiting",
+    "sent": "Passed to the courier",
+    "dismissed": "Not applied"
+  },
+  "summary": {
+    "reschedule": "Delivery on {day}",
+    "call_after": "Call after {time}",
+    "fix_address": "New address: {address}",
+    "switch_stopdesk": "Collect at a stop-desk"
+  },
+  "errors": {
+    "too_many": "Too many requests today for this parcel.",
+    "closed": "The parcel is already on its way: call the courier.",
+    "bad_date": "Pick a day between tomorrow and next week.",
+    "not_offered": "This choice is not possible for this parcel.",
+    "generic": "Could not send, please try again."
+  }
+}

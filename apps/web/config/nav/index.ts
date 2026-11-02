@@ -1,4 +1,5 @@
 import { dashboardNav } from './dashboard';
+import { deliveryRequestsNav } from './delivery-requests';
 import { followupsNav } from './followups';
 import { formsNav } from './forms';
 import type { NavItem } from './nav-item';
@@ -12,6 +13,7 @@ const registered: readonly NavItem[] = [
   followupsNav,
   returnsNav,
   formsNav,
+  deliveryRequestsNav,
 ];
 
 export const navItems: readonly NavItem[] = [...registered].sort((a, b) => a.order - b.order);

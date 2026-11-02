@@ -1,0 +1,19 @@
+{
+  "title": "Customer requests",
+  "description": "What your customers asked from their tracking link. Pass them on to the courier, then mark them.",
+  "orderCard": "Customer requests",
+  "markSent": "Passed on",
+  "dismiss": "Dismiss",
+  "copy": "Copy for the carrier",
+  "copied": "Copied",
+  "count": "{count, plural, one {# request} other {# requests}}",
+  "state": {
+    "pending": "Waiting",
+    "sent": "Passed to the courier",
+    "dismissed": "Dismissed"
+  },
+  "empty": {
+    "title": "No pending requests",
+    "description": "Your customers' requests will show here."
+  }
+}
