@@ -10,6 +10,7 @@ export const namespaces = [
   'onboarding',
   'orders',
   'tracking',
+  'followups',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];

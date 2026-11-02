@@ -1,0 +1,50 @@
+{
+  "title": "Failed deliveries",
+  "subtitle": "Parcels a courier could not deliver. Decide before the next run, or they come back as returns.",
+  "status": {
+    "open": "To decide",
+    "decided": "Decided",
+    "closed": "Closed"
+  },
+  "reason": {
+    "absent": "Customer absent",
+    "refused": "Refused",
+    "wrong_address": "Wrong address",
+    "phone_off": "Phone off",
+    "no_answer": "No answer",
+    "postponed_by_customer": "Postponed by customer",
+    "other": "Other"
+  },
+  "allReasons": "All reasons",
+  "overdue": "Overdue only",
+  "attempts": "{count, plural, one {# attempt} other {# attempts}}",
+  "due": "Decide before {time}",
+  "overdueBadge": "Overdue",
+  "decision": {
+    "reattempt": "Reattempt",
+    "switch_to_stopdesk": "Switch to stop-desk",
+    "return": "Return"
+  },
+  "decided": "Decision: {decision}",
+  "outcome": {
+    "delivered": "Delivered after follow-up",
+    "returned": "Returned"
+  },
+  "stopDesk": "Stop-desk code",
+  "confirmStopDesk": "Switch",
+  "cancel": "Cancel",
+  "saved": "Decision saved for {ref}.",
+  "empty": "Nothing to decide. Failed deliveries show up here as soon as the courier reports them.",
+  "more": "Load more",
+  "metrics": "Recovery by carrier",
+  "metricsEmpty": "No failed delivery yet.",
+  "columns": {
+    "carrier": "Carrier",
+    "reason": "Reason",
+    "failed": "Failed",
+    "recovered": "Recovered",
+    "returned": "Returned",
+    "rate": "Recovery rate"
+  },
+  "listLabel": "Failed deliveries"
+}

@@ -8,6 +8,7 @@
   "nav": {
     "dashboard": "لوحة التحكم",
     "orders": "الطلبات",
+    "followups": "التوصيلات الفاشلة",
     "confirmation": "التأكيد",
     "shipments": "الشحنات",
     "money": "التحصيل",
