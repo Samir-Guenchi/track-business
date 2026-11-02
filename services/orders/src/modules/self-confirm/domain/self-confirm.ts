@@ -15,6 +15,13 @@ const OPEN_STATUSES: readonly OrderStatus[] = ['new', 'to_confirm', 'unreachable
 export const canAnswer = (link: LinkRecord, status: OrderStatus, now: Date): boolean =>
   link.usedAt === null && link.expiresAt > now && OPEN_STATUSES.includes(status);
 
+/** Once the parcel is delivered, on its way back or cancelled, a pin no longer helps anyone. */
+const CLOSED_FOR_PIN: readonly OrderStatus[] = ['delivered', 'returning', 'returned', 'cancelled'];
+
+/** A pin can be dropped or moved until the link expires, even after the order is confirmed. */
+export const canShareLocation = (link: LinkRecord, status: OrderStatus, now: Date): boolean =>
+  link.expiresAt > now && !CLOSED_FOR_PIN.includes(status);
+
 /** The status the customer's answer leads to; `new` goes through confirmation first. */
 export function answerStatus(request: SelfConfirmRequest, from: OrderStatus): OrderStatus | null {
   const to: OrderStatus = request.action === 'cancel' ? 'cancelled' : 'confirmed';

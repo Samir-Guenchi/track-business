@@ -15,6 +15,15 @@ model Order {
   wilayaCode           Int         @map("wilaya_code")
   communeId            Int         @map("commune_id")
   address              String?
+  /// "Behind the CEM": what the courier looks for when there is no street number (#135).
+  landmark             String?
+  /// Map pin (#135), dropped by the customer from their link or by an agent. Personal data.
+  locationLat          Float?      @map("location_lat")
+  locationLng          Float?      @map("location_lng")
+  locationAccuracyM    Int?        @map("location_accuracy_m")
+  /// customer or agent.
+  locationSource       String?     @map("location_source")
+  locationSetAt        DateTime?   @map("location_set_at") @db.Timestamptz(3)
   deliveryType         String      @map("delivery_type")
   stopDeskId           String?     @map("stop_desk_id")
   subtotal             Int

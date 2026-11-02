@@ -44,6 +44,8 @@ describe('order draft', () => {
       wilayaCode: 31,
       communeId: 3101,
       address: 'Rue X',
+      landmark: 'Face à la poste',
+      location: null,
     };
     const draft = withKnownCustomer({ ...emptyDraft(), name: 'Typed' }, previous);
     expect(draft).toMatchObject({
@@ -51,6 +53,7 @@ describe('order draft', () => {
       wilayaCode: 31,
       communeId: 3101,
       address: 'Rue X',
+      landmark: 'Face à la poste',
     });
   });
 });

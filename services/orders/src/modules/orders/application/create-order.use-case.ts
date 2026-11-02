@@ -28,7 +28,7 @@ export class CreateOrderUseCase {
     await this.rejectReimport(actor.storeId, input);
     const now = this.recorder.now();
     const draft: OrderRecord = {
-      ...draftFromInput(input, this.recorder.newId),
+      ...draftFromInput(input, { newId: this.recorder.newId, now, previousPin: null }),
       id: this.recorder.newId(),
       storeId: actor.storeId,
       ref: newOrderRef(),

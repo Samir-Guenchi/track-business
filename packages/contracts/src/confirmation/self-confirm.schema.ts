@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { GeoPointSchema, LandmarkSchema, LocationPinSchema } from '../orders/location.schema.js';
 import { DeliveryTypeSchema } from '../orders/order.schema.js';
 import { OrderStatusSchema } from '../orders/order-status.js';
 
@@ -25,6 +26,10 @@ export const SelfConfirmViewSchema = z.strictObject({
   wilayaCode: z.number().int(),
   communeId: z.number().int(),
   address: z.string().nullable(),
+  landmark: z.string().nullable(),
+  location: LocationPinSchema.nullable(),
+  /** The customer can still drop or move a pin (until the parcel is delivered or closed). */
+  canShareLocation: z.boolean(),
   /** False once the link was used or the order moved past confirmation. */
   canAnswer: z.boolean(),
   expiresAt: z.iso.datetime(),
@@ -46,3 +51,12 @@ export type SelfConfirmRequest = z.infer<typeof SelfConfirmRequestSchema>;
 
 export const SelfConfirmResponseSchema = z.strictObject({ status: OrderStatusSchema });
 export type SelfConfirmResponse = z.infer<typeof SelfConfirmResponseSchema>;
+
+/**
+ * `POST /public/confirm/:token/location` (#135): the customer drops a pin from the browser and
+ * may add a landmark. Works until the link expires, even after the order was confirmed.
+ */
+export const ShareLocationRequestSchema = GeoPointSchema.extend({
+  landmark: LandmarkSchema.optional(),
+});
+export type ShareLocationRequest = z.infer<typeof ShareLocationRequestSchema>;

@@ -54,7 +54,11 @@
     "notes": "Notes",
     "tracking": "Suivi",
     "history": "Historique",
-    "source": "Source"
+    "source": "Source",
+    "landmark": "Repère",
+    "pin": "Position",
+    "pinByCustomer": "Ouvrir la position partagée par le client",
+    "pinByAgent": "Ouvrir la position notée par l'agent"
   },
   "history": {
     "created": "Commande créée",
@@ -133,6 +137,7 @@
       "abusive": "comportement abusif",
       "other": "autre raison"
     },
-    "customer": "Client"
+    "customer": "Client",
+    "landmark": "Repère (en face de, derrière...)"
   }
 }

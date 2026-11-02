@@ -1,5 +1,6 @@
 import {
   DeliveryTypeSchema,
+  LocationSourceSchema,
   type Order,
   OrderSourceSchema,
   OrderStatusSchema,
@@ -10,7 +11,7 @@ import type {
   OrderItem as OrderItemRow,
   Prisma,
 } from '../../../generated/prisma/client.js';
-import type { OrderRecord } from '../domain/order.js';
+import type { LocationPinRecord, OrderRecord } from '../domain/order.js';
 
 export type OrderRowWithItems = OrderRow & { items: OrderItemRow[] };
 
@@ -27,6 +28,41 @@ const customerOf = (row: OrderRow) => ({
   wilayaCode: row.wilayaCode,
   communeId: row.communeId,
   address: row.address,
+  landmark: row.landmark,
+  location: pinOf(row),
+});
+
+function pinOf(row: OrderRow): LocationPinRecord | null {
+  const { locationLat: lat, locationLng: lng, locationSetAt: setAt } = row;
+  if (lat === null || lng === null || setAt === null) return null;
+  const source = LocationSourceSchema.parse(row.locationSource);
+  return { lat, lng, accuracyM: row.locationAccuracyM, source, setAt };
+}
+
+const NO_PIN = {
+  locationLat: null,
+  locationLng: null,
+  locationAccuracyM: null,
+  locationSource: null,
+  locationSetAt: null,
+};
+
+const pinColumns = (pin: LocationPinRecord | null) =>
+  pin
+    ? {
+        locationLat: pin.lat,
+        locationLng: pin.lng,
+        locationAccuracyM: pin.accuracyM,
+        locationSource: pin.source,
+        locationSetAt: pin.setAt,
+      }
+    : NO_PIN;
+
+const customerDto = (customer: OrderRecord['customer']): Order['customer'] => ({
+  ...customer,
+  location: customer.location
+    ? { ...customer.location, setAt: customer.location.setAt.toISOString() }
+    : null,
 });
 
 const lineOf = ({ id, productId, name, sku, quantity, unitPrice, lineTotal }: OrderItemRow) => ({
@@ -81,6 +117,8 @@ export function toColumns(order: OrderRecord) {
     wilayaCode: order.customer.wilayaCode,
     communeId: order.customer.communeId,
     address: order.customer.address,
+    landmark: order.customer.landmark,
+    ...pinColumns(order.customer.location),
     deliveryType: order.deliveryType,
     stopDeskId: order.stopDeskId,
     subtotal: order.subtotal,
@@ -113,7 +151,7 @@ export function toOrderDto(order: OrderRecord): Order {
     status: order.status,
     source: order.source,
     externalRef: order.externalRef,
-    customer: order.customer,
+    customer: customerDto(order.customer),
     items: order.items.map((item) => ({ ...item })),
     deliveryType: order.deliveryType,
     stopDeskId: order.stopDeskId,

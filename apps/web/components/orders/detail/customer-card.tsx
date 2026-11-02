@@ -1,6 +1,6 @@
 'use client';
 
-import type { Order } from '@trackecom/contracts';
+import { type Order, mapLinkOf } from '@trackecom/contracts';
 import { useLocale, useTranslations } from 'next-intl';
 import { useCommunes, useWilayas, wilayaLabel } from '../../../lib/geo/geo-queries';
 import { DetailCard, DetailRow } from './detail-card';
@@ -33,6 +33,23 @@ function PhoneLinks({ customer }: { readonly customer: Order['customer'] }) {
   );
 }
 
+function PinLink({ customer }: { readonly customer: Order['customer'] }) {
+  const t = useTranslations('orders.detail');
+  if (!customer.location) return null;
+  return (
+    <DetailRow label={t('pin')}>
+      <a
+        href={mapLinkOf(customer.location)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-tape underline"
+      >
+        {t(customer.location.source === 'customer' ? 'pinByCustomer' : 'pinByAgent')}
+      </a>
+    </DetailRow>
+  );
+}
+
 export function CustomerCard({ order }: { readonly order: Order }) {
   const t = useTranslations('orders.detail');
   const place = usePlaceName(order.customer);
@@ -44,6 +61,10 @@ export function CustomerCard({ order }: { readonly order: Order }) {
           <PhoneLinks customer={order.customer} />
         </DetailRow>
         <DetailRow label={t('address')}>{place}</DetailRow>
+        {order.customer.landmark && (
+          <DetailRow label={t('landmark')}>{order.customer.landmark}</DetailRow>
+        )}
+        <PinLink customer={order.customer} />
         <DetailRow label={t('delivery')}>
           {t(order.deliveryType === 'home' ? 'home' : 'stopdesk')}
         </DetailRow>
