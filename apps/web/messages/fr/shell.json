@@ -1,0 +1,16 @@
+{
+  "mainNav": "Navigation principale",
+  "openMenu": "Ouvrir le menu",
+  "closeMenu": "Fermer le menu",
+  "language": "Langue",
+  "theme": { "label": "Thème", "light": "Clair", "dark": "Sombre" },
+  "store": { "label": "Boutique", "placeholder": "Ma boutique" },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "orders": "Commandes",
+    "confirmation": "Confirmation",
+    "shipments": "Expéditions",
+    "money": "Encaissements",
+    "settings": "Paramètres"
+  }
+}

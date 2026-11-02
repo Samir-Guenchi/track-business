@@ -1,0 +1,16 @@
+{
+  "mainNav": "القائمة الرئيسية",
+  "openMenu": "فتح القائمة",
+  "closeMenu": "إغلاق القائمة",
+  "language": "اللغة",
+  "theme": { "label": "المظهر", "light": "فاتح", "dark": "داكن" },
+  "store": { "label": "المتجر", "placeholder": "متجري" },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "orders": "الطلبات",
+    "confirmation": "التأكيد",
+    "shipments": "الشحنات",
+    "money": "التحصيل",
+    "settings": "الإعدادات"
+  }
+}
