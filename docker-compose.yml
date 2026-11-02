@@ -1,0 +1,58 @@
+# Local development infrastructure only (issue #11). Services and the web app run on the host
+# with `pnpm dev`; staging/production use deploy/compose.yml.
+#   pnpm db:up     start Postgres, Redis and Mailpit and wait until healthy
+#   pnpm db:reset  wipe the volumes, start again and apply every migration
+#   docker compose --profile tools up -d pgadmin   optional database UI
+name: trackecom-dev
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres # local only, never reuse outside this file
+    ports: ['5432:5432']
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/init-databases.sh:/docker-entrypoint-initdb.d/10-init-databases.sh:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d orders']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:7-alpine
+    command: ['redis-server', '--appendonly', 'yes']
+    ports: ['6379:6379']
+    volumes: [redis-data:/data]
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  # Catches every email (identity invites, password resets). Inbox: http://localhost:8025
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports: ['1025:1025', '8025:8025']
+    healthcheck:
+      test: ['CMD', '/mailpit', 'readyz']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  pgadmin:
+    image: dpage/pgadmin4:9
+    profiles: [tools]
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev@trackecom.local
+      PGADMIN_DEFAULT_PASSWORD: dev # local only
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports: ['5050:80']
+    depends_on:
+      postgres: { condition: service_healthy }
+
+volumes:
+  postgres-data:
+  redis-data:
