@@ -113,6 +113,29 @@ describe.skipIf(!baseUrl || !redisUrl)('shipment creation (real Postgres)', () =
     });
   });
 
+  it("sends the chosen stop-desk's carrier code with the parcel (#137)", async () => {
+    const deskId = randomUUID();
+    await prisma.stopDesk.deleteMany({ where: { carrier: 'fake' } });
+    await prisma.stopDesk.create({
+      data: {
+        id: deskId,
+        carrier: 'fake',
+        code: 'FK-3101',
+        communeId: 3101,
+        name: 'Desk',
+        address: 'Rue',
+      },
+    });
+    const request = shipRequest({ deliveryType: 'stopdesk', stopDeskId: deskId });
+
+    expect(await create.execute(envelope(request))).toBe('created');
+    expect(fake.parcels.get(request.reference)?.request.stopDeskCode).toBe('FK-3101');
+    const shipment = await prisma.shipment.findFirstOrThrow({
+      where: { reference: request.reference },
+    });
+    expect(shipment.deliveryType).toBe('stopdesk');
+  });
+
   it('reports a carrier the store never connected', async () => {
     const request = shipRequest();
 

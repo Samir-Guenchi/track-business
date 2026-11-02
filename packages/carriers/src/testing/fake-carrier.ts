@@ -1,6 +1,7 @@
 import type { CarrierAdapter, CarrierCapabilities } from '../carrier-adapter.port.js';
 import { CarrierError } from '../carrier.errors.js';
 import type {
+  CarrierStopDesk,
   CarrierContext,
   CreatedShipment,
   ShipmentRequest,
@@ -28,6 +29,8 @@ export class FakeCarrier implements CarrierAdapter {
   readonly credentialFields = [{ key: 'token', label: 'Token', secret: true }];
   readonly capabilities: CarrierCapabilities;
   readonly parcels = new Map<string, CreatedShipment & { request: ShipmentRequest }>();
+  /** What `listStopDesks` answers; tests set it. */
+  stopDesks: CarrierStopDesk[] = [];
   /** Events `getTracking` returns, by tracking number; tests push scans here. */
   readonly tracking = new Map<string, TrackingEvent[]>();
   createCalls = 0;
@@ -104,8 +107,8 @@ export class FakeCarrier implements CarrierAdapter {
       events: update.events.map((event) => ({ ...event, at: new Date(event.at) }) as TrackingEvent),
     }));
   }
-  async listStopDesks() {
-    return [];
+  async listStopDesks(): Promise<CarrierStopDesk[]> {
+    return this.stopDesks;
   }
   async mapCommune(_ctx: unknown, communeId: number) {
     return String(communeId);
