@@ -114,6 +114,21 @@ describe.skipIf(!baseUrl || !redisUrl)('customer self-confirmation (real Postgre
     expect(after.customer).toMatchObject({ communeId: 1601, address: 'Cité 5 juillet' });
   });
 
+  it('stores the pin and landmark the customer shares', async () => {
+    const order = await newOrder();
+    const token = await newLink(order.id);
+    const share = (payload: object) =>
+      app.inject({ method: 'POST', url: `/public/confirm/${token}/location`, payload });
+
+    const pin = { lat: 36.75, lng: 3.06, accuracyM: 20, landmark: 'Derrière la mosquée' };
+    expect((await share(pin)).statusCode).toBe(204);
+    expect((await share({ lat: 3.06, lng: 36.75 })).statusCode).toBe(400);
+
+    const { customer } = await orderStatus(order.id);
+    expect(customer.landmark).toBe('Derrière la mosquée');
+    expect(customer.location).toMatchObject({ lat: 36.75, lng: 3.06, source: 'customer' });
+  });
+
   it('refuses unknown and malformed tokens', async () => {
     expect((await publicCall('GET', 'A'.repeat(32))).statusCode).toBe(404);
     expect((await publicCall('GET', 'short')).statusCode).toBe(400);

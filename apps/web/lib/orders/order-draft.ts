@@ -15,6 +15,8 @@ export interface OrderDraft {
   readonly wilayaCode: number | undefined;
   readonly communeId: number | undefined;
   readonly address: string;
+  /** "Facing the pharmacy": what the courier looks for when there is no street number. */
+  readonly landmark: string;
   readonly deliveryType: DeliveryType;
   readonly stopDeskId: string;
   readonly items: readonly DraftItem[];
@@ -37,6 +39,7 @@ export function emptyDraft(): OrderDraft {
     wilayaCode: undefined,
     communeId: undefined,
     address: '',
+    landmark: '',
     deliveryType: 'home',
     stopDeskId: '',
     items: [newItem()],
@@ -64,6 +67,7 @@ export function withKnownCustomer(draft: OrderDraft, previous: Order['customer']
     wilayaCode: draft.wilayaCode ?? previous.wilayaCode,
     communeId: draft.wilayaCode === undefined ? previous.communeId : draft.communeId,
     address: draft.address || (previous.address ?? ''),
+    landmark: draft.landmark || (previous.landmark ?? ''),
   };
 }
 
@@ -81,6 +85,7 @@ export function toCreateRequest(
       wilayaCode: draft.wilayaCode,
       communeId: draft.communeId,
       address: draft.deliveryType === 'home' ? optional(draft.address) : undefined,
+      landmark: draft.deliveryType === 'home' ? optional(draft.landmark) : undefined,
     },
     items: draft.items.map(({ name, quantity, unitPrice }) => ({
       name: name.trim(),

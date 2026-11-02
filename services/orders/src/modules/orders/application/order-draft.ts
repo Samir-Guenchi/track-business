@@ -1,5 +1,10 @@
-import type { DeliveryType, OrderItemInput } from '@trackecom/contracts';
-import type { OrderCustomer, OrderLine } from '../domain/order.js';
+import type { DeliveryType, GeoPoint, OrderItemInput } from '@trackecom/contracts';
+import {
+  type LocationPinRecord,
+  type OrderCustomer,
+  type OrderLine,
+  resolvePin,
+} from '../domain/order.js';
 import { itemsFingerprint } from '../domain/order-identity.js';
 import { computeTotals } from '../domain/order-pricing.js';
 import type { IdGenerator } from './ports/orders.ports.js';
@@ -13,6 +18,8 @@ export interface OrderInput {
     readonly wilayaCode: number;
     readonly communeId: number;
     readonly address?: string | undefined;
+    readonly landmark?: string | undefined;
+    readonly location?: GeoPoint | undefined;
   };
   readonly items: readonly OrderItemInput[];
   readonly deliveryType: DeliveryType;
@@ -23,8 +30,15 @@ export interface OrderInput {
   readonly tags: readonly string[];
 }
 
+export interface DraftContext {
+  readonly newId: IdGenerator;
+  readonly now: Date;
+  /** The order's current pin on an edit; null on create. */
+  readonly previousPin: LocationPinRecord | null;
+}
+
 /** Turns validated input into the stored shape: totals, lines, fingerprint, nulls. */
-export function draftFromInput(input: OrderInput, newId: IdGenerator) {
+export function draftFromInput(input: OrderInput, { newId, now, previousPin }: DraftContext) {
   const totals = computeTotals(input.items, input.shippingFee, input.discount);
   const items: OrderLine[] = input.items.map((item, index) => ({
     id: newId(),
@@ -43,6 +57,8 @@ export function draftFromInput(input: OrderInput, newId: IdGenerator) {
     wilayaCode: input.customer.wilayaCode,
     communeId: input.customer.communeId,
     address: isHome ? (input.customer.address ?? null) : null,
+    landmark: input.customer.landmark ?? null,
+    location: resolvePin(input.customer.location, { now, previous: previousPin, source: 'agent' }),
   };
   return {
     customer,

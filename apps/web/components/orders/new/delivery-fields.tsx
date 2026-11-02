@@ -11,6 +11,27 @@ interface DeliveryFieldsProps extends DraftSectionProps {
   readonly controls: DraftControls;
 }
 
+function HomeAddressFields({ controls, errors }: DeliveryFieldsProps) {
+  const t = useTranslations('orders.new');
+  const { draft, patch } = controls;
+  return (
+    <>
+      <Input
+        label={t('address')}
+        value={draft.address}
+        onChange={(event) => patch({ address: event.currentTarget.value })}
+        {...fieldError(errors, 'address', t('errors.address'))}
+      />
+      <Input
+        label={t('landmark')}
+        value={draft.landmark}
+        maxLength={160}
+        onChange={(event) => patch({ landmark: event.currentTarget.value })}
+      />
+    </>
+  );
+}
+
 export function DeliveryFields({ controls, errors }: DeliveryFieldsProps) {
   const t = useTranslations('orders.new');
   const { draft, patch } = controls;
@@ -32,12 +53,7 @@ export function DeliveryFields({ controls, errors }: DeliveryFieldsProps) {
         ))}
       </fieldset>
       {draft.deliveryType === 'home' ? (
-        <Input
-          label={t('address')}
-          value={draft.address}
-          onChange={(event) => patch({ address: event.currentTarget.value })}
-          {...fieldError(errors, 'address', t('errors.address'))}
-        />
+        <HomeAddressFields controls={controls} errors={errors} />
       ) : (
         <Input
           label={t('stopDesk')}

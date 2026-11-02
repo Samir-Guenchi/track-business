@@ -1,5 +1,7 @@
 import type {
   DeliveryType,
+  GeoPoint,
+  LocationSource,
   OrderSource,
   OrderStatus,
   Permission,
@@ -23,6 +25,17 @@ export interface OrderCustomer {
   readonly wilayaCode: number;
   readonly communeId: number;
   readonly address: string | null;
+  readonly landmark: string | null;
+  readonly location: LocationPinRecord | null;
+}
+
+/** A map pin on the delivery address (#135). */
+export interface LocationPinRecord {
+  readonly lat: number;
+  readonly lng: number;
+  readonly accuracyM: number | null;
+  readonly source: LocationSource;
+  readonly setAt: Date;
 }
 
 /** An order as the application sees it; persistence details (search text...) stay outside. */
@@ -85,5 +98,24 @@ export function auditSnapshot(order: OrderRecord): Record<string, unknown> {
     discount: order.discount,
     tags: order.tags.join(','),
     assignedAgentId: order.assignedAgentId,
+  };
+}
+
+/** A pin typed in an order form wins; without one, the order keeps the pin it had. */
+export function resolvePin(
+  point: GeoPoint | undefined,
+  context: {
+    readonly now: Date;
+    readonly previous: LocationPinRecord | null;
+    readonly source: LocationSource;
+  },
+): LocationPinRecord | null {
+  if (!point) return context.previous;
+  return {
+    lat: point.lat,
+    lng: point.lng,
+    accuracyM: point.accuracyM ?? null,
+    source: context.source,
+    setAt: context.now,
   };
 }
