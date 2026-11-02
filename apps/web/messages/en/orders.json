@@ -140,5 +140,25 @@
     },
     "customer": "Customer",
     "landmark": "Landmark (facing, behind...)"
+  },
+  "exchange": {
+    "open": "Exchange",
+    "close": "Close",
+    "title": "Size or colour exchange",
+    "description": "The courier brings the new items and takes the old ones back in one delivery.",
+    "quantity": "Qty",
+    "replacement": "New item",
+    "priceDifference": "Extra (DA)",
+    "paidBy": "Who pays the delivery?",
+    "payer": {
+      "customer": "The customer",
+      "store": "The store"
+    },
+    "shippingFee": "Delivery price (DA)",
+    "collectAmount": "To collect: {amount}",
+    "submit": "Create the exchange",
+    "bannerTitle": "Exchange of a delivered order.",
+    "original": "See the original order",
+    "collect": "The courier takes back: {items}"
   }
 }

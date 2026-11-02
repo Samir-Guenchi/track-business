@@ -140,5 +140,25 @@
     },
     "customer": "Client",
     "landmark": "Repère (en face de, derrière...)"
+  },
+  "exchange": {
+    "open": "Échanger",
+    "close": "Fermer",
+    "title": "Échange de taille ou de couleur",
+    "description": "Le livreur apporte les nouveaux articles et reprend les anciens en une seule livraison.",
+    "quantity": "Qté",
+    "replacement": "Nouvel article",
+    "priceDifference": "Supplément (DA)",
+    "paidBy": "Qui paie la livraison ?",
+    "payer": {
+      "customer": "Le client",
+      "store": "La boutique"
+    },
+    "shippingFee": "Prix de la livraison (DA)",
+    "collectAmount": "À encaisser : {amount}",
+    "submit": "Créer l'échange",
+    "bannerTitle": "Échange d'une commande livrée.",
+    "original": "Voir la commande d'origine",
+    "collect": "Le livreur reprend : {items}"
   }
 }
