@@ -4,6 +4,8 @@ import {
   ListOrderFormsResponseSchema,
   OrderFormSchema,
   PublicOrderFormSchema,
+  SubmitFormOrderRequestSchema,
+  SubmitFormOrderResponseSchema,
   UpdateOrderFormRequestSchema,
 } from '@trackecom/contracts';
 import type { ZodOpenApiPathsObject } from 'zod-openapi';
@@ -41,6 +43,19 @@ export const orderFormsOpenApiPaths: ZodOpenApiPathsObject = {
       responses: {
         ...json('200', 'Form', PublicOrderFormSchema),
         '404': { description: 'Unknown or switched off' },
+      },
+    },
+  },
+  '/public/forms/{key}/orders': {
+    post: {
+      summary: 'Order through a form (no login; anti-spam: honeypot, limits, 24 h duplicates)',
+      requestParams: { path: z.object({ key: FormKeySchema }) },
+      requestBody: body(SubmitFormOrderRequestSchema),
+      responses: {
+        ...json('201', 'The order reference and total', SubmitFormOrderResponseSchema),
+        '400': { description: 'Invalid pick, delivery not offered, or refused as spam' },
+        '409': { description: 'Same phone and product within 24 h' },
+        '429': { description: 'Too many submissions from this address or phone' },
       },
     },
   },
