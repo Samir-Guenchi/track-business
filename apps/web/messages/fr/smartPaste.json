@@ -1,0 +1,19 @@
+{
+  "open": "Coller un message",
+  "label": "Message du client",
+  "placeholder": "Collez le message Messenger, Instagram ou WhatsApp : nom, téléphone, commune, produit...",
+  "fill": "Remplir le formulaire",
+  "reading": "Lecture...",
+  "close": "Fermer",
+  "filled": "Rempli : {fields}. Vérifiez avant d'enregistrer ; le reste est dans les notes.",
+  "nothing": "Rien de reconnu dans ce message.",
+  "placeGuessed": "La commune est une orthographe proche, pas exacte : vérifiez-la.",
+  "error": "Le message n'a pas pu être lu. Réessayez.",
+  "field": {
+    "phone": "téléphone",
+    "name": "nom",
+    "commune": "wilaya et commune",
+    "address": "adresse",
+    "quantity": "quantité"
+  }
+}

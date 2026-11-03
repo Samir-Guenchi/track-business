@@ -7,6 +7,7 @@ import {
   ListOrdersResponseSchema,
   OrderHistoryResponseSchema,
   OrderSchema,
+  ParseOrderTextResponseSchema,
 } from '@trackecom/contracts';
 import { apiRequest } from './api-client';
 
@@ -25,6 +26,13 @@ export const ordersApi = {
     apiRequest({ path: `${orderPath(id)}/status`, schema: OrderSchema, method: 'POST', body }),
   bulk: (body: BulkOrdersRequest) =>
     apiRequest({ path: '/orders/bulk', schema: BulkOrdersResponseSchema, method: 'POST', body }),
+  parseText: (text: string) =>
+    apiRequest({
+      path: '/orders/parse-text',
+      schema: ParseOrderTextResponseSchema,
+      method: 'POST',
+      body: { text },
+    }),
   exchange: (id: string, body: CreateExchangeRequest) =>
     apiRequest({ path: `${orderPath(id)}/exchange`, schema: OrderSchema, method: 'POST', body }),
 };

@@ -5,6 +5,7 @@ import { DeliveryFields } from './delivery-fields';
 import { FormFooter } from './form-footer';
 import { ItemsFields } from './items-fields';
 import { NotesField } from './notes-field';
+import { PasteMessage } from './paste-message';
 import { Totals } from './totals';
 import { useOrderForm } from './use-order-form';
 
@@ -21,6 +22,7 @@ export function NewOrderForm() {
       }}
     >
       <div className="flex flex-col gap-4">
+        <PasteMessage controls={controls} />
         <CustomerFields controls={controls} errors={errors} />
         <DeliveryFields controls={controls} errors={errors} />
       </div>
