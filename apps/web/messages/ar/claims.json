@@ -4,7 +4,8 @@
   "tabs": {
     "candidates": "للمطالبة",
     "claims": "الشكاوى",
-    "scorecard": "الترتيب"
+    "scorecard": "الترتيب",
+    "disputed": "محاولات مطعون فيها"
   },
   "reason": {
     "stuck": "متوقف",
