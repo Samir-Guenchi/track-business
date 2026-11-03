@@ -8,7 +8,9 @@ import {
   type RegisterRequest,
   type ResetPasswordRequest,
   SessionResponseSchema,
+  StoreProfileSchema,
   StoreSchema,
+  type UpdateStoreProfileRequest,
   type VerifyEmailRequest,
 } from '@trackecom/contracts';
 import { z } from 'zod';
@@ -33,4 +35,12 @@ export const identityApi = {
   createStore: (body: CreateStoreRequest) => post('/stores', StoreSchema, body),
   acceptInvitation: (body: AcceptInvitationRequest) =>
     post('/invitations/accept', AcceptedInvitationSchema, body),
+  storeProfile: () => apiRequest({ path: '/stores/current/profile', schema: StoreProfileSchema }),
+  updateStoreProfile: (body: UpdateStoreProfileRequest) =>
+    apiRequest({
+      path: '/stores/current/profile',
+      schema: StoreProfileSchema,
+      method: 'PATCH',
+      body,
+    }),
 };

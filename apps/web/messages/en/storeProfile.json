@@ -1,0 +1,32 @@
+{
+  "onboardingTitle": "Tell us about your store",
+  "onboardingDescription": "Every answer is optional. We use them to price shipping from your wilaya and suggest the carriers to connect.",
+  "settingsTitle": "Store settings",
+  "settingsDescription": "Where your parcels leave from, how to reach you and the carriers you already use.",
+  "originWilaya": "Wilaya of origin",
+  "originCommune": "Commune of origin",
+  "originHint": "Shipping prices are calculated from here.",
+  "wilayaPlaceholder": "Choose a wilaya",
+  "communePlaceholder": "Choose a commune",
+  "communeSearch": "Search a commune",
+  "communeEmpty": "No commune found",
+  "contactPhone": "Contact phone",
+  "dailyVolume": "Orders per day",
+  "volume": {
+    "under_10": "Fewer than 10",
+    "10_50": "10 to 50",
+    "50_200": "50 to 200",
+    "over_200": "More than 200"
+  },
+  "carriers": "Carriers you already work with",
+  "defaultLanguage": "Language of customer messages",
+  "language": { "ar": "العربية", "fr": "Français", "en": "English" },
+  "errors": {
+    "origin": "Choose the wilaya before the commune.",
+    "contactPhone": "Enter an Algerian mobile number (05, 06 or 07)."
+  },
+  "save": "Save",
+  "saved": "Saved.",
+  "continue": "Continue",
+  "skip": "Skip for now"
+}
