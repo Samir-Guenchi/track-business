@@ -8,8 +8,10 @@ import {
   type RegisterRequest,
   type ResetPasswordRequest,
   SessionResponseSchema,
+  StoreLegalProfileSchema,
   StoreProfileSchema,
   StoreSchema,
+  type UpdateStoreLegalProfileRequest,
   type UpdateStoreProfileRequest,
   type VerifyEmailRequest,
 } from '@trackecom/contracts';
@@ -40,6 +42,15 @@ export const identityApi = {
     apiRequest({
       path: '/stores/current/profile',
       schema: StoreProfileSchema,
+      method: 'PATCH',
+      body,
+    }),
+  legalProfile: () =>
+    apiRequest({ path: '/stores/current/legal', schema: StoreLegalProfileSchema }),
+  updateLegalProfile: (body: UpdateStoreLegalProfileRequest) =>
+    apiRequest({
+      path: '/stores/current/legal',
+      schema: StoreLegalProfileSchema,
       method: 'PATCH',
       body,
     }),
