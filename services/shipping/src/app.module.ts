@@ -19,6 +19,7 @@ import { GeoModule } from './modules/geo/geo.module.js';
 import { geoOpenApiPaths } from './modules/geo/interface/geo.openapi.js';
 import { pricingOpenApiPaths } from './modules/pricing/interface/pricing.openapi.js';
 import { PricingModule } from './modules/pricing/pricing.module.js';
+import { CarrierFeesModule } from './modules/carrier-fees/carrier-fees.module.js';
 import { DeliveryRequestsModule } from './modules/delivery-requests/delivery-requests.module.js';
 import { deliveryRequestsOpenApiPaths } from './modules/delivery-requests/interface/delivery-requests.openapi.js';
 import { returnsOpenApiPaths } from './modules/returns/interface/returns.openapi.js';
@@ -79,6 +80,7 @@ export class AppModule {
         SuggestionModule,
         ReturnsModule,
         DeliveryRequestsModule,
+        CarrierFeesModule,
         StopDesksModule,
         ClaimsModule,
       ],
