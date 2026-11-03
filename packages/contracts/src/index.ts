@@ -14,6 +14,7 @@ export * from './forms/index.js';
 export * from './fraud/index.js';
 export * from './geo/index.js';
 export * from './integrations/index.js';
+export * from './invoices/index.js';
 export * from './notifications/index.js';
 export * from './orders/index.js';
 export * from './payments/index.js';
