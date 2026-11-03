@@ -111,6 +111,9 @@ services:
       REDIS_URL: redis://redis:6379
       DATABASE_URL: ${PAYMENTS_DATABASE_URL}
       IDENTITY_URL: http://identity:4001
+      # Rate cards for the payout fee audit (#196).
+      SHIPPING_URL: http://shipping:4002
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
 
   payments-migrate:
     <<: *migrate

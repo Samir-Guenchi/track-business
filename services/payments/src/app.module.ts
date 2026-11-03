@@ -11,6 +11,8 @@ import { InfrastructureModule } from './infrastructure/infrastructure.module.js'
 import { PrismaService } from './infrastructure/prisma/prisma.service.js';
 import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
+import { FeeAuditModule } from './modules/fee-audit/fee-audit.module.js';
+import { feeAuditOpenApiPaths } from './modules/fee-audit/interface/fee-audit.openapi.js';
 import { moneyOpenApiPaths } from './modules/money/interface/money.openapi.js';
 import { MoneyModule } from './modules/money/money.module.js';
 
@@ -36,13 +38,14 @@ export class AppModule {
         OpenApiModule.forRoot({
           title: 'TrackEcom payments',
           version: '0.1.0',
-          paths: { ...moneyOpenApiPaths },
+          paths: { ...moneyOpenApiPaths, ...feeAuditOpenApiPaths },
         }),
         StoreAccessModule.forRoot({
           options: { identityUrl: env.IDENTITY_URL, roleCacheSeconds: env.ROLE_CACHE_SECONDS },
           cache: redisRoleCache,
         }),
         MoneyModule,
+        FeeAuditModule,
       ],
     };
   }
