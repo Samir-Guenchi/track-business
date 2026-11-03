@@ -5,6 +5,7 @@ import { followupsNav } from './followups';
 import { formsNav } from './forms';
 import type { NavItem } from './nav-item';
 import { ordersNav } from './orders';
+import { returnRequestsNav } from './return-requests';
 import { returnsNav } from './returns';
 import { settingsNav } from './settings';
 import { stuckParcelsNav } from './stuck-parcels';
@@ -16,6 +17,7 @@ const registered: readonly NavItem[] = [
   followupsNav,
   stuckParcelsNav,
   returnsNav,
+  returnRequestsNav,
   formsNav,
   deliveryRequestsNav,
   claimsNav,

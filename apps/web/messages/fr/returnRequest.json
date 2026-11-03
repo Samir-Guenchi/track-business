@@ -1,0 +1,30 @@
+{
+  "title": "Retour ou échange",
+  "until": "Vous pouvez demander jusqu'au {date}.",
+  "kindLabel": "Que voulez-vous ?",
+  "kind": {
+    "exchange": "Échanger un article",
+    "return": "Renvoyer le colis"
+  },
+  "reasonLabel": "Pourquoi ?",
+  "wantedLabel": "Que voulez-vous à la place ?",
+  "wantedPlaceholder": "ex. taille L, rouge",
+  "noteLabel": "Autre chose ? (facultatif)",
+  "send": "Envoyer ma demande",
+  "error": "La demande n'a pas pu être envoyée. Réessayez.",
+  "followNew": "Suivre votre nouveau colis",
+  "state": {
+    "pending": "Demande envoyée. La boutique répondra ici.",
+    "accepted_exchange": "Échange accepté. Le livreur apporte le nouvel article et reprend l'ancien.",
+    "accepted_return": "Retour accepté. Gardez le colis prêt pour le livreur.",
+    "refused": "La boutique a refusé cette demande."
+  },
+  "reason": {
+    "wrong_size": "Mauvaise taille",
+    "wrong_colour": "Mauvaise couleur",
+    "defective": "Défectueux ou abîmé",
+    "not_as_described": "Différent de la photo",
+    "changed_mind": "J'ai changé d'avis",
+    "other": "Autre"
+  }
+}

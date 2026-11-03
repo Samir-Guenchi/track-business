@@ -7,6 +7,7 @@ export type NavKey =
   | 'followups'
   | 'stuckParcels'
   | 'returns'
+  | 'returnRequests'
   | 'forms'
   | 'deliveryRequests'
   | 'claims'
