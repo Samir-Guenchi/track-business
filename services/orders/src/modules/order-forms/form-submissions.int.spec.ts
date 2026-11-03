@@ -17,6 +17,7 @@ const PRICES = {
     { wilayaCode: 33, deliveryType: 'home' as const, price: null },
   ],
   freeShippingFrom: null,
+  freeShippingExcludedWilayas: [],
 };
 const FORM = {
   name: 'Landing sac',

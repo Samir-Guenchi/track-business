@@ -100,6 +100,23 @@ describe.skipIf(!baseUrl || !redisUrl)('pricing API (real Postgres)', () => {
     expect(none.json()).toEqual({ available: false, fee: null, freeShippingApplied: false });
   });
 
+  it('keeps charging delivery to an excluded wilaya above the threshold (#194)', async () => {
+    const update = await call('owner', 'PUT /pricing/store-prices', {
+      items: [],
+      freeShippingExcludedWilayas: [59, 59],
+    });
+    const far = await call(
+      'agent',
+      'GET /pricing/quote?wilayaCode=59&deliveryType=home&subtotal=10000',
+    );
+
+    expect(StorePricesResponseSchema.parse(update.json())).toMatchObject({
+      freeShippingFrom: 10_000,
+      freeShippingExcludedWilayas: [59],
+    });
+    expect(far.json()).toEqual({ available: true, fee: 900, freeShippingApplied: false });
+  });
+
   it('rejects unknown wilayas and stops agents from editing prices', async () => {
     const unknown = await call('owner', 'PUT /pricing/store-prices', {
       items: [{ wilayaCode: 70, deliveryType: 'home', price: 500 }],

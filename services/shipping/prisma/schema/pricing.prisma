@@ -14,10 +14,12 @@ model StorePrice {
 }
 
 model StoreShippingSettings {
-  storeId          String   @id @map("store_id") @db.Uuid
+  storeId                     String   @id @map("store_id") @db.Uuid
   /// Orders whose items total reaches this amount ship for free.
-  freeShippingFrom Int?     @map("free_shipping_from")
-  updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  freeShippingFrom            Int?     @map("free_shipping_from")
+  /// Wilayas that keep paying delivery above the threshold (#194).
+  freeShippingExcludedWilayas Int[]    @default([]) @map("free_shipping_excluded_wilayas")
+  updatedAt                   DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   @@map("store_shipping_settings")
 }

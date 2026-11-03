@@ -84,5 +84,6 @@ export const PublicOrderFormSchema = z.strictObject({
   /** Only the prices the store delivers at; empty when shipping could not be reached. */
   prices: z.array(StorePriceSchema.extend({ price: DinarsSchema })),
   freeShippingFrom: DinarsSchema.nullable(),
+  freeShippingExcludedWilayas: z.array(z.number().int()).default([]),
 });
 export type PublicOrderForm = z.infer<typeof PublicOrderFormSchema>;

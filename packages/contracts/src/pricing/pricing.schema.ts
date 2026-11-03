@@ -19,6 +19,8 @@ export type StorePrice = z.infer<typeof StorePriceSchema>;
 export const StorePricesResponseSchema = z.strictObject({
   items: z.array(StorePriceSchema),
   freeShippingFrom: DinarsSchema.nullable(),
+  /** Far wilayas that keep paying delivery above the threshold (#194); default for old replies. */
+  freeShippingExcludedWilayas: z.array(z.number().int()).default([]),
 });
 export type StorePricesResponse = z.infer<typeof StorePricesResponseSchema>;
 
@@ -36,8 +38,27 @@ export const UpdateStorePricesRequestSchema = z.strictObject({
     .default([]),
   /** Orders whose items total reaches this amount ship for free; null turns the rule off. */
   freeShippingFrom: DinarsSchema.nullable().optional(),
+  /** Replaces the whole list when given; left out, it stays as it is. */
+  freeShippingExcludedWilayas: z.array(WilayaCodeSchema).max(99).optional(),
 });
 export type UpdateStorePricesRequest = z.input<typeof UpdateStorePricesRequestSchema>;
+
+export interface FreeShippingRule {
+  readonly freeShippingFrom: number | null;
+  readonly freeShippingExcludedWilayas: readonly number[];
+}
+
+/**
+ * The one free-shipping rule shared by the quote, the order form server and its browser
+ * preview: from the threshold, except in the wilayas the store excluded (Pinduoduo-style).
+ */
+export function freeShippingApplies(
+  rule: FreeShippingRule,
+  order: { readonly wilayaCode: number; readonly subtotal: number },
+): boolean {
+  if (rule.freeShippingFrom === null || order.subtotal < rule.freeShippingFrom) return false;
+  return !rule.freeShippingExcludedWilayas.includes(order.wilayaCode);
+}
 
 /** `GET /pricing/quote`: the fee the order form shows live. */
 export const ShippingQuoteQuerySchema = z.strictObject({

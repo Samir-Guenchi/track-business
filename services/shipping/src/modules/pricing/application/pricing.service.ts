@@ -23,33 +23,39 @@ export class PricingService {
   ) {}
 
   async getStorePrices(storeId: string): Promise<StorePricesResponse> {
-    const [codes, saved, freeShippingFrom] = await Promise.all([
+    const [codes, saved, rule] = await Promise.all([
       this.currentWilayaCodes(),
       this.repository.listStorePrices(storeId),
-      this.repository.freeShippingFrom(storeId),
+      this.repository.freeShippingRule(storeId),
     ]);
-    return { items: fillPriceGrid([...codes], saved), freeShippingFrom };
+    return {
+      items: fillPriceGrid([...codes], saved),
+      freeShippingFrom: rule.freeShippingFrom,
+      freeShippingExcludedWilayas: [...rule.freeShippingExcludedWilayas].sort((a, b) => a - b),
+    };
   }
 
   async updateStorePrices(
     storeId: string,
     request: StorePriceUpdate,
   ): Promise<StorePricesResponse> {
-    await this.assertKnown(request.items.map((item) => item.wilayaCode));
+    const excluded = request.freeShippingExcludedWilayas;
+    await this.assertKnown([...request.items.map((item) => item.wilayaCode), ...(excluded ?? [])]);
     await this.repository.saveStorePrices({
       storeId,
       items: request.items,
       freeShippingFrom: request.freeShippingFrom,
+      freeShippingExcludedWilayas: excluded,
     });
     return this.getStorePrices(storeId);
   }
 
   async quote(storeId: string, query: ShippingQuoteQuery): Promise<ShippingQuote> {
-    const [price, freeShippingFrom] = await Promise.all([
+    const [price, rule] = await Promise.all([
       this.repository.findStorePrice({ storeId, ...query }),
-      this.repository.freeShippingFrom(storeId),
+      this.repository.freeShippingRule(storeId),
     ]);
-    return quoteShipping({ price, freeShippingFrom, subtotal: query.subtotal });
+    return quoteShipping({ price, rule, wilayaCode: query.wilayaCode, subtotal: query.subtotal });
   }
 
   listRateCard(storeId: string, carrier: string): Promise<RateCardRow[]> {
