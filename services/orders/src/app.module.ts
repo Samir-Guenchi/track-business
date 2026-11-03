@@ -31,6 +31,8 @@ import { ShipmentStatusModule } from './modules/shipment-status/shipment-status.
 import { ShopImportModule } from './modules/shop-import/shop-import.module.js';
 import { smartPasteOpenApiPaths } from './modules/smart-paste/interface/smart-paste.openapi.js';
 import { SmartPasteModule } from './modules/smart-paste/smart-paste.module.js';
+import { liveSellingOpenApiPaths } from './modules/live-selling/interface/live-selling.openapi.js';
+import { LiveSellingModule } from './modules/live-selling/live-selling.module.js';
 
 export const SERVICE_NAME = 'orders';
 
@@ -47,6 +49,7 @@ const OPEN_API = {
     ...orderFormsOpenApiPaths,
     ...exchangeOpenApiPaths,
     ...smartPasteOpenApiPaths,
+    ...liveSellingOpenApiPaths,
   },
 };
 
@@ -83,6 +86,7 @@ export class AppModule {
         OrderFormsModule,
         ExchangesModule,
         SmartPasteModule,
+        LiveSellingModule,
       ],
     };
   }

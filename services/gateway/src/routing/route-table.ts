@@ -39,6 +39,7 @@ export const ROUTES: readonly Route[] = [
   { prefix: '/attempt-checks', service: 'shipping' },
   // `/webhooks/:carrier/:storeId`; the more specific webhook prefixes below win.
   { prefix: '/webhooks', service: 'shipping' },
+  { prefix: '/live-sessions', service: 'orders' },
   { prefix: '/orders', service: 'orders' },
   { prefix: '/invoices', service: 'orders' },
   { prefix: '/confirmation', service: 'orders' },
