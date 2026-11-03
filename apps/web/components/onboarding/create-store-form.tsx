@@ -12,7 +12,7 @@ import { AuthCard } from '../auth/auth-card';
 import { FormAlert } from '../auth/form-alert';
 import { useAuthForm } from '../auth/use-auth-form';
 
-// TODO(#160): wilaya of origin, logo, orders per day and current carriers need a store profile endpoint in identity.
+/** First onboarding step; the store profile (#160) comes next. */
 export function CreateStoreForm() {
   const t = useTranslations('onboarding');
   const router = useRouter();
@@ -23,7 +23,7 @@ export function CreateStoreForm() {
     onSuccess: async (store) => {
       setActiveStoreId(store.id);
       await queryClient.invalidateQueries({ queryKey: sessionKeys.stores });
-      router.replace('/');
+      router.replace('/onboarding/profile');
     },
   });
   return (

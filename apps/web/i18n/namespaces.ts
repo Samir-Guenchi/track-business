@@ -18,6 +18,7 @@ export const namespaces = [
   'stopDesks',
   'forms',
   'claims',
+  'storeProfile',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];

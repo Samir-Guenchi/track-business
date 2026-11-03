@@ -1,0 +1,32 @@
+{
+  "onboardingTitle": "عرّفنا على متجرك",
+  "onboardingDescription": "كل الأجوبة اختيارية. نستعملها لحساب التوصيل من ولايتك واقتراح شركات التوصيل التي يمكنك ربطها.",
+  "settingsTitle": "إعدادات المتجر",
+  "settingsDescription": "من أين تنطلق طرودك، كيف نتواصل معك وشركات التوصيل التي تعمل معها.",
+  "originWilaya": "ولاية الانطلاق",
+  "originCommune": "بلدية الانطلاق",
+  "originHint": "تُحسب أسعار التوصيل انطلاقًا من هنا.",
+  "wilayaPlaceholder": "اختر ولاية",
+  "communePlaceholder": "اختر بلدية",
+  "communeSearch": "ابحث عن بلدية",
+  "communeEmpty": "لا توجد بلدية",
+  "contactPhone": "هاتف التواصل",
+  "dailyVolume": "الطلبات في اليوم",
+  "volume": {
+    "under_10": "أقل من 10",
+    "10_50": "من 10 إلى 50",
+    "50_200": "من 50 إلى 200",
+    "over_200": "أكثر من 200"
+  },
+  "carriers": "شركات التوصيل التي تعمل معها",
+  "defaultLanguage": "لغة الرسائل للزبائن",
+  "language": { "ar": "العربية", "fr": "Français", "en": "English" },
+  "errors": {
+    "origin": "اختر الولاية قبل البلدية.",
+    "contactPhone": "أدخل رقم هاتف جزائري (05 أو 06 أو 07)."
+  },
+  "save": "حفظ",
+  "saved": "تم الحفظ.",
+  "continue": "متابعة",
+  "skip": "لاحقًا"
+}
