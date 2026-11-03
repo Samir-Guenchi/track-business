@@ -1,0 +1,45 @@
+{
+  "title": "Ventes en live",
+  "description": "Affichez un code par produit pendant votre live TikTok ou Facebook. Collez les commentaires ici : chaque code avec un téléphone devient une réservation, les doublons sont ignorés.",
+  "listLabel": "Vos lives",
+  "counts": "{reservations, plural, one {# réservation} other {# réservations}}, {ordered} commandées",
+  "empty": {
+    "title": "Aucun live",
+    "description": "Démarrez-en un ci-dessus avant de passer en direct."
+  },
+  "new": {
+    "title": "Démarrer un live",
+    "sessionTitle": "Nom du live",
+    "sessionPlaceholder": "ex. Robes du vendredi soir",
+    "code": "Code",
+    "product": "Produit",
+    "price": "Prix (DA)",
+    "remove": "Retirer",
+    "addProduct": "Ajouter un produit",
+    "start": "Démarrer le live"
+  },
+  "session": {
+    "codes": "Codes à afficher à l'écran",
+    "commentsLabel": "Collez les commentaires du live",
+    "commentsPlaceholder": "Un commentaire par ligne, ex. Amina : A1 L 0555 12 34 56",
+    "read": "Lire les commentaires",
+    "readResult": "{added, plural, one {# nouvelle réservation} other {# nouvelles réservations}}, {duplicates} en double",
+    "unread": "À vérifier (code ou téléphone manquant) :",
+    "summary": "{reservations, plural, one {# réservation} other {# réservations}}, {ordered} avec commande",
+    "reservations": "Réservations",
+    "openOrder": "Ouvrir la commande",
+    "createOrder": "Créer la commande",
+    "columns": {
+      "code": "Code",
+      "product": "Produit",
+      "size": "Taille",
+      "quantity": "Qté",
+      "customer": "Client",
+      "order": "Commande"
+    },
+    "empty": {
+      "title": "Aucune réservation",
+      "description": "Collez les commentaires ci-dessus pendant ou après le live."
+    }
+  }
+}

@@ -25,6 +25,7 @@
     "deliveryRequests": "Demandes clients",
     "claims": "Réclamations",
     "stuckParcels": "Colis bloqués",
-    "returnRequests": "Demandes de retour"
+    "returnRequests": "Demandes de retour",
+    "live": "Ventes en live"
   }
 }

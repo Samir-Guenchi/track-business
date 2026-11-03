@@ -25,6 +25,7 @@
     "deliveryRequests": "طلبات الزبائن",
     "claims": "الشكاوى",
     "stuckParcels": "طرود متوقفة",
-    "returnRequests": "طلبات الإرجاع"
+    "returnRequests": "طلبات الإرجاع",
+    "live": "البيع المباشر"
   }
 }
