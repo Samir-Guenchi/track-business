@@ -21,6 +21,7 @@ import { fraudOpenApiPaths } from './modules/fraud/interface/fraud.openapi.js';
 import { ExchangesModule } from './modules/exchanges/exchanges.module.js';
 import { exchangeOpenApiPaths } from './modules/exchanges/interface/exchange.openapi.js';
 import { ordersOpenApiPaths } from './modules/orders/interface/orders.openapi.js';
+import { InvoicesModule } from './modules/invoices/invoices.module.js';
 import { OrdersModule } from './modules/orders/orders.module.js';
 import { riskScoreOpenApiPaths } from './modules/risk-score/interface/risk-score.openapi.js';
 import { RiskScoreModule } from './modules/risk-score/risk-score.module.js';
@@ -69,6 +70,7 @@ export class AppModule {
           cache: redisRoleCache,
         }),
         OrdersModule,
+        InvoicesModule,
         ConfirmationModule,
         ShipmentStatusModule,
         RiskScoreModule,
