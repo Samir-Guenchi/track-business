@@ -1,0 +1,12 @@
+// Invoices (#140). Orders keeps its own copy of each store's legal profile, fed by identity's
+// `identity.store.legal-updated.v1`, so issuing an invoice never calls identity.
+
+model StoreLegalCopy {
+  storeId  String   @id @map("store_id") @db.Uuid
+  /// StoreLegalProfile from the contracts, as identity last announced it.
+  profile  Json
+  /// When identity made the change: an older event never overwrites a newer copy.
+  sourceAt DateTime @map("source_at") @db.Timestamptz(3)
+
+  @@map("store_legal_copies")
+}
