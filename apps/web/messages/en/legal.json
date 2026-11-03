@@ -1,0 +1,40 @@
+{
+  "title": "Legal and invoices",
+  "description": "The identity printed on your invoices. Check each number against your documents.",
+  "tabs": { "label": "Settings sections", "store": "Store", "legal": "Legal and invoices" },
+  "fields": {
+    "regime": "Registration",
+    "taxRegime": "Tax regime",
+    "legalName": "Legal name",
+    "address": "Registered address",
+    "nif": "NIF (tax id)",
+    "nis": "NIS (statistics id)",
+    "rcNumber": "Commercial register (RC) number",
+    "autoEntrepreneurCard": "Auto-entrepreneur card number",
+    "articleImposition": "Article d'imposition"
+  },
+  "hints": {
+    "legalName": "Your company name, or your full name if you sell in your own name.",
+    "nif": "15 to 20 digits, on your tax card.",
+    "nis": "15 digits, from the ONS."
+  },
+  "regime": {
+    "merchant": "Merchant (natural person)",
+    "company": "Company (SARL, EURL, SPA...)",
+    "auto_entrepreneur": "Auto-entrepreneur"
+  },
+  "taxRegime": { "ifu": "IFU (no VAT on invoices)", "real": "Real regime (19% VAT shown)" },
+  "errors": {
+    "legalName": "Between 2 and 120 characters.",
+    "address": "Between 2 and 240 characters.",
+    "nif": "15 to 20 digits.",
+    "nis": "15 digits.",
+    "rcNumber": "Letters, digits, / and -, as on your extract.",
+    "autoEntrepreneurCard": "Letters, digits, / and -, as on your card.",
+    "articleImposition": "8 to 15 digits."
+  },
+  "ready": "Your store can issue invoices.",
+  "missing": "To issue invoices, still fill in: {fields}.",
+  "save": "Save",
+  "saved": "Saved."
+}

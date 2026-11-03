@@ -1,0 +1,47 @@
+{
+  "title": "Mentions légales et factures",
+  "description": "L'identité imprimée sur vos factures. Vérifiez chaque numéro sur vos documents.",
+  "tabs": {
+    "label": "Sections des paramètres",
+    "store": "Boutique",
+    "legal": "Mentions légales et factures"
+  },
+  "fields": {
+    "regime": "Immatriculation",
+    "taxRegime": "Régime fiscal",
+    "legalName": "Raison sociale",
+    "address": "Adresse du siège",
+    "nif": "NIF",
+    "nis": "NIS",
+    "rcNumber": "Numéro du registre de commerce (RC)",
+    "autoEntrepreneurCard": "Numéro de carte d'auto-entrepreneur",
+    "articleImposition": "Article d'imposition"
+  },
+  "hints": {
+    "legalName": "Le nom de votre société, ou votre nom complet si vous vendez en nom propre.",
+    "nif": "15 à 20 chiffres, sur votre carte fiscale.",
+    "nis": "15 chiffres, délivré par l'ONS."
+  },
+  "regime": {
+    "merchant": "Commerçant (personne physique)",
+    "company": "Société (SARL, EURL, SPA...)",
+    "auto_entrepreneur": "Auto-entrepreneur"
+  },
+  "taxRegime": {
+    "ifu": "IFU (pas de TVA sur les factures)",
+    "real": "Régime réel (TVA 19 % affichée)"
+  },
+  "errors": {
+    "legalName": "Entre 2 et 120 caractères.",
+    "address": "Entre 2 et 240 caractères.",
+    "nif": "15 à 20 chiffres.",
+    "nis": "15 chiffres.",
+    "rcNumber": "Lettres, chiffres, / et -, comme sur votre extrait.",
+    "autoEntrepreneurCard": "Lettres, chiffres, / et -, comme sur votre carte.",
+    "articleImposition": "8 à 15 chiffres."
+  },
+  "ready": "Votre boutique peut émettre des factures.",
+  "missing": "Pour émettre des factures, il reste à remplir : {fields}.",
+  "save": "Enregistrer",
+  "saved": "Enregistré."
+}
