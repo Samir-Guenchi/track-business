@@ -15,6 +15,7 @@ model Store {
   memberships Membership[]
   invitations Invitation[]
   profile     StoreProfile?
+  legal       StoreLegalProfile?
 
   @@map("stores")
 }
