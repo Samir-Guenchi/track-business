@@ -22,6 +22,8 @@ export const OrderSourceSchema = z.enum([
   'form',
   /** A size or colour swap of a delivered order (#138); `externalRef` is the original order id. */
   'exchange',
+  /** Sent by a reseller from their portal link (#198); the margin lives in the resellers module. */
+  'reseller',
 ]);
 export type OrderSource = z.infer<typeof OrderSourceSchema>;
 

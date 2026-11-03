@@ -23,6 +23,7 @@ export * from './orders/index.js';
 export * from './payments/index.js';
 export * from './pickup-points/index.js';
 export * from './pricing/index.js';
+export * from './resellers/index.js';
 export * from './return-requests/index.js';
 export * from './returns/index.js';
 export * from './shipments/index.js';
