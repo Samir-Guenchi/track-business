@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { ChangeStatusRequest } from '@trackecom/contracts';
+import type { ChangeStatusRequest, CreateExchangeRequest } from '@trackecom/contracts';
 import { ordersApi } from '../api/orders-api';
 import { listQueryOf, type OrderFilters } from './order-filters';
 
@@ -42,6 +42,16 @@ export function useBulkStatus() {
   return useMutation({
     mutationFn: ({ orderIds, status }: { orderIds: string[]; status: 'confirmed' | 'cancelled' }) =>
       ordersApi.bulk({ action: 'change_status', orderIds, status }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: orderKeys.all }),
+  });
+}
+
+/** A size or colour swap of a delivered order (#138); answers with the new exchange order. */
+export function useCreateExchange() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body: CreateExchangeRequest }) =>
+      ordersApi.exchange(id, body),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: orderKeys.all }),
   });
 }
