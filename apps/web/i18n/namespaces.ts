@@ -22,6 +22,7 @@ export const namespaces = [
   'legal',
   'invoices',
   'smartPaste',
+  'attemptCheck',
   'deliveryPrices',
   'stuckParcels',
 ] as const;
