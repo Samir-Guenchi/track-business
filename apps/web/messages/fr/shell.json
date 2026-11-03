@@ -23,6 +23,7 @@
     "money": "Encaissements",
     "settings": "Paramètres",
     "deliveryRequests": "Demandes clients",
-    "claims": "Réclamations"
+    "claims": "Réclamations",
+    "stuckParcels": "Colis bloqués"
   }
 }

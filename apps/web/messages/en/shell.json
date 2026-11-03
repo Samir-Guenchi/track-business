@@ -23,6 +23,7 @@
     "money": "Cash collection",
     "settings": "Settings",
     "deliveryRequests": "Customer requests",
-    "claims": "Claims"
+    "claims": "Claims",
+    "stuckParcels": "Stuck parcels"
   }
 }

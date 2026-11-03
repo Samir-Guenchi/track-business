@@ -7,12 +7,14 @@ import type { NavItem } from './nav-item';
 import { ordersNav } from './orders';
 import { returnsNav } from './returns';
 import { settingsNav } from './settings';
+import { stuckParcelsNav } from './stuck-parcels';
 
 /** Each feature registers its entry in its own file and adds one line here. */
 const registered: readonly NavItem[] = [
   dashboardNav,
   ordersNav,
   followupsNav,
+  stuckParcelsNav,
   returnsNav,
   formsNav,
   deliveryRequestsNav,

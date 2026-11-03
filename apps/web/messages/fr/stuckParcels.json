@@ -1,0 +1,37 @@
+{
+  "title": "Colis bloqués",
+  "subtitle": "Colis que le transporteur n'a pas bougés depuis trop longtemps (vendredis et jours fériés non comptés). Appelez le transporteur avant que le client abandonne.",
+  "listLabel": "Colis bloqués, les plus anciens d'abord",
+  "carrier": "Transporteur",
+  "allCarriers": "Tous les transporteurs",
+  "unknownWilaya": "Wilaya inconnue",
+  "idleDays": "{count, plural, one {# jour sans nouvelles} other {# jours sans nouvelles}}",
+  "columns": {
+    "parcel": "Colis",
+    "carrier": "Transporteur",
+    "wilaya": "Wilaya",
+    "status": "Dernier statut",
+    "lastMove": "Dernier mouvement",
+    "idle": "Attente"
+  },
+  "status": {
+    "created": "Pas encore ramassé",
+    "picked_up": "Ramassé",
+    "in_transit": "En transit",
+    "out_for_delivery": "En livraison",
+    "delivered": "Livré",
+    "failed_attempt": "Tentative échouée",
+    "returning": "En retour",
+    "returned": "Retourné",
+    "cancelled": "Annulé"
+  },
+  "hotspots": {
+    "title": "Points de blocage",
+    "hint": "Plusieurs colis sont bloqués sur le même trajet : le hub est peut-être bloqué. Un seul appel peut tout débloquer.",
+    "line": "{carrier} vers {wilaya} : {count, plural, one {# colis} other {# colis}}"
+  },
+  "empty": {
+    "title": "Aucun colis bloqué",
+    "description": "Tous les colis ont bougé récemment. Nous vérifions à chaque ouverture de cette page."
+  }
+}
