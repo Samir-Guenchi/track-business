@@ -11,7 +11,6 @@ import { ClaimLetterDialog } from './claim-letter-dialog';
 
 /** The next step of a claim: send it, then record the carrier's answer. Always the letter. */
 export function ClaimActions({ claim }: { readonly claim: Claim }) {
-  const t = useTranslations('claims.actions');
   const update = useUpdateClaim();
   const errorMessage = useErrorMessage();
   const [winning, setWinning] = useState(false);
