@@ -1,0 +1,18 @@
+{
+  "title": "Prix de livraison",
+  "description": "Ce que vos clients paient pour la livraison dans chaque wilaya. Les formulaires de commande et la saisie manuelle utilisent ces prix.",
+  "freeFrom": "Livraison gratuite dès (DA)",
+  "freeFromHint": "Laissez vide pour désactiver la livraison gratuite.",
+  "fillLabel": "Remplir tous les prix vides",
+  "fillType": "Type de livraison",
+  "fillPrice": "Prix en DA",
+  "fill": "Remplir",
+  "tableHint": "Un prix vide signifie que vous ne livrez pas ainsi dans cette wilaya. Cochez « Pas de gratuité » pour les wilayas éloignées qui paient la livraison même au-dessus du seuil.",
+  "search": "Chercher une wilaya",
+  "wilaya": "Wilaya",
+  "home": "Domicile",
+  "stopdesk": "Stop-desk",
+  "excluded": "Pas de gratuité",
+  "save": "Enregistrer les prix",
+  "saved": "Prix enregistrés."
+}
