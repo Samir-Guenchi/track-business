@@ -52,8 +52,10 @@ export type ListPickupPointsResponse = z.infer<typeof ListPickupPointsResponseSc
 export const PickupParcelStateSchema = z.enum(['held', 'released']);
 export type PickupParcelState = z.infer<typeof PickupParcelStateSchema>;
 
-/** `POST /pickup-points/:id/parcels`: the courier dropped the parcel at the point (scan in). */
-export const DropParcelSchema = z.strictObject({ shipmentId: z.uuid() });
+/** `POST /pickup-points/:id/parcels`: the courier dropped the parcel at the point (label scan). */
+export const DropParcelSchema = z.strictObject({
+  trackingNumber: z.string().trim().min(3).max(64),
+});
 export type DropParcel = z.infer<typeof DropParcelSchema>;
 
 /** `POST /pickup-points/:id/parcels/:shipmentId/release`: the customer gave their code. */

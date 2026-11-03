@@ -32,17 +32,22 @@ import {
 export class PickupParcelsService {
   constructor(@Inject(PICKUP_POINTS_STORE) private readonly store: PickupPointsStore) {}
 
-  async drop(scope: PointScope, shipmentId: string): Promise<ListPickupParcelsResponse> {
-    const check = await this.store.dropCheck(scope, shipmentId);
+  async drop(scope: PointScope, trackingNumber: string): Promise<ListPickupParcelsResponse> {
+    const check = await this.store.dropCheck(scope, trackingNumber);
     if (!check) throw new PickupPointNotFoundError('No such pickup point');
-    if (check.shipmentStatus === null) throw new PickupParcelNotFoundError('No such parcel');
+    const { shipment } = check;
+    if (!shipment) throw new PickupParcelNotFoundError('No parcel with this tracking number');
     const refused =
       !check.point.active ||
       check.holding >= check.point.capacity ||
       check.alreadyAtPoint ||
-      !isDroppable(check.shipmentStatus);
+      !isDroppable(shipment.status);
     if (refused) throw new PickupDropRefusedError('This parcel cannot be left at this point');
-    await this.store.drop(scope, { shipmentId, code: newPickupCode(), fee: check.point.fee });
+    await this.store.drop(scope, {
+      shipmentId: shipment.id,
+      code: newPickupCode(),
+      fee: check.point.fee,
+    });
     return this.parcels(scope, 'held');
   }
 

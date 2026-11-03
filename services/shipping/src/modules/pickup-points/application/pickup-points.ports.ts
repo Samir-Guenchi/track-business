@@ -21,7 +21,8 @@ export interface PointScope {
 export interface DropCheck {
   readonly point: { readonly active: boolean; readonly capacity: number; readonly fee: number };
   readonly holding: number;
-  readonly shipmentStatus: string | null;
+  /** The store's parcel with that tracking number, if any. */
+  readonly shipment: { readonly id: string; readonly status: string } | null;
   readonly alreadyAtPoint: boolean;
 }
 
@@ -35,7 +36,7 @@ export interface PickupPointsStore {
   createPoint(storeId: string, fields: PointFields): Promise<string>;
   updatePoint(scope: PointScope, fields: PointFields): Promise<boolean>;
   points(storeId: string, pointId?: string): Promise<PickupPoint[]>;
-  dropCheck(scope: PointScope, shipmentId: string): Promise<DropCheck | null>;
+  dropCheck(scope: PointScope, trackingNumber: string): Promise<DropCheck | null>;
   drop(scope: PointScope, parcel: { shipmentId: string; code: string; fee: number }): Promise<void>;
   parcels(scope: PointScope, state?: PickupParcelState): Promise<PickupParcel[]>;
   held(scope: PointScope, shipmentId: string): Promise<HeldParcel | null>;

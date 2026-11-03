@@ -49,22 +49,24 @@ export class PrismaPickupPointsStore extends PickupQueries implements PickupPoin
     return rows.map((row) => toPoint(row, totals.get(row.id)));
   }
 
-  async dropCheck(scope: PointScope, shipmentId: string): Promise<DropCheck | null> {
+  async dropCheck(scope: PointScope, trackingNumber: string): Promise<DropCheck | null> {
     const point = await this.prisma.pickupPoint.findFirst({ where: pointWhere(scope) });
     if (!point) return null;
-    const [holding, shipment, existing] = await Promise.all([
+    const [holding, shipment] = await Promise.all([
       this.prisma.pickupParcel.count({ where: { pointId: point.id, releasedAt: null } }),
       this.prisma.shipment.findFirst({
-        where: { id: shipmentId, storeId: scope.storeId },
-        select: { status: true },
+        where: { trackingNumber, storeId: scope.storeId },
+        select: { id: true, status: true },
       }),
-      this.prisma.pickupParcel.findUnique({ where: { shipmentId }, select: { pointId: true } }),
     ]);
+    const existing = shipment
+      ? await this.prisma.pickupParcel.count({ where: { shipmentId: shipment.id } })
+      : 0;
     return {
       point: { active: point.active, capacity: point.capacity, fee: point.feePerParcel },
       holding,
-      shipmentStatus: shipment?.status ?? null,
-      alreadyAtPoint: existing !== null,
+      shipment,
+      alreadyAtPoint: existing > 0,
     };
   }
 

@@ -52,7 +52,7 @@ describe.skipIf(!baseUrl || !redisUrl)('partner pickup points (real Postgres)', 
     as(OWNER, {
       method: 'POST',
       url: `/pickup-points/${pointId}/parcels`,
-      payload: { shipmentId: SHIPMENT },
+      payload: { trackingNumber: 'TRK-202' },
     });
   const release = (pointId: string, code: string) =>
     as(OWNER, {
@@ -180,7 +180,7 @@ describe.skipIf(!baseUrl || !redisUrl)('partner pickup points (real Postgres)', 
     const rivalDrop = await as(RIVAL, {
       method: 'POST',
       url: `${url}/parcels`,
-      payload: { shipmentId: SHIPMENT },
+      payload: { trackingNumber: 'TRK-202' },
     });
     expect(rivalDrop.statusCode).toBe(404);
   });

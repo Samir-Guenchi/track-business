@@ -54,7 +54,8 @@ export const pickupPointsOpenApiPaths: ZodOpenApiPathsObject = {
       responses: ok('200', 'The parcels', ListPickupParcelsResponseSchema),
     },
     post: {
-      summary: 'The courier left a parcel at the point; a pickup code is created',
+      summary:
+        'The courier left a parcel at the point (by tracking number); a pickup code is created',
       requestParams: point,
       requestBody: body(DropParcelSchema),
       responses: ok('201', 'Parcels waiting at the point', ListPickupParcelsResponseSchema),

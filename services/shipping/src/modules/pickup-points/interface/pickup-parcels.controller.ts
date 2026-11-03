@@ -36,7 +36,7 @@ export class PickupParcelsController {
     @Body(new ZodValidationPipe(DropParcelSchema)) body: DropParcel,
     @CurrentStore() store: StoreContext,
   ): Promise<ListPickupParcelsResponse> {
-    return this.parcels.drop({ storeId: store.storeId, pointId }, body.shipmentId);
+    return this.parcels.drop({ storeId: store.storeId, pointId }, body.trackingNumber);
   }
 
   @Get('parcels')
