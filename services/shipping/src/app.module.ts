@@ -26,6 +26,8 @@ import { BenchmarksModule } from './modules/benchmarks/benchmarks.module.js';
 import { benchmarksOpenApiPaths } from './modules/benchmarks/interface/benchmarks.openapi.js';
 import { returnRequestsOpenApiPaths } from './modules/return-requests/interface/return-requests.openapi.js';
 import { ReturnRequestsModule } from './modules/return-requests/return-requests.module.js';
+import { pickupPointsOpenApiPaths } from './modules/pickup-points/interface/pickup-points.openapi.js';
+import { PickupPointsModule } from './modules/pickup-points/pickup-points.module.js';
 import { stuckParcelsOpenApiPaths } from './modules/stuck-parcels/interface/stuck-parcels.openapi.js';
 import { StuckParcelsModule } from './modules/stuck-parcels/stuck-parcels.module.js';
 import { DeliveryRequestsModule } from './modules/delivery-requests/delivery-requests.module.js';
@@ -57,6 +59,7 @@ const OPEN_API = {
     ...attemptChecksOpenApiPaths,
     ...benchmarksOpenApiPaths,
     ...returnRequestsOpenApiPaths,
+    ...pickupPointsOpenApiPaths,
     ...stopDesksOpenApiPaths,
     ...claimsOpenApiPaths,
   },
@@ -97,6 +100,7 @@ export class AppModule {
         AttemptChecksModule,
         BenchmarksModule,
         ReturnRequestsModule,
+        PickupPointsModule,
         StopDesksModule,
         ClaimsModule,
       ],

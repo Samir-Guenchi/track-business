@@ -21,6 +21,7 @@ export * from './live-selling/index.js';
 export * from './notifications/index.js';
 export * from './orders/index.js';
 export * from './payments/index.js';
+export * from './pickup-points/index.js';
 export * from './pricing/index.js';
 export * from './return-requests/index.js';
 export * from './returns/index.js';
