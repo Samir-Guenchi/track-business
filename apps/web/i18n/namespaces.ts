@@ -28,6 +28,8 @@ export const namespaces = [
   'returnRequest',
   'returnRequests',
   'live',
+  'resellers',
+  'resellerPortal',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];

@@ -26,6 +26,7 @@
     "claims": "Claims",
     "stuckParcels": "Stuck parcels",
     "returnRequests": "Return requests",
-    "live": "Live selling"
+    "live": "Live selling",
+    "resellers": "Resellers"
   }
 }

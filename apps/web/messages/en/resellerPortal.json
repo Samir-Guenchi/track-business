@@ -1,0 +1,42 @@
+{
+  "title": "Reseller portal",
+  "hello": "Hello {name}",
+  "description": "Send your customers' orders here. The supplier confirms and ships them; your margin is owed once the order is delivered.",
+  "dinars": "{amount, number} DA",
+  "stats": {
+    "marginPending": "On the way",
+    "marginEarned": "To be paid",
+    "marginPaid": "Paid"
+  },
+  "newOrder": "New order",
+  "orders": "My orders",
+  "sent": "Order {ref} sent: {codAmount, number} DA to collect, your margin {margin, number} DA.",
+  "form": {
+    "name": "Customer name",
+    "phone": "Customer phone",
+    "wilaya": "Wilaya",
+    "commune": "Commune",
+    "address": "Address",
+    "choose": "Choose",
+    "product": "Product",
+    "productOption": "{name} (supplier {price, number} DA)",
+    "quantity": "Quantity",
+    "sellingPrice": "Your selling price per unit (DA)",
+    "floor": "At least {floor, number} DA",
+    "marginPreview": "Your margin: {margin, number} DA",
+    "submit": "Send the order"
+  },
+  "errors": {
+    "paused": "The supplier paused your account. Contact them.",
+    "invalid_item": "Check the product and the price: it is under the lowest price allowed.",
+    "delivery_unavailable": "The supplier does not deliver to this wilaya.",
+    "daily_limit": "You reached today's order limit.",
+    "validation_failed": "Check the customer's details: name, mobile number, wilaya, commune and address.",
+    "network": "No connection. Try again.",
+    "generic": "The order was not sent. Try again."
+  },
+  "notFound": {
+    "title": "Link not valid",
+    "body": "Ask the supplier for your portal link again."
+  }
+}

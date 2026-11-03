@@ -4,6 +4,7 @@ import { deliveryRequestsNav } from './delivery-requests';
 import { followupsNav } from './followups';
 import { formsNav } from './forms';
 import { liveNav } from './live';
+import { resellersNav } from './resellers';
 import type { NavItem } from './nav-item';
 import { ordersNav } from './orders';
 import { returnRequestsNav } from './return-requests';
@@ -16,6 +17,7 @@ const registered: readonly NavItem[] = [
   dashboardNav,
   ordersNav,
   liveNav,
+  resellersNav,
   followupsNav,
   stuckParcelsNav,
   returnsNav,
