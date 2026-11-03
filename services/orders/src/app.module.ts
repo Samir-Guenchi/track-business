@@ -29,6 +29,8 @@ import { selfConfirmOpenApiPaths } from './modules/self-confirm/interface/self-c
 import { SelfConfirmModule } from './modules/self-confirm/self-confirm.module.js';
 import { ShipmentStatusModule } from './modules/shipment-status/shipment-status.module.js';
 import { ShopImportModule } from './modules/shop-import/shop-import.module.js';
+import { smartPasteOpenApiPaths } from './modules/smart-paste/interface/smart-paste.openapi.js';
+import { SmartPasteModule } from './modules/smart-paste/smart-paste.module.js';
 
 export const SERVICE_NAME = 'orders';
 
@@ -44,6 +46,7 @@ const OPEN_API = {
     ...followupsOpenApiPaths,
     ...orderFormsOpenApiPaths,
     ...exchangeOpenApiPaths,
+    ...smartPasteOpenApiPaths,
   },
 };
 
@@ -79,6 +82,7 @@ export class AppModule {
         DeliveryFollowupModule,
         OrderFormsModule,
         ExchangesModule,
+        SmartPasteModule,
       ],
     };
   }
