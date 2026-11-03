@@ -21,6 +21,7 @@ export const namespaces = [
   'storeProfile',
   'legal',
   'invoices',
+  'deliveryPrices',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];

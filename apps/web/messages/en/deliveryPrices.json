@@ -1,0 +1,18 @@
+{
+  "title": "Delivery prices",
+  "description": "What your customers pay for delivery in each wilaya. Order forms and the manual order form use these prices.",
+  "freeFrom": "Free delivery from (DA)",
+  "freeFromHint": "Leave empty to turn free delivery off.",
+  "fillLabel": "Fill every empty price",
+  "fillType": "Delivery type",
+  "fillPrice": "Price in DA",
+  "fill": "Fill",
+  "tableHint": "An empty price means you do not deliver that way to that wilaya. Tick \"No free delivery\" for far wilayas that keep paying delivery above the threshold.",
+  "search": "Find a wilaya",
+  "wilaya": "Wilaya",
+  "home": "Home",
+  "stopdesk": "Stop-desk",
+  "excluded": "No free delivery",
+  "save": "Save prices",
+  "saved": "Prices saved."
+}
