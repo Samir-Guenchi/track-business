@@ -20,25 +20,13 @@ export function ClaimActions({ claim }: { readonly claim: Claim }) {
     <div className="flex flex-col items-end gap-2">
       <div className="flex flex-wrap justify-end gap-2">
         <ClaimLetterDialog claim={claim} />
-        {claim.state === 'open' && (
-          <Button
-            size="sm"
-            onClick={() => move({ state: 'submitted' })}
-            disabled={update.isPending}
-          >
-            {t('submitted')}
-          </Button>
-        )}
-        {claim.state === 'submitted' && !winning && (
-          <>
-            <Button size="sm" onClick={() => setWinning(true)}>
-              {t('won')}
-            </Button>
-            <Button size="sm" variant="secondary" onClick={() => move({ state: 'rejected' })}>
-              {t('rejected')}
-            </Button>
-          </>
-        )}
+        <NextStep
+          claim={claim}
+          winning={winning}
+          busy={update.isPending}
+          onWin={() => setWinning(true)}
+          onMove={move}
+        />
       </div>
       {winning && claim.state === 'submitted' && (
         <WonForm
@@ -81,5 +69,40 @@ function WonForm({ initial, busy, onSave }: WonFormProps) {
         {t('confirmWon')}
       </Button>
     </form>
+  );
+}
+
+interface NextStepProps {
+  readonly claim: Claim;
+  readonly winning: boolean;
+  readonly busy: boolean;
+  readonly onWin: () => void;
+  readonly onMove: (body: UpdateClaimRequest) => void;
+}
+
+/** "Marquer envoyée" on an open claim; "Gagnée" or "Refusée" on a sent one. */
+function NextStep({ claim, winning, busy, onWin, onMove }: NextStepProps) {
+  const t = useTranslations('claims.actions');
+  if (claim.state === 'open')
+    return (
+      <Button size="sm" onClick={() => onMove({ state: 'submitted' })} disabled={busy}>
+        {t('submitted')}
+      </Button>
+    );
+  if (claim.state !== 'submitted' || winning) return null;
+  return (
+    <>
+      <Button size="sm" onClick={onWin}>
+        {t('won')}
+      </Button>
+      <Button
+        size="sm"
+        variant="secondary"
+        onClick={() => onMove({ state: 'rejected' })}
+        disabled={busy}
+      >
+        {t('rejected')}
+      </Button>
+    </>
   );
 }
