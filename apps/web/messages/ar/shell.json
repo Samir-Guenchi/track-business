@@ -23,6 +23,7 @@
     "money": "التحصيل",
     "settings": "الإعدادات",
     "deliveryRequests": "طلبات الزبائن",
-    "claims": "الشكاوى"
+    "claims": "الشكاوى",
+    "stuckParcels": "طرود متوقفة"
   }
 }
