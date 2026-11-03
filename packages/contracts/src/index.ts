@@ -1,5 +1,6 @@
 export * from './attempt-checks/index.js';
 export * from './audit/index.js';
+export * from './benchmarks/index.js';
 export * from './auth/index.js';
 export * from './carriers/index.js';
 export * from './claims/index.js';
