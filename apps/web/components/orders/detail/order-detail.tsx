@@ -7,6 +7,7 @@ import { useOrder } from '../../../lib/orders/order-queries';
 import { Link } from '../../../i18n/navigation';
 import { FormAlert } from '../../auth/form-alert';
 import { useErrorMessage } from '../../auth/use-error-message';
+import { InvoiceCard } from '../../invoices/invoice-card';
 import { ExchangeBanner } from '../exchange/exchange-banner';
 import { ExchangeDialog } from '../exchange/exchange-dialog';
 import { CustomerCard } from './customer-card';
@@ -46,6 +47,7 @@ export function OrderDetail({ orderId }: { readonly orderId: string }) {
             <CustomerCard order={order.data} />
             <ItemsCard order={order.data} />
           </div>
+          <InvoiceCard order={order.data} />
           <DeliveryRequestsCard orderId={orderId} />
           <HistoryCard orderId={orderId} />
         </>

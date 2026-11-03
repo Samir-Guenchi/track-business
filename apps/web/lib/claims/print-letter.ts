@@ -6,17 +6,23 @@ const ESCAPES: Readonly<Record<string, string>> = {
   "'": '&#39;',
 };
 
+export const escapeHtml = (text: string): string =>
+  text.replace(/[&<>"']/g, (char) => ESCAPES[char] ?? char);
+
 /** The letter as a standalone printable page; every character of the text is escaped. */
 export function letterHtml(text: string, dir: 'ltr' | 'rtl'): string {
-  const safe = text.replace(/[&<>"']/g, (char) => ESCAPES[char] ?? char);
+  const safe = escapeHtml(text);
   return `<!doctype html><html dir="${dir}"><meta charset="utf-8"><body style="margin:2cm;font:14px/1.6 sans-serif;white-space:pre-wrap">${safe}</body></html>`;
 }
 
-/** Prints only the letter, not the page behind the dialog. */
-export function printLetter(text: string, dir: 'ltr' | 'rtl'): void {
+/** Opens a standalone page and prints it, so nothing of the app behind it is printed. */
+export function printPage(html: string): void {
   const page = window.open('', '_blank');
   if (!page) return;
-  page.document.write(letterHtml(text, dir));
+  page.document.write(html);
   page.document.close();
   page.print();
 }
+
+export const printLetter = (text: string, dir: 'ltr' | 'rtl'): void =>
+  printPage(letterHtml(text, dir));

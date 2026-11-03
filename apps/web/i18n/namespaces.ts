@@ -20,6 +20,7 @@ export const namespaces = [
   'claims',
   'storeProfile',
   'legal',
+  'invoices',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];
