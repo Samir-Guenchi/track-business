@@ -1,0 +1,46 @@
+// Resellers and affiliates (#198): people who sell the store's products with their own margin.
+// Tenant data; the store is the supplier.
+
+model Reseller {
+  id         String          @id @db.Uuid
+  storeId    String          @map("store_id") @db.Uuid
+  name       String
+  /// E.164.
+  phone      String
+  active     Boolean
+  /// Secret code of the reseller's portal link.
+  portalCode String          @unique @map("portal_code")
+  createdAt  DateTime        @map("created_at") @db.Timestamptz(3)
+  orders     ResellerOrder[]
+
+  @@index([storeId])
+  @@map("resellers")
+}
+
+/// What the store offers resellers, at the supplier price.
+model ResellerProduct {
+  id            String   @id @db.Uuid
+  storeId       String   @map("store_id") @db.Uuid
+  name          String
+  supplierPrice Int      @map("supplier_price")
+  minPrice      Int?     @map("min_price")
+  active        Boolean
+  createdAt     DateTime @map("created_at") @db.Timestamptz(3)
+
+  @@index([storeId])
+  @@map("reseller_products")
+}
+
+/// Links an order to the reseller who sent it, with the margin owed once it is delivered.
+model ResellerOrder {
+  orderId    String    @id @map("order_id") @db.Uuid
+  storeId    String    @map("store_id") @db.Uuid
+  resellerId String    @map("reseller_id") @db.Uuid
+  reseller   Reseller  @relation(fields: [resellerId], references: [id])
+  margin     Int
+  createdAt  DateTime  @map("created_at") @db.Timestamptz(3)
+  paidAt     DateTime? @map("paid_at") @db.Timestamptz(3)
+
+  @@index([resellerId, createdAt])
+  @@map("reseller_orders")
+}

@@ -33,6 +33,8 @@ import { smartPasteOpenApiPaths } from './modules/smart-paste/interface/smart-pa
 import { SmartPasteModule } from './modules/smart-paste/smart-paste.module.js';
 import { liveSellingOpenApiPaths } from './modules/live-selling/interface/live-selling.openapi.js';
 import { LiveSellingModule } from './modules/live-selling/live-selling.module.js';
+import { resellersOpenApiPaths } from './modules/resellers/interface/resellers.openapi.js';
+import { ResellersModule } from './modules/resellers/resellers.module.js';
 
 export const SERVICE_NAME = 'orders';
 
@@ -50,6 +52,7 @@ const OPEN_API = {
     ...exchangeOpenApiPaths,
     ...smartPasteOpenApiPaths,
     ...liveSellingOpenApiPaths,
+    ...resellersOpenApiPaths,
   },
 };
 
@@ -87,6 +90,7 @@ export class AppModule {
         ExchangesModule,
         SmartPasteModule,
         LiveSellingModule,
+        ResellersModule,
       ],
     };
   }
