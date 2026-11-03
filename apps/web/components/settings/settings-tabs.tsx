@@ -6,6 +6,7 @@ import { Link, usePathname } from '../../i18n/navigation';
 const TABS = [
   { key: 'store', href: '/settings/store' },
   { key: 'legal', href: '/settings/legal' },
+  { key: 'delivery', href: '/settings/delivery' },
 ] as const;
 
 /** The settings sections, as links so each one has its own URL. */

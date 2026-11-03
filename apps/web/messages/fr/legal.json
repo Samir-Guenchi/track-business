@@ -4,7 +4,8 @@
   "tabs": {
     "label": "Sections des paramètres",
     "store": "Boutique",
-    "legal": "Mentions légales et factures"
+    "legal": "Mentions légales et factures",
+    "delivery": "Prix de livraison"
   },
   "fields": {
     "regime": "Immatriculation",

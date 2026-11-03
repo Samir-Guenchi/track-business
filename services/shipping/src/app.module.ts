@@ -20,6 +20,8 @@ import { geoOpenApiPaths } from './modules/geo/interface/geo.openapi.js';
 import { pricingOpenApiPaths } from './modules/pricing/interface/pricing.openapi.js';
 import { PricingModule } from './modules/pricing/pricing.module.js';
 import { CarrierFeesModule } from './modules/carrier-fees/carrier-fees.module.js';
+import { AttemptChecksModule } from './modules/attempt-checks/attempt-checks.module.js';
+import { attemptChecksOpenApiPaths } from './modules/attempt-checks/interface/attempt-checks.openapi.js';
 import { DeliveryRequestsModule } from './modules/delivery-requests/delivery-requests.module.js';
 import { deliveryRequestsOpenApiPaths } from './modules/delivery-requests/interface/delivery-requests.openapi.js';
 import { returnsOpenApiPaths } from './modules/returns/interface/returns.openapi.js';
@@ -45,6 +47,7 @@ const OPEN_API = {
     ...suggestionOpenApiPaths,
     ...returnsOpenApiPaths,
     ...deliveryRequestsOpenApiPaths,
+    ...attemptChecksOpenApiPaths,
     ...stopDesksOpenApiPaths,
     ...claimsOpenApiPaths,
   },
@@ -81,6 +84,7 @@ export class AppModule {
         ReturnsModule,
         DeliveryRequestsModule,
         CarrierFeesModule,
+        AttemptChecksModule,
         StopDesksModule,
         ClaimsModule,
       ],

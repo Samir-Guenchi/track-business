@@ -1,0 +1,18 @@
+// The customer's word on a failed delivery attempt (#195). Tenant data.
+
+/// One answer per tracking event: "the courier contacted me" or "nobody came or called".
+model AttemptAnswer {
+  trackingEventId String   @id @map("tracking_event_id") @db.Uuid
+  storeId         String   @map("store_id") @db.Uuid
+  shipmentId      String   @map("shipment_id") @db.Uuid
+  carrier         String
+  /// FailedAttemptReason the carrier gave.
+  reason          String
+  attemptAt       DateTime @map("attempt_at") @db.Timestamptz(3)
+  /// contacted or not_contacted.
+  answer          String
+  answeredAt      DateTime @map("answered_at") @db.Timestamptz(3)
+
+  @@index([storeId, answeredAt])
+  @@map("attempt_answers")
+}
