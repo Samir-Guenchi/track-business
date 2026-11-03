@@ -1,4 +1,9 @@
-import { type DeliveryType, ShippingQuoteSchema } from '@trackecom/contracts';
+import {
+  type DeliveryType,
+  ShippingQuoteSchema,
+  StorePricesResponseSchema,
+  type UpdateStorePricesRequest,
+} from '@trackecom/contracts';
 import { apiRequest } from './api-client';
 
 export interface QuoteQuery {
@@ -8,6 +13,15 @@ export interface QuoteQuery {
 }
 
 export const pricingApi = {
+  storePrices: () =>
+    apiRequest({ path: '/pricing/store-prices', schema: StorePricesResponseSchema }),
+  updateStorePrices: (body: UpdateStorePricesRequest) =>
+    apiRequest({
+      path: '/pricing/store-prices',
+      schema: StorePricesResponseSchema,
+      method: 'PUT',
+      body,
+    }),
   quote: ({ wilayaCode, deliveryType, subtotal }: QuoteQuery) =>
     apiRequest({
       path: `/pricing/quote?${new URLSearchParams({

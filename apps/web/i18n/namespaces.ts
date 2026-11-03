@@ -23,6 +23,7 @@ export const namespaces = [
   'invoices',
   'smartPaste',
   'attemptCheck',
+  'deliveryPrices',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];
