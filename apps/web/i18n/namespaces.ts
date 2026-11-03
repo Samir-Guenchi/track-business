@@ -27,6 +27,7 @@ export const namespaces = [
   'stuckParcels',
   'returnRequest',
   'returnRequests',
+  'live',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];
