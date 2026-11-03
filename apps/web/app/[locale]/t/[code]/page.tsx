@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { AttemptCheckPanel } from '../../../../components/tracking/attempt-check';
 import { DeliveryChoicesPanel } from '../../../../components/tracking/choices/delivery-choices';
+import { PickupPanel } from '../../../../components/tracking/pickup-panel';
 import { ReturnRequestPanel } from '../../../../components/tracking/return-request/return-request-panel';
 import { TrackingView } from '../../../../components/tracking/tracking-view';
 import { fetchPublicTracking } from '../../../../lib/tracking/public-tracking';
@@ -37,6 +38,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <div className="flex flex-col gap-4">
       <TrackingView tracking={tracking} />
+      <PickupPanel code={code} />
       <AttemptCheckPanel code={code} />
       <DeliveryChoicesPanel code={code} />
       <ReturnRequestPanel code={code} />
