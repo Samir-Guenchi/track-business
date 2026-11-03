@@ -1,0 +1,30 @@
+{
+  "title": "Facture",
+  "issue": "Émettre la facture",
+  "creditNote": "Annuler par un avoir",
+  "openLegal": "Compléter les mentions légales",
+  "kind": { "invoice": "Facture", "credit_note": "Avoir" },
+  "print": {
+    "action": "Imprimer",
+    "date": "Date :",
+    "order": "Commande :",
+    "cancels": "Annule la facture",
+    "nif": "NIF :",
+    "nis": "NIS :",
+    "rc": "RC :",
+    "card": "Carte auto-entrepreneur :",
+    "article": "Article d'imposition :",
+    "customer": "Client :",
+    "item": "Article",
+    "quantity": "Qté",
+    "unitPrice": "Prix unitaire",
+    "total": "Total",
+    "shipping": "Livraison",
+    "discount": "Remise",
+    "beforeTax": "Total HT",
+    "vat": "TVA {rate} %",
+    "totalDue": "Total TTC",
+    "noVat": "TVA non applicable (IFU).",
+    "paidCod": "Payé à la livraison."
+  }
+}
