@@ -26,6 +26,7 @@
     "claims": "Réclamations",
     "stuckParcels": "Colis bloqués",
     "returnRequests": "Demandes de retour",
+    "pickupPoints": "Points relais",
     "live": "Ventes en live"
   }
 }

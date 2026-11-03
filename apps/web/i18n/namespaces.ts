@@ -27,6 +27,7 @@ export const namespaces = [
   'stuckParcels',
   'returnRequest',
   'returnRequests',
+  'pickupPoints',
   'live',
 ] as const;
 
