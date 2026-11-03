@@ -17,6 +17,7 @@ export const namespaces = [
   'deliveryRequests',
   'stopDesks',
   'forms',
+  'claims',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];

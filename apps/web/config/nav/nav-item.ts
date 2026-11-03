@@ -8,6 +8,7 @@ export type NavKey =
   | 'returns'
   | 'forms'
   | 'deliveryRequests'
+  | 'claims'
   | 'confirmation'
   | 'shipments'
   | 'money'

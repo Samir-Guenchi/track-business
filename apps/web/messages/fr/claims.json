@@ -1,0 +1,91 @@
+{
+  "title": "Réclamations transporteurs",
+  "description": "Colis bloqués, retours jamais reçus ou abîmés : réclamez, suivez la réponse et comparez vos transporteurs.",
+  "tabs": {
+    "candidates": "À réclamer",
+    "claims": "Réclamations",
+    "scorecard": "Classement"
+  },
+  "reason": {
+    "stuck": "Bloqué",
+    "return_missing": "Retour jamais reçu",
+    "damaged": "Retour abîmé",
+    "lost": "Perdu"
+  },
+  "state": {
+    "open": "À envoyer",
+    "submitted": "Envoyée",
+    "won": "Gagnée",
+    "rejected": "Refusée"
+  },
+  "columns": {
+    "tracking": "Suivi",
+    "carrier": "Transporteur",
+    "reason": "Motif",
+    "since": "Depuis",
+    "value": "Valeur",
+    "state": "État"
+  },
+  "candidatesEmpty": {
+    "title": "Rien à réclamer",
+    "description": "Aucun colis bloqué, perdu ou abîmé pour le moment."
+  },
+  "claimsEmpty": {
+    "title": "Aucune réclamation",
+    "description": "Ouvrez une réclamation depuis l'onglet « À réclamer »."
+  },
+  "open": {
+    "button": "Réclamer",
+    "title": "Réclamation pour {tracking}",
+    "description": "La valeur déclarée est proposée à partir du sous-total de la commande.",
+    "reason": "Motif",
+    "value": "Valeur déclarée (DA)",
+    "note": "Précisions pour le transporteur (facultatif)",
+    "submit": "Ouvrir la réclamation",
+    "close": "Fermer"
+  },
+  "actions": {
+    "submitted": "Marquer envoyée",
+    "won": "Gagnée",
+    "rejected": "Refusée",
+    "recovered": "Montant remboursé (DA)",
+    "confirmWon": "Enregistrer",
+    "letter": "Lettre"
+  },
+  "recovered": "{amount} remboursés",
+  "letter": {
+    "title": "Lettre de réclamation",
+    "description": "À copier dans un e-mail au transporteur ou à imprimer.",
+    "fr": "Français",
+    "ar": "Arabe",
+    "copy": "Copier",
+    "copied": "Copié",
+    "print": "Imprimer",
+    "close": "Fermer",
+    "label": "Texte de la lettre"
+  },
+  "scorecard": {
+    "window": "Période",
+    "days": "{count} jours",
+    "storeWide": "Toutes destinations",
+    "byWilaya": "Par wilaya",
+    "unknownWilaya": "Wilaya inconnue",
+    "thin": "Peu de colis : chiffres indicatifs",
+    "empty": {
+      "title": "Pas encore de chiffres",
+      "description": "Le classement apparaît dès que vos colis sont livrés ou retournés."
+    },
+    "columns": {
+      "carrier": "Transporteur",
+      "parcels": "Colis",
+      "rate": "Livrés",
+      "days": "Délai moyen",
+      "damaged": "Abîmés",
+      "lost": "Perdus",
+      "claims": "Réclamations gagnées",
+      "recovered": "Remboursé"
+    },
+    "avgDays": "{days} j",
+    "claimsWon": "{won} / {total}"
+  }
+}
