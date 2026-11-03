@@ -5,7 +5,8 @@
     "candidates": "À réclamer",
     "claims": "Réclamations",
     "scorecard": "Classement",
-    "disputed": "Tentatives contestées"
+    "disputed": "Tentatives contestées",
+    "market": "Marché"
   },
   "reason": {
     "stuck": "Bloqué",
@@ -88,5 +89,30 @@
     },
     "avgDays": "{days} j",
     "claimsWon": "{won} / {total}"
+  },
+  "market": {
+    "hint": "Votre taux de livraison à côté de toutes les autres boutiques TrackEcom réunies. Un chiffre du marché n'apparaît qu'avec au moins {stores} autres boutiques et {parcels} colis ; aucune boutique n'est jamais nommée.",
+    "window": "Période",
+    "days": "{count} jours",
+    "byWilaya": "Par wilaya",
+    "byCarrier": "Par transporteur et wilaya",
+    "unknownWilaya": "Wilaya inconnue",
+    "hidden": "Pas assez de données",
+    "parcels": "{count, plural, one {# colis} other {# colis}}",
+    "columns": {
+      "place": "Destination",
+      "own": "Vous",
+      "market": "Marché",
+      "verdict": ""
+    },
+    "verdict": {
+      "below": "Sous le marché",
+      "close": "Comme le marché",
+      "above": "Au-dessus du marché"
+    },
+    "empty": {
+      "title": "Aucun colis livré ou retourné",
+      "description": "Les chiffres apparaissent quand des colis sont livrés ou retournés sur la période."
+    }
   }
 }

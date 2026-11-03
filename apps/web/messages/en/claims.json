@@ -5,7 +5,8 @@
     "candidates": "To claim",
     "claims": "Claims",
     "scorecard": "Scorecard",
-    "disputed": "Disputed attempts"
+    "disputed": "Disputed attempts",
+    "market": "Market"
   },
   "reason": {
     "stuck": "Stuck",
@@ -88,5 +89,30 @@
     },
     "avgDays": "{days} d",
     "claimsWon": "{won} / {total}"
+  },
+  "market": {
+    "hint": "Your delivery rate next to all other TrackEcom stores together. A market figure appears only when at least {stores} other stores and {parcels} parcels contribute; no store is ever named.",
+    "window": "Period",
+    "days": "{count} days",
+    "byWilaya": "Per wilaya",
+    "byCarrier": "Per carrier and wilaya",
+    "unknownWilaya": "Unknown wilaya",
+    "hidden": "Not enough data",
+    "parcels": "{count, plural, one {# parcel} other {# parcels}}",
+    "columns": {
+      "place": "Destination",
+      "own": "You",
+      "market": "Market",
+      "verdict": ""
+    },
+    "verdict": {
+      "below": "Below market",
+      "close": "Like the market",
+      "above": "Above market"
+    },
+    "empty": {
+      "title": "No delivered or returned parcels yet",
+      "description": "Figures appear once parcels are delivered or returned in this period."
+    }
   }
 }
