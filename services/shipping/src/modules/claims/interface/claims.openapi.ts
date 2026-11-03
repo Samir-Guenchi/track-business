@@ -7,6 +7,8 @@ import {
   ListClaimCandidatesResponseSchema,
   ListClaimsQuerySchema,
   ListClaimsResponseSchema,
+  ScorecardQuerySchema,
+  ScorecardResponseSchema,
   UpdateClaimRequestSchema,
 } from '@trackecom/contracts';
 import type { z } from 'zod';
@@ -54,6 +56,14 @@ export const claimsOpenApiPaths: ZodOpenApiPathsObject = {
       summary: 'The claim letter in French or Arabic, with the tracking timeline',
       requestParams: { query: ClaimLetterQuerySchema },
       responses: json('200', 'Subject and body', ClaimLetterSchema),
+    },
+  },
+  '/carrier-scorecard': {
+    get: {
+      summary:
+        'Delivery rate, days, damaged, lost and claims per carrier, store-wide and per wilaya',
+      requestParams: { query: ScorecardQuerySchema },
+      responses: json('200', 'Carrier scorecard', ScorecardResponseSchema),
     },
   },
 };
