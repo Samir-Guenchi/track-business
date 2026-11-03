@@ -1,0 +1,26 @@
+{
+  "title": "Demandes de retour",
+  "description": "Retours et échanges demandés par les clients depuis leur lien de suivi après livraison. Décidez pour chacun ; le client voit votre réponse sur la même page.",
+  "pendingOnly": "À décider seulement",
+  "kind": {
+    "exchange": "Échange",
+    "return": "Retour"
+  },
+  "wanted": "veut {wanted}",
+  "messageLabel": "Message au client",
+  "messagePlaceholder": "Message au client (obligatoire pour refuser)",
+  "acceptReturn": "Accepter le retour",
+  "refuse": "Refuser",
+  "refuseHint": "Écrivez un message pour refuser",
+  "openExchange": "Ouvrir la commande d'échange",
+  "state": {
+    "pending": "À décider",
+    "accepted_exchange": "Échange accepté",
+    "accepted_return": "Retour accepté",
+    "refused": "Refusé"
+  },
+  "empty": {
+    "title": "Aucune demande",
+    "description": "Quand un client demande un retour ou un échange depuis son lien de suivi, il apparaît ici."
+  }
+}

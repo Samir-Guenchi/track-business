@@ -16,8 +16,11 @@ export interface ExchangeDraft {
   readonly shippingFee: number;
 }
 
-/** Every delivered item, unticked; the replacement starts as the old name to edit ("taille M" -> "L"). */
-export function initialExchangeDraft(order: Order): ExchangeDraft {
+/**
+ * Every delivered item, unticked; the replacement starts as the old name to edit ("taille M" ->
+ * "L"), followed by what the customer asked for when the exchange comes from their request (#201).
+ */
+export function initialExchangeDraft(order: Order, wanted?: string | null): ExchangeDraft {
   return {
     lines: order.items.map((item) => ({
       itemId: item.id,
@@ -25,7 +28,7 @@ export function initialExchangeDraft(order: Order): ExchangeDraft {
       maxQuantity: item.quantity,
       selected: order.items.length === 1,
       quantity: item.quantity,
-      replacement: item.name,
+      replacement: wanted ? `${item.name} - ${wanted}`.slice(0, 120) : item.name,
       priceDifference: 0,
     })),
     deliveryPaidBy: 'customer',

@@ -24,6 +24,7 @@
     "settings": "الإعدادات",
     "deliveryRequests": "طلبات الزبائن",
     "claims": "الشكاوى",
-    "stuckParcels": "طرود متوقفة"
+    "stuckParcels": "طرود متوقفة",
+    "returnRequests": "طلبات الإرجاع"
   }
 }

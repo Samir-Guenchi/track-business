@@ -27,27 +27,38 @@ import { ExchangeDelivery } from './exchange-delivery';
 import { ExchangeLines } from './exchange-lines';
 
 /** The dialog's state: the draft, the request it makes, and sending it. */
-function useExchangeForm(order: Order) {
+function useExchangeForm({ order, wanted, onCreated }: ExchangeDialogProps) {
   const router = useRouter();
   const create = useCreateExchange();
-  const [draft, setDraft] = useState(() => initialExchangeDraft(order));
+  const [draft, setDraft] = useState(() => initialExchangeDraft(order, wanted));
   const request = toExchangeRequest(draft);
   const submit = (event: FormEvent) => {
     event.preventDefault();
     if (!request) return;
     create.mutate(
       { id: order.id, body: request },
-      { onSuccess: (exchange) => router.push(`/orders/${exchange.id}`) },
+      {
+        onSuccess: (exchange) =>
+          onCreated ? onCreated(exchange.id) : router.push(`/orders/${exchange.id}`),
+      },
     );
   };
   return { draft, setDraft, request, submit, create };
 }
 
+interface ExchangeDialogProps {
+  readonly order: Order;
+  /** What the customer asked for in a return request (#201), added to each replacement. */
+  readonly wanted?: string | null;
+  /** Called with the new order instead of opening it (the return-request queue). */
+  readonly onCreated?: (exchangeId: string) => void;
+}
+
 /** "Échanger" on a delivered order (#138): one new order, the old items collected on delivery. */
-export function ExchangeDialog({ order }: { readonly order: Order }) {
+export function ExchangeDialog(props: ExchangeDialogProps) {
   const t = useTranslations('orders.exchange');
   const locale = useLocale() as Locale;
-  const { draft, setDraft, request, submit, create } = useExchangeForm(order);
+  const { draft, setDraft, request, submit, create } = useExchangeForm(props);
   const errorMessage = useErrorMessage();
   return (
     <Dialog>

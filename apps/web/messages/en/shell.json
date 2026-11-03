@@ -24,6 +24,7 @@
     "settings": "Settings",
     "deliveryRequests": "Customer requests",
     "claims": "Claims",
-    "stuckParcels": "Stuck parcels"
+    "stuckParcels": "Stuck parcels",
+    "returnRequests": "Return requests"
   }
 }
