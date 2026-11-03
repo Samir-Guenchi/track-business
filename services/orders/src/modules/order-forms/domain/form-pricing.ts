@@ -1,4 +1,9 @@
-import type { DeliveryType, FormProduct, StorePricesResponse } from '@trackecom/contracts';
+import {
+  type DeliveryType,
+  type FormProduct,
+  type StorePricesResponse,
+  freeShippingApplies,
+} from '@trackecom/contracts';
 import { DeliveryUnavailableError, FormProductError } from './order-form.errors.js';
 import type { OrderFormRecord } from './order-form.js';
 
@@ -51,6 +56,6 @@ function shippingFeeOf(choice: FormChoice, subtotal: number, prices: StorePrices
   if (row?.price === null || row?.price === undefined) {
     throw new DeliveryUnavailableError('The store does not deliver there this way');
   }
-  const free = prices.freeShippingFrom !== null && subtotal >= prices.freeShippingFrom;
+  const free = freeShippingApplies(prices, { wilayaCode: choice.wilayaCode, subtotal });
   return free ? 0 : row.price;
 }

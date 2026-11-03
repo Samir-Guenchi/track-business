@@ -35,6 +35,7 @@ export class PublicFormsService {
       theme: { accent: form.accent },
       prices: offeredPrices(prices?.items ?? [], form.deliveryTypes),
       freeShippingFrom: prices?.freeShippingFrom ?? null,
+      freeShippingExcludedWilayas: prices?.freeShippingExcludedWilayas ?? [],
     };
   }
 }

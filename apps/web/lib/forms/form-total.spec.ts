@@ -14,6 +14,7 @@ const form: PublicOrderForm = {
     { wilayaCode: 16, deliveryType: 'stopdesk', price: 250 },
   ],
   freeShippingFrom: 9000,
+  freeShippingExcludedWilayas: [33],
 };
 const pick = { productId: 'sac', quantity: 1, wilayaCode: 16, deliveryType: 'home' as const };
 
@@ -29,6 +30,14 @@ describe('order form totals', () => {
       shippingFee: 0,
       total: 9000,
     });
+  });
+
+  it('keeps charging delivery in an excluded wilaya', () => {
+    const far = {
+      ...form,
+      prices: [{ wilayaCode: 33, deliveryType: 'home' as const, price: 1500 }],
+    };
+    expect(totalsOf(far, { ...pick, quantity: 3, wilayaCode: 33 }).shippingFee).toBe(1500);
   });
 
   it('leaves the fee open until a wilaya and type are picked', () => {

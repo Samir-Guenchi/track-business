@@ -31,6 +31,7 @@ const form = {
 const prices = {
   items: [{ wilayaCode: 16, deliveryType: 'home' as const, price: 400 }],
   freeShippingFrom: 6000,
+  freeShippingExcludedWilayas: [],
 };
 const choice = {
   productId: 'sac',

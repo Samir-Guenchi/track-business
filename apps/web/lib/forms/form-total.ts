@@ -1,4 +1,9 @@
-import type { DeliveryType, PublicOrderForm, Utm } from '@trackecom/contracts';
+import {
+  type DeliveryType,
+  type PublicOrderForm,
+  type Utm,
+  freeShippingApplies,
+} from '@trackecom/contracts';
 
 export interface DeliveryOption {
   readonly deliveryType: DeliveryType;
@@ -36,14 +41,16 @@ export interface Totals {
   readonly total: number;
 }
 
-/** Same rule as the server: free shipping from the store's threshold. */
+/** Same rule as the server: free shipping from the threshold, except in excluded wilayas. */
 export function totalsOf(form: PublicOrderForm, pick: Pick): Totals {
   const product = form.products.find((item) => item.id === pick.productId);
   const subtotal = (product?.unitPrice ?? 0) * pick.quantity;
   const option = deliveryOptions(form, pick.wilayaCode).find(
     (o) => o.deliveryType === pick.deliveryType,
   );
-  const free = form.freeShippingFrom !== null && subtotal >= form.freeShippingFrom;
+  const free =
+    pick.wilayaCode !== undefined &&
+    freeShippingApplies(form, { wilayaCode: pick.wilayaCode, subtotal });
   const shippingFee = option?.price == null ? null : free ? 0 : option.price;
   return { subtotal, shippingFee, total: subtotal + (shippingFee ?? 0) };
 }
