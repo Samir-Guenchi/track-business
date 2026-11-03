@@ -1,0 +1,19 @@
+{
+  "open": "Paste a message",
+  "label": "Customer's message",
+  "placeholder": "Paste the Messenger, Instagram or WhatsApp message: name, phone, commune, product...",
+  "fill": "Fill the form",
+  "reading": "Reading...",
+  "close": "Close",
+  "filled": "Filled: {fields}. Check them before saving; the rest is in the notes.",
+  "nothing": "Nothing recognised in this message.",
+  "placeGuessed": "The commune is a close spelling, not an exact match: check it.",
+  "error": "The message could not be read. Try again.",
+  "field": {
+    "phone": "phone",
+    "name": "name",
+    "commune": "wilaya and commune",
+    "address": "address",
+    "quantity": "quantity"
+  }
+}
