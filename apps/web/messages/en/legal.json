@@ -1,7 +1,12 @@
 {
   "title": "Legal and invoices",
   "description": "The identity printed on your invoices. Check each number against your documents.",
-  "tabs": { "label": "Settings sections", "store": "Store", "legal": "Legal and invoices" },
+  "tabs": {
+    "label": "Settings sections",
+    "store": "Store",
+    "legal": "Legal and invoices",
+    "delivery": "Delivery prices"
+  },
   "fields": {
     "regime": "Registration",
     "taxRegime": "Tax regime",
@@ -23,7 +28,10 @@
     "company": "Company (SARL, EURL, SPA...)",
     "auto_entrepreneur": "Auto-entrepreneur"
   },
-  "taxRegime": { "ifu": "IFU (no VAT on invoices)", "real": "Real regime (19% VAT shown)" },
+  "taxRegime": {
+    "ifu": "IFU (no VAT on invoices)",
+    "real": "Real regime (19% VAT shown)"
+  },
   "errors": {
     "legalName": "Between 2 and 120 characters.",
     "address": "Between 2 and 240 characters.",
