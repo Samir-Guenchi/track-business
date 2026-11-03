@@ -5,9 +5,10 @@ import { useTranslations } from 'next-intl';
 import { CandidatesTab } from './candidates-tab';
 import { ClaimsTab } from './claims-tab';
 import { DisputedAttemptsTab } from './disputed-attempts-tab';
+import { MarketTab } from './market-tab';
 import { ScorecardTab } from './scorecard-tab';
 
-const TABS = ['candidates', 'claims', 'scorecard', 'disputed'] as const;
+const TABS = ['candidates', 'claims', 'scorecard', 'market', 'disputed'] as const;
 
 /**
  * Claims against carriers (#139): parcels worth claiming, the claims and their letters, and the
@@ -37,6 +38,9 @@ export function ClaimsPage() {
         </TabsContent>
         <TabsContent value="scorecard">
           <ScorecardTab />
+        </TabsContent>
+        <TabsContent value="market">
+          <MarketTab />
         </TabsContent>
         <TabsContent value="disputed">
           <DisputedAttemptsTab />
