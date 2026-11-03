@@ -1,0 +1,25 @@
+// Claims against carriers for lost, stuck or damaged parcels (#139). Tenant data.
+
+model Claim {
+  id            String    @id @db.Uuid
+  storeId       String    @map("store_id") @db.Uuid
+  /// One claim per parcel: a second one would be a duplicate for the carrier.
+  shipmentId    String    @unique @map("shipment_id") @db.Uuid
+  /// ClaimReason from the contracts.
+  reason        String
+  /// open, submitted, won or rejected.
+  state         String    @default("open")
+  /// Whole dinars.
+  declaredValue Int       @map("declared_value")
+  recovered     Int?
+  note          String?
+  createdBy     String    @map("created_by") @db.Uuid
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  submittedAt   DateTime? @map("submitted_at") @db.Timestamptz(3)
+  closedAt      DateTime? @map("closed_at") @db.Timestamptz(3)
+
+  shipment Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  @@index([storeId, state, createdAt])
+  @@map("claims")
+}

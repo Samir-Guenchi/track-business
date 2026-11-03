@@ -12,6 +12,8 @@ import { PrismaService } from './infrastructure/prisma/prisma.service.js';
 import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
 import { CarriersModule } from './modules/carriers/carriers.module.js';
+import { ClaimsModule } from './modules/claims/claims.module.js';
+import { claimsOpenApiPaths } from './modules/claims/interface/claims.openapi.js';
 import { carriersOpenApiPaths } from './modules/carriers/interface/carriers.openapi.js';
 import { GeoModule } from './modules/geo/geo.module.js';
 import { geoOpenApiPaths } from './modules/geo/interface/geo.openapi.js';
@@ -43,6 +45,7 @@ const OPEN_API = {
     ...returnsOpenApiPaths,
     ...deliveryRequestsOpenApiPaths,
     ...stopDesksOpenApiPaths,
+    ...claimsOpenApiPaths,
   },
 };
 
@@ -77,6 +80,7 @@ export class AppModule {
         ReturnsModule,
         DeliveryRequestsModule,
         StopDesksModule,
+        ClaimsModule,
       ],
     };
   }
