@@ -17,6 +17,14 @@ describe('exchange draft', () => {
     expect(toExchangeRequest(draft)).toBeNull();
   });
 
+  it("adds the customer's wanted size to each replacement", () => {
+    const draft = initialExchangeDraft(order, 'taille L');
+    expect(draft.lines.map((line) => line.replacement)).toEqual([
+      'Robe - M - taille L',
+      'Ceinture - taille L',
+    ]);
+  });
+
   it('sends the ticked lines and computes what the courier collects', () => {
     const start = initialExchangeDraft(order);
     const draft = {
