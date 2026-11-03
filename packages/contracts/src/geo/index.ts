@@ -2,3 +2,4 @@ export * from './commune.schema.js';
 export * from './geo-search.schema.js';
 export * from './wilaya.schema.js';
 export * from './stop-desk.schema.js';
+export * from './place-locate.schema.js';

@@ -1,7 +1,11 @@
 import { execFileSync } from 'node:child_process';
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { GeoSearchResponseSchema, ListWilayasResponseSchema } from '@trackecom/contracts';
+import {
+  GeoSearchResponseSchema,
+  ListWilayasResponseSchema,
+  LocatePlacesResponseSchema,
+} from '@trackecom/contracts';
 import { postgresAdapterOptions } from '@trackecom/service-kit';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { PrismaClient } from '../../generated/prisma/client.js';
@@ -67,6 +71,15 @@ describe.skipIf(!baseUrl || !redisUrl)('geo endpoints (real Postgres)', () => {
     const response = await app.inject({ method: 'GET', url: '/geo/search?q=bab%20zouar' });
 
     expect(GeoSearchResponseSchema.parse(response.json()).items[0]?.commune.id).toBe(1601);
+  });
+
+  it('locates the wilaya and commune named in a pasted message', async () => {
+    const text = 'Karim 0555 12 34 56 bab zouar alger, taille L';
+    const response = await app.inject({ method: 'POST', url: '/geo/locate', payload: { text } });
+
+    const body = LocatePlacesResponseSchema.parse(response.json());
+    expect(body.wilaya).toMatchObject({ code: 16, matchedText: 'alger' });
+    expect(body.commune).toMatchObject({ commune: { id: 1601 }, matchedText: 'bab zouar' });
   });
 
   it('returns 404 with a stable code for an unknown wilaya', async () => {

@@ -1,11 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { Commune, Wilaya } from '@trackecom/contracts';
+import type { Commune, LocatePlacesResponse, Wilaya } from '@trackecom/contracts';
 import { DomainError } from '@trackecom/service-kit';
 import {
   type CommuneMatch,
   CommuneSearchIndex,
   type SearchOptions,
 } from '../domain/commune-search-index.js';
+import { locatePlaces } from '../domain/place-locator.js';
+import { WilayaNameIndex } from '../domain/wilaya-name-index.js';
 import { GEO_REFERENCE_READER, type GeoReferenceReader } from './ports/geo-reference.reader.js';
 
 export const GEO_CACHE_TTL_MS = 60 * 60 * 1000;
@@ -22,6 +24,7 @@ interface Snapshot {
   readonly wilayas: readonly Wilaya[];
   readonly communesByWilaya: ReadonlyMap<number, readonly Commune[]>;
   readonly index: CommuneSearchIndex;
+  readonly wilayaIndex: WilayaNameIndex;
 }
 
 function groupByWilaya(communes: readonly Commune[]): Map<number, Commune[]> {
@@ -72,6 +75,12 @@ export class GeoCatalog {
     return (await this.current()).index.search(query, options);
   }
 
+  /** The wilaya and commune a pasted message names (#193). */
+  async locate(text: string): Promise<LocatePlacesResponse> {
+    const snapshot = await this.current();
+    return locatePlaces(text, { wilayas: snapshot.wilayaIndex, communes: snapshot.index });
+  }
+
   private async current(): Promise<Snapshot> {
     const cached = this.snapshot && (await this.snapshot.catch(() => undefined));
     if (cached && this.now() - cached.loadedAt < GEO_CACHE_TTL_MS) return cached;
@@ -90,6 +99,7 @@ export class GeoCatalog {
       wilayas,
       communesByWilaya: groupByWilaya(communes),
       index: new CommuneSearchIndex(searchable),
+      wilayaIndex: new WilayaNameIndex(wilayas),
     };
   }
 }

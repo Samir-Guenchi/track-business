@@ -3,6 +3,8 @@ import {
   GeoSearchResponseSchema,
   ListCommunesResponseSchema,
   ListWilayasResponseSchema,
+  LocatePlacesRequestSchema,
+  LocatePlacesResponseSchema,
   WilayaCodeSchema,
 } from '@trackecom/contracts';
 import type { ZodOpenApiPathsObject } from 'zod-openapi';
@@ -32,6 +34,13 @@ export const geoOpenApiPaths: ZodOpenApiPathsObject = {
       summary: 'Fuzzy commune search in Arabic, French and Darija spellings',
       requestParams: { query: GeoSearchQuerySchema },
       responses: json('Best matches first', GeoSearchResponseSchema),
+    },
+  },
+  '/geo/locate': {
+    post: {
+      summary: 'Find the wilaya and commune named in a pasted message',
+      requestBody: { content: { 'application/json': { schema: LocatePlacesRequestSchema } } },
+      responses: json('Places found, or null when unsure', LocatePlacesResponseSchema),
     },
   },
 };

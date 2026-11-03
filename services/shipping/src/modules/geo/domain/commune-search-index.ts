@@ -44,9 +44,19 @@ function toIndexed({ aliases, ...commune }: SearchableCommune): IndexedCommune {
  */
 export class CommuneSearchIndex {
   private readonly entries: readonly IndexedCommune[];
+  private readonly byKey = new Map<string, Commune[]>();
 
   constructor(communes: readonly SearchableCommune[]) {
     this.entries = communes.map(toIndexed);
+    for (const entry of this.entries) {
+      for (const key of entry.keys)
+        this.byKey.set(key, [...(this.byKey.get(key) ?? []), entry.commune]);
+    }
+  }
+
+  /** Communes one of whose names or aliases normalises to exactly this text: O(1), no fuzzing. */
+  exact(rawName: string): readonly Commune[] {
+    return this.byKey.get(normalizePlaceName(rawName)) ?? [];
   }
 
   search(rawQuery: string, options: SearchOptions): CommuneMatch[] {
