@@ -1,0 +1,21 @@
+// The legal identity a store prints on its invoices (#140). One row per store.
+
+model StoreLegalProfile {
+  storeId              String   @id @map("store_id") @db.Uuid
+  /// LegalRegime from the contracts.
+  regime               String?
+  /// TaxRegime from the contracts.
+  taxRegime            String?  @map("tax_regime")
+  legalName            String?  @map("legal_name")
+  address              String?
+  nif                  String?
+  nis                  String?
+  rcNumber             String?  @map("rc_number")
+  autoEntrepreneurCard String?  @map("auto_entrepreneur_card")
+  articleImposition    String?  @map("article_imposition")
+  updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@map("store_legal_profiles")
+}
