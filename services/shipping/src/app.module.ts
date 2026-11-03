@@ -22,6 +22,8 @@ import { PricingModule } from './modules/pricing/pricing.module.js';
 import { CarrierFeesModule } from './modules/carrier-fees/carrier-fees.module.js';
 import { AttemptChecksModule } from './modules/attempt-checks/attempt-checks.module.js';
 import { attemptChecksOpenApiPaths } from './modules/attempt-checks/interface/attempt-checks.openapi.js';
+import { returnRequestsOpenApiPaths } from './modules/return-requests/interface/return-requests.openapi.js';
+import { ReturnRequestsModule } from './modules/return-requests/return-requests.module.js';
 import { stuckParcelsOpenApiPaths } from './modules/stuck-parcels/interface/stuck-parcels.openapi.js';
 import { StuckParcelsModule } from './modules/stuck-parcels/stuck-parcels.module.js';
 import { DeliveryRequestsModule } from './modules/delivery-requests/delivery-requests.module.js';
@@ -51,6 +53,7 @@ const OPEN_API = {
     ...deliveryRequestsOpenApiPaths,
     ...stuckParcelsOpenApiPaths,
     ...attemptChecksOpenApiPaths,
+    ...returnRequestsOpenApiPaths,
     ...stopDesksOpenApiPaths,
     ...claimsOpenApiPaths,
   },
@@ -89,6 +92,7 @@ export class AppModule {
         CarrierFeesModule,
         StuckParcelsModule,
         AttemptChecksModule,
+        ReturnRequestsModule,
         StopDesksModule,
         ClaimsModule,
       ],
