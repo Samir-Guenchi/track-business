@@ -4,7 +4,8 @@
   "tabs": {
     "candidates": "À réclamer",
     "claims": "Réclamations",
-    "scorecard": "Classement"
+    "scorecard": "Classement",
+    "disputed": "Tentatives contestées"
   },
   "reason": {
     "stuck": "Bloqué",

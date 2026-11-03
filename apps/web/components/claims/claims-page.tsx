@@ -4,9 +4,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@trackecom/ui';
 import { useTranslations } from 'next-intl';
 import { CandidatesTab } from './candidates-tab';
 import { ClaimsTab } from './claims-tab';
+import { DisputedAttemptsTab } from './disputed-attempts-tab';
 import { ScorecardTab } from './scorecard-tab';
 
-const TABS = ['candidates', 'claims', 'scorecard'] as const;
+const TABS = ['candidates', 'claims', 'scorecard', 'disputed'] as const;
 
 /**
  * Claims against carriers (#139): parcels worth claiming, the claims and their letters, and the
@@ -36,6 +37,9 @@ export function ClaimsPage() {
         </TabsContent>
         <TabsContent value="scorecard">
           <ScorecardTab />
+        </TabsContent>
+        <TabsContent value="disputed">
+          <DisputedAttemptsTab />
         </TabsContent>
       </Tabs>
     </section>

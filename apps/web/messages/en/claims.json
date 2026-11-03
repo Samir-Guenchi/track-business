@@ -4,7 +4,8 @@
   "tabs": {
     "candidates": "To claim",
     "claims": "Claims",
-    "scorecard": "Scorecard"
+    "scorecard": "Scorecard",
+    "disputed": "Disputed attempts"
   },
   "reason": {
     "stuck": "Stuck",

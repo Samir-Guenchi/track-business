@@ -1,0 +1,38 @@
+{
+  "title": "Le livreur est-il vraiment passé ?",
+  "question": "Le livreur a indiqué que {reason}. Vous a-t-il appelé ou est-il venu à votre porte ?",
+  "notContacted": "Non, personne n'a appelé ni n'est venu",
+  "contacted": "Oui, le livreur m'a contacté",
+  "thanks": {
+    "not_contacted": "Merci. Le vendeur sait maintenant que le livreur ne vous a pas joint et demandera une nouvelle livraison. Vous pouvez aussi choisir un jour ci-dessous.",
+    "contacted": "Merci pour votre réponse."
+  },
+  "error": "Votre réponse n'a pas pu être enregistrée. Réessayez.",
+  "reason": {
+    "absent": "vous étiez absent",
+    "no_answer": "vous n'avez pas répondu au téléphone",
+    "phone_off": "votre téléphone était éteint",
+    "refused": "vous avez refusé le colis",
+    "wrong_address": "la livraison a échoué",
+    "postponed_by_customer": "la livraison a échoué",
+    "other": "la livraison a échoué"
+  },
+  "seller": {
+    "description": "Échecs de livraison pour lesquels le client a répondu, sur la page de suivi, que personne n'a appelé ni n'est venu. {days} derniers jours.",
+    "rate": "{disputed} contestées sur {answered} réponses ({rate} %)",
+    "claimed": "Le livreur a indiqué que {reason} ; le client dit que personne n'est venu.",
+    "empty": {
+      "title": "Pas encore de réponses",
+      "description": "Les clients répondent sur la page de suivi après un échec de livraison."
+    },
+    "reason": {
+      "absent": "le client était absent",
+      "no_answer": "le client n'a pas répondu",
+      "phone_off": "le téléphone du client était éteint",
+      "refused": "le client a refusé le colis",
+      "wrong_address": "la livraison a échoué",
+      "postponed_by_customer": "la livraison a échoué",
+      "other": "la livraison a échoué"
+    }
+  }
+}
