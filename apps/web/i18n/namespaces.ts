@@ -25,6 +25,7 @@ export const namespaces = [
   'attemptCheck',
   'deliveryPrices',
   'stuckParcels',
+  'live',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];

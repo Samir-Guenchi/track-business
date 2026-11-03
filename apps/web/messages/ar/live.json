@@ -1,0 +1,45 @@
+{
+  "title": "البيع المباشر",
+  "description": "اعرض رمزا لكل منتج أثناء البث المباشر على تيك توك أو فيسبوك. الصق التعليقات هنا: كل رمز مع رقم هاتف يصبح حجزا، والتكرار يُتجاهل.",
+  "listLabel": "البثوث المباشرة",
+  "counts": "{reservations, plural, one {حجز واحد} two {حجزان} few {# حجوزات} other {# حجزا}}، {ordered} بطلبية",
+  "empty": {
+    "title": "لا يوجد بث بعد",
+    "description": "ابدأ بثا من الأعلى قبل الدخول في المباشر."
+  },
+  "new": {
+    "title": "بدء بث مباشر",
+    "sessionTitle": "اسم البث",
+    "sessionPlaceholder": "مثلا فساتين مساء الجمعة",
+    "code": "الرمز",
+    "product": "المنتج",
+    "price": "السعر (دج)",
+    "remove": "حذف",
+    "addProduct": "إضافة منتج",
+    "start": "بدء البث"
+  },
+  "session": {
+    "codes": "الرموز التي تعرضها على الشاشة",
+    "commentsLabel": "الصق تعليقات البث",
+    "commentsPlaceholder": "تعليق في كل سطر، مثلا أمينة: A1 L 0555 12 34 56",
+    "read": "قراءة التعليقات",
+    "readResult": "{added, plural, one {حجز جديد} two {حجزان جديدان} few {# حجوزات جديدة} other {# حجزا جديدا}}، {duplicates} مكرر",
+    "unread": "تحقق من هذه التعليقات (ينقصها الرمز أو الهاتف):",
+    "summary": "{reservations, plural, one {حجز واحد} two {حجزان} few {# حجوزات} other {# حجزا}}، {ordered} بطلبية",
+    "reservations": "الحجوزات",
+    "openOrder": "فتح الطلبية",
+    "createOrder": "إنشاء الطلبية",
+    "columns": {
+      "code": "الرمز",
+      "product": "المنتج",
+      "size": "المقاس",
+      "quantity": "الكمية",
+      "customer": "الزبون",
+      "order": "الطلبية"
+    },
+    "empty": {
+      "title": "لا توجد حجوزات بعد",
+      "description": "الصق التعليقات في الأعلى أثناء البث أو بعده."
+    }
+  }
+}

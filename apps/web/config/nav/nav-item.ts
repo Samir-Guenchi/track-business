@@ -4,6 +4,7 @@ import type { LucideIcon } from 'lucide-react';
 export type NavKey =
   | 'dashboard'
   | 'orders'
+  | 'live'
   | 'followups'
   | 'stuckParcels'
   | 'returns'

@@ -24,6 +24,7 @@
     "settings": "Paramètres",
     "deliveryRequests": "Demandes clients",
     "claims": "Réclamations",
-    "stuckParcels": "Colis bloqués"
+    "stuckParcels": "Colis bloqués",
+    "live": "Ventes en live"
   }
 }
