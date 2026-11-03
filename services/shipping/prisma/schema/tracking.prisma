@@ -1,35 +1,35 @@
 // Shipments and their tracking timeline (#32). Tenant data: every row carries its store.
 
 model Shipment {
-  id              String    @id @db.Uuid
-  storeId         String    @map("store_id") @db.Uuid
+  id             String    @id @db.Uuid
+  storeId        String    @map("store_id") @db.Uuid
   /// The order in the orders service; a re-shipped order has several shipments.
-  orderId         String    @map("order_id") @db.Uuid
-  carrier         String
+  orderId        String    @map("order_id") @db.Uuid
+  carrier        String
   /// Our reference sent to the carrier, so a retried create finds the same parcel.
-  reference       String
-  trackingNumber  String    @map("tracking_number")
+  reference      String
+  trackingNumber String    @map("tracking_number")
   /// Destination wilaya; null for parcels created before #41.
-  toWilayaCode    Int?      @map("to_wilaya_code")
+  toWilayaCode   Int?      @map("to_wilaya_code")
   /// home or stopdesk, as ordered; null for parcels created before #136.
-  deliveryType    String?   @map("delivery_type")
+  deliveryType   String?   @map("delivery_type")
   /// Exchanges (#138): what the courier takes back; the return chain expects it once delivered.
-  exchangeCollect String?   @map("exchange_collect")
+  exchangeCollect String?  @map("exchange_collect")
   /// Normalised ParcelStatus from the contracts.
-  status          String    @default("created")
+  status         String    @default("created")
   /// Random code for the customer's tracking link; not guessable from the tracking number.
-  publicCode      String    @unique @map("public_code")
-  lastEventAt     DateTime? @map("last_event_at") @db.Timestamptz(3)
+  publicCode     String    @unique @map("public_code")
+  lastEventAt    DateTime? @map("last_event_at") @db.Timestamptz(3)
   /// When the polling fallback asks the carrier next; null once the parcel is final.
-  nextPollAt      DateTime? @map("next_poll_at") @db.Timestamptz(3)
-  version         Int       @default(1)
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  nextPollAt     DateTime? @map("next_poll_at") @db.Timestamptz(3)
+  version        Int       @default(1)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
 
-  events           TrackingEvent[]
-  returnReceipt    ReturnReceipt?
+  events        TrackingEvent[]
+  returnReceipt ReturnReceipt?
   deliveryRequests DeliveryRequest[]
-  claim            Claim?
+  claim         Claim?
 
   @@unique([carrier, trackingNumber])
   @@unique([storeId, reference])

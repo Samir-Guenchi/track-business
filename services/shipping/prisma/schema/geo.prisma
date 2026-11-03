@@ -32,21 +32,21 @@ model Commune {
 }
 
 model StopDesk {
-  id        String   @id @db.Uuid
-  carrier   String
+  id         String   @id @db.Uuid
+  carrier    String
   /// The carrier's own id for the desk, sent with stop-desk parcels (#137); null if typed by hand.
-  code      String?
-  communeId Int      @map("commune_id")
-  name      String
-  address   String
+  code       String?
+  communeId  Int      @map("commune_id")
+  name       String
+  address    String
   /// e.g. { "sat-thu": "08:00-17:00" }
-  hours     Json?
-  latitude  Decimal? @db.Decimal(9, 6)
-  longitude Decimal? @db.Decimal(9, 6)
-  phone     String?
-  isActive  Boolean  @default(true) @map("is_active")
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
-  commune   Commune  @relation(fields: [communeId], references: [id])
+  hours      Json?
+  latitude   Decimal? @db.Decimal(9, 6)
+  longitude  Decimal? @db.Decimal(9, 6)
+  phone      String?
+  isActive   Boolean  @default(true) @map("is_active")
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  commune    Commune  @relation(fields: [communeId], references: [id])
 
   @@unique([carrier, code])
   @@index([communeId, carrier])
