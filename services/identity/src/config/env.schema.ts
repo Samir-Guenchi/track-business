@@ -15,6 +15,8 @@ export const EnvSchema = BaseEnvSchema.extend({
   APP_URL: z.url().default('http://localhost:3000'),
   SMTP_URL: z.url({ protocol: /^smtps?$/ }).default('smtp://localhost:1025'),
   MAIL_FROM: z.string().min(3).default('TrackEcom <no-reply@trackecom.local>'),
+  /** Runs the outbox relay; switch off on replicas that only serve requests. */
+  WORKERS_ENABLED: z.stringbool().default(true),
 }).refine((env) => env.NODE_ENV !== 'production' || env.JWT_PRIVATE_KEY !== undefined, {
   message: 'JWT_PRIVATE_KEY is required in production',
   path: ['JWT_PRIVATE_KEY'],

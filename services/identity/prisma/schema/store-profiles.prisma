@@ -1,0 +1,19 @@
+// What a store tells us about itself in onboarding and settings (#160). One row per store.
+
+model StoreProfile {
+  storeId          String   @id @map("store_id") @db.Uuid
+  originWilayaCode Int?     @map("origin_wilaya_code")
+  originCommuneId  Int?     @map("origin_commune_id")
+  /// E.164 (+213...).
+  contactPhone     String?  @map("contact_phone")
+  logoUrl          String?  @map("logo_url")
+  /// DailyVolume bucket from the contracts.
+  dailyVolume      String?  @map("daily_volume")
+  carriers         String[] @default([])
+  defaultLanguage  String   @default("fr") @map("default_language")
+  updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@map("store_profiles")
+}

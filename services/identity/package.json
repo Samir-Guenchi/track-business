@@ -27,6 +27,7 @@
     "@prisma/client": "^7.10.1",
     "@trackecom/audit": "workspace:*",
     "@trackecom/contracts": "workspace:*",
+    "@trackecom/events": "workspace:*",
     "@trackecom/service-kit": "workspace:*",
     "argon2": "^0.45.1",
     "fastify": "^5.12.7",
