@@ -45,3 +45,14 @@ model FormSubmission {
   @@index([formId, createdAt])
   @@map("form_submissions")
 }
+
+/// Per-store anti-spam limits (#134); no row means the platform defaults.
+model OrderFormLimits {
+  storeId              String   @id @map("store_id") @db.Uuid
+  perIpPerHour         Int      @map("per_ip_per_hour")
+  perPhonePerHour      Int      @map("per_phone_per_hour")
+  duplicateWindowHours Int      @map("duplicate_window_hours")
+  updatedAt            DateTime @map("updated_at") @db.Timestamptz(3)
+
+  @@map("order_form_limits")
+}

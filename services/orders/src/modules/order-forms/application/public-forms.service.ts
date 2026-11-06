@@ -1,8 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { PublicOrderForm } from '@trackecom/contracts';
+import type { FormLimits, PublicOrderForm } from '@trackecom/contracts';
 import { type OrderFormRecord, offeredPrices } from '../domain/order-form.js';
 import { OrderFormNotFoundError } from '../domain/order-form.errors.js';
 import {
+  FORM_LIMITS_STORE,
+  type FormLimitsStore,
   ORDER_FORM_STORE,
   type OrderFormStore,
   STORE_PRICES,
@@ -15,12 +17,18 @@ export class PublicFormsService {
   constructor(
     @Inject(ORDER_FORM_STORE) private readonly forms: OrderFormStore,
     @Inject(STORE_PRICES) private readonly prices: StorePriceSource,
+    @Inject(FORM_LIMITS_STORE) private readonly limits: FormLimitsStore,
   ) {}
 
   async enabledForm(key: string): Promise<OrderFormRecord> {
     const form = await this.forms.byKey(key);
     if (!form?.enabled) throw new OrderFormNotFoundError('No order form with this key');
     return form;
+  }
+
+  /** The anti-spam limits the store chose for its forms, or the platform defaults. */
+  limitsFor(storeId: string): Promise<FormLimits> {
+    return this.limits.get(storeId);
   }
 
   async view(key: string): Promise<PublicOrderForm> {

@@ -1,6 +1,7 @@
 import {
   CreateOrderFormRequestSchema,
   FormKeySchema,
+  FormLimitsSchema,
   ListOrderFormsResponseSchema,
   OrderFormSchema,
   PublicOrderFormSchema,
@@ -17,6 +18,18 @@ const json = (status: string, description: string, schema: z.ZodType) => ({
 const body = (schema: z.ZodType) => ({ content: { 'application/json': { schema } } });
 
 export const orderFormsOpenApiPaths: ZodOpenApiPathsObject = {
+  '/orders/forms/limits': {
+    get: {
+      summary: "The store's anti-spam limits for its order forms (platform defaults until saved)",
+      responses: json('200', 'Limits', FormLimitsSchema),
+    },
+    put: {
+      summary:
+        'Make the order forms stricter than the platform: lower rates, longer duplicate window',
+      requestBody: body(FormLimitsSchema),
+      responses: json('200', 'The saved limits', FormLimitsSchema),
+    },
+  },
   '/orders/forms': {
     get: {
       summary: "The store's order forms, newest first",

@@ -2,7 +2,10 @@ import { z } from 'zod';
 import { AlgerianPhoneSchema } from '../common/phone.schema.js';
 import { DeliveryTypeSchema, DinarsSchema } from '../orders/order.schema.js';
 
-/** Limits a store cannot raise: they stop bots and "sabotage" orders, not real customers. */
+/**
+ * Limits a store cannot raise: they stop bots and "sabotage" orders, not real customers. A store
+ * can make them stricter with FormLimits (#134).
+ */
 export const FORM_LIMITS = {
   /** Submissions from one network address per hour, across every form. */
   perIpPerHour: 5,

@@ -1,3 +1,4 @@
+import { DEFAULT_FORM_LIMITS } from '@trackecom/contracts';
 import { describe, expect, it } from 'vitest';
 import { priceChoice } from './form-pricing.js';
 import type { OrderFormRecord } from './order-form.js';
@@ -8,15 +9,30 @@ const clean = { attemptsFromIp: 0, ordersFromPhone: 0, sameProductRecently: fals
 
 describe('screenSubmission', () => {
   it('lets a first order through', () => {
-    expect(screenSubmission(undefined, clean)).toBeNull();
-    expect(screenSubmission('  ', clean)).toBeNull();
+    expect(screenSubmission(undefined, clean, DEFAULT_FORM_LIMITS)).toBeNull();
+    expect(screenSubmission('  ', clean, DEFAULT_FORM_LIMITS)).toBeNull();
   });
 
   it('refuses bots, floods and repeats in that order', () => {
-    expect(screenSubmission('http://spam', { ...clean, attemptsFromIp: 9 })).toBe('spam');
-    expect(screenSubmission(undefined, { ...clean, attemptsFromIp: 5 })).toBe('rate_limited');
-    expect(screenSubmission(undefined, { ...clean, ordersFromPhone: 3 })).toBe('rate_limited');
-    expect(screenSubmission(undefined, { ...clean, sameProductRecently: true })).toBe('duplicate');
+    const screen = (honeypot: string | undefined, history: Partial<typeof clean>) =>
+      screenSubmission(honeypot, { ...clean, ...history }, DEFAULT_FORM_LIMITS);
+
+    expect(screen('http://spam', { attemptsFromIp: 9 })).toBe('spam');
+    expect(screen(undefined, { attemptsFromIp: 5 })).toBe('rate_limited');
+    expect(screen(undefined, { ordersFromPhone: 3 })).toBe('rate_limited');
+    expect(screen(undefined, { sameProductRecently: true })).toBe('duplicate');
+  });
+
+  it("applies the store's stricter limits", () => {
+    const strict = { ...DEFAULT_FORM_LIMITS, perIpPerHour: 2, perPhonePerHour: 1 };
+
+    expect(screenSubmission(undefined, { ...clean, ordersFromPhone: 1 }, strict)).toBe(
+      'rate_limited',
+    );
+    expect(screenSubmission(undefined, { ...clean, attemptsFromIp: 2 }, strict)).toBe(
+      'rate_limited',
+    );
+    expect(screenSubmission(undefined, { ...clean, attemptsFromIp: 1 }, strict)).toBeNull();
   });
 });
 
