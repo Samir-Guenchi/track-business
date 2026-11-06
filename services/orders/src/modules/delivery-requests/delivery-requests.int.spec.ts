@@ -10,8 +10,8 @@ import { RecordDeliveryRequestUseCase } from './application/record-delivery-requ
 
 const baseUrl = process.env['TEST_DATABASE_URL'];
 const redisUrl = process.env['TEST_REDIS_URL'];
-const STORE = '13613613-1361-4361-8361-136136136136';
-const OTHER_STORE = '13613613-1361-4361-8361-136136136137';
+const STORE = '13913913-1391-4391-8391-139139139139';
+const OTHER_STORE = '13913913-1391-4391-8391-139139139140';
 const MANAGER = 'a0000000-0000-4000-8000-000000000136';
 
 const newOrder = {
