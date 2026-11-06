@@ -5,6 +5,7 @@ import {
   closedBy,
   decide,
   openFollowup,
+  reopenedByDispute,
   withAnotherAttempt,
 } from './followup.js';
 
@@ -72,5 +73,17 @@ describe('delivery follow-up', () => {
     expect(() => closed && decide(closed, { decision: 'reattempt', by: 'u1', at: now })).toThrow(
       FollowupClosedError,
     );
+  });
+
+  it('reopens a decided item on a dispute with a fresh window, never a closed one', () => {
+    const decided = decide(opened(), { decision: 'reattempt', by: 'u1', at: now });
+    const later = new Date('2026-11-03T08:00:00Z');
+    const closed = closedBy(opened(), 'delivered', now);
+
+    const reopened = reopenedByDispute(decided, later);
+
+    expect(reopened).toMatchObject({ status: 'open', decision: 'reattempt', attempts: 1 });
+    expect(reopened?.dueAt.getTime()).toBe(later.getTime() + DECISION_WINDOW_MS);
+    expect(closed && reopenedByDispute(closed, later)).toBeNull();
   });
 });
