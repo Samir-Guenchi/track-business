@@ -8,7 +8,8 @@ import { CarrierCodeSchema } from '../pricing/pricing.schema.js';
  * The ship dialog shows the suggestion; the seller can still pick another carrier.
  */
 export const SuggestCarrierQuerySchema = z.strictObject({
-  originWilayaCode: WilayaCodeSchema,
+  /** Defaults to the origin in the store profile (#160); required when the profile has none. */
+  originWilayaCode: WilayaCodeSchema.optional(),
   wilayaCode: WilayaCodeSchema,
   deliveryType: DeliveryTypeSchema,
 });
