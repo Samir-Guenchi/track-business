@@ -86,6 +86,8 @@ export const OrderHistoryEntrySchema = z.strictObject({
     'call_logged',
     /** An exchange order was created from this one (#138); the note holds its ref. */
     'exchanged',
+    /** The customer asked for another day, a stop-desk, a fixed address or a call time (#136). */
+    'delivery_requested',
   ]),
   fromStatus: OrderStatusSchema.nullable(),
   toStatus: OrderStatusSchema.nullable(),
