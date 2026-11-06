@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { FORM_LIMITS } from '@trackecom/contracts';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service.js';
 import type {
   HistoryQuery,
@@ -20,9 +19,10 @@ export class PrismaSubmissionLog implements SubmissionLog {
     phone,
     productId,
     now,
+    duplicateWindowHours,
   }: HistoryQuery): Promise<SubmissionHistory> {
     const lastHour = new Date(now.getTime() - HOUR_MS);
-    const duplicateSince = new Date(now.getTime() - FORM_LIMITS.duplicateWindowHours * HOUR_MS);
+    const duplicateSince = new Date(now.getTime() - duplicateWindowHours * HOUR_MS);
     const created = { storeId, phone, outcome: 'created' };
     const [attemptsFromIp, ordersFromPhone, sameProduct] = await Promise.all([
       this.prisma.formSubmission.count({ where: { ipHash, createdAt: { gte: lastHour } } }),
