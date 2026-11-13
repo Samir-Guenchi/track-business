@@ -68,7 +68,8 @@
     "tagged": "Étiquette",
     "deleted": "Supprimée",
     "call_logged": "Appel enregistré",
-    "exchanged": "Échange créé"
+    "exchanged": "Échange créé",
+    "delivery_requested": "Demande de livraison du client"
   },
   "moveTo": "Passer à",
   "status": {

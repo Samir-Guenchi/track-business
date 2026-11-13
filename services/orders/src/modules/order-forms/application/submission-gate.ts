@@ -32,8 +32,13 @@ export class SubmissionGate {
   async admit({ key, body, ip }: Submission): Promise<{ form: OrderFormRecord; attempt: Attempt }> {
     const form = await this.forms.enabledForm(key);
     const attempt = this.attemptOf(form, body, ip);
-    const history = await this.log.history({ ...attempt, now: attempt.createdAt });
-    const refusal = screenSubmission(body.website, history);
+    const limits = await this.forms.limitsFor(form.storeId);
+    const history = await this.log.history({
+      ...attempt,
+      now: attempt.createdAt,
+      duplicateWindowHours: limits.duplicateWindowHours,
+    });
+    const refusal = screenSubmission(body.website, history, limits);
     if (refusal) {
       await this.log.record({ ...attempt, outcome: refusal });
       throw new SubmissionRefusedError(refusal);

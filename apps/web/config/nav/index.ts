@@ -7,6 +7,7 @@ import { liveNav } from './live';
 import { resellersNav } from './resellers';
 import type { NavItem } from './nav-item';
 import { ordersNav } from './orders';
+import { pickupPointsNav } from './pickup-points';
 import { returnRequestsNav } from './return-requests';
 import { returnsNav } from './returns';
 import { settingsNav } from './settings';
@@ -22,6 +23,7 @@ const registered: readonly NavItem[] = [
   stuckParcelsNav,
   returnsNav,
   returnRequestsNav,
+  pickupPointsNav,
   formsNav,
   deliveryRequestsNav,
   claimsNav,

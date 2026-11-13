@@ -68,7 +68,8 @@
     "tagged": "وسم",
     "deleted": "حذف",
     "call_logged": "تسجيل مكالمة",
-    "exchanged": "تم إنشاء استبدال"
+    "exchanged": "تم إنشاء استبدال",
+    "delivery_requested": "طلب توصيل من الزبون"
   },
   "moveTo": "نقل إلى",
   "status": {

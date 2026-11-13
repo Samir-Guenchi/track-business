@@ -13,6 +13,7 @@ import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
 import { orderFormsOpenApiPaths } from './modules/order-forms/interface/order-forms.openapi.js';
 import { OrderFormsModule } from './modules/order-forms/order-forms.module.js';
+import { DeliveryRequestsModule } from './modules/delivery-requests/delivery-requests.module.js';
 import { DeliveryFollowupModule } from './modules/delivery-followup/delivery-followup.module.js';
 import { followupsOpenApiPaths } from './modules/delivery-followup/interface/followups.openapi.js';
 import { ConfirmationModule } from './modules/confirmation/confirmation.module.js';
@@ -86,6 +87,7 @@ export class AppModule {
         SelfConfirmModule,
         ShopImportModule,
         DeliveryFollowupModule,
+        DeliveryRequestsModule,
         OrderFormsModule,
         ExchangesModule,
         SmartPasteModule,

@@ -134,3 +134,17 @@ export function decide(current: FollowupRecord, choice: Decision): FollowupRecor
     updatedAt: choice.at,
   };
 }
+
+/**
+ * The customer says nobody came or called (#195): the seller must look again, so an open or
+ * decided item goes back to open with a fresh window. A parcel that already ended stays closed.
+ */
+export function reopenedByDispute(current: FollowupRecord, now: Date): FollowupRecord | null {
+  if (current.status === 'closed') return null;
+  return {
+    ...current,
+    status: 'open',
+    dueAt: new Date(now.getTime() + DECISION_WINDOW_MS),
+    updatedAt: now,
+  };
+}

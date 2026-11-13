@@ -68,7 +68,8 @@
     "tagged": "Tag",
     "deleted": "Deleted",
     "call_logged": "Call logged",
-    "exchanged": "Exchange created"
+    "exchanged": "Exchange created",
+    "delivery_requested": "Customer delivery request"
   },
   "moveTo": "Move to",
   "status": {

@@ -1,4 +1,4 @@
-import type { StorePricesResponse, Utm } from '@trackecom/contracts';
+import type { FormLimits, StorePricesResponse, Utm } from '@trackecom/contracts';
 import type { OrderFormRecord } from '../domain/order-form.js';
 import type { SubmissionHistory, SubmissionOutcome } from '../domain/submission-screen.js';
 
@@ -41,6 +41,8 @@ export interface HistoryQuery {
   readonly phone: string;
   readonly productId: string;
   readonly now: Date;
+  /** The same phone and product within this many hours is a duplicate. */
+  readonly duplicateWindowHours: number;
 }
 
 /** Every attempt on a public form, kept for limits, duplicates and campaign analytics. */
@@ -48,3 +50,11 @@ export interface SubmissionLog {
   history(query: HistoryQuery): Promise<SubmissionHistory>;
   record(submission: SubmissionRecord): Promise<void>;
 }
+
+/** The store's own anti-spam limits, or the platform defaults when it never saved any. */
+export interface FormLimitsStore {
+  get(storeId: string): Promise<FormLimits>;
+  put(storeId: string, limits: FormLimits): Promise<FormLimits>;
+}
+
+export const FORM_LIMITS_STORE = Symbol('FormLimitsStore');

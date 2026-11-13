@@ -1,0 +1,70 @@
+{
+  "title": "Points relais",
+  "description": "Des commerces de quartier gardent vos colis pour les clients loin d'un bureau du transporteur. Le client récupère avec le code de sa page de suivi et paie le commerce, qui vous remet l'argent.",
+  "add": "Ajouter un commerce",
+  "edit": "Modifier",
+  "active": "Actif",
+  "inactive": "En pause",
+  "holding": "{holding} colis sur {capacity} en attente",
+  "cashToCollect": "Argent à récupérer : {amount, number} DA",
+  "handover": "Argent reçu",
+  "handedOver": "{parcels, plural, one {# colis} other {# colis}}, {amount, number} DA reçus",
+  "empty": {
+    "title": "Aucun point relais",
+    "description": "Ajoutez une supérette, un taxiphone ou une librairie qui accepte de garder des colis pour vos clients."
+  },
+  "form": {
+    "name": "Nom du commerce",
+    "phone": "Téléphone du commerce",
+    "wilaya": "Wilaya",
+    "commune": "Commune",
+    "choose": "Choisir",
+    "address": "Adresse",
+    "hours": "Horaires",
+    "capacity": "Colis qu'il peut garder",
+    "feePerParcel": "Commission par colis (DA)",
+    "active": "Accepte des colis maintenant",
+    "fix": "Vérifiez ce champ",
+    "save": "Enregistrer",
+    "cancel": "Annuler"
+  },
+  "drop": {
+    "label": "Colis déposé au commerce",
+    "hint": "Numéro de suivi sur l'étiquette",
+    "submit": "Enregistrer",
+    "done": "Enregistré. Le client voit maintenant le commerce et son code."
+  },
+  "held": {
+    "label": "Colis en attente",
+    "empty": "Aucun colis en attente.",
+    "since": "depuis le {date}"
+  },
+  "release": {
+    "code": "Code du client",
+    "cash": "Argent encaissé (DA)",
+    "submit": "Remettre"
+  },
+  "statement": {
+    "released": "Retirés ce mois",
+    "fees": "Commissions dues au commerce",
+    "cashCollected": "Argent encaissé",
+    "cashHandedOver": "Argent reçu",
+    "dinars": "{amount, number} DA"
+  },
+  "errors": {
+    "not_found": "Ce point relais n'existe plus.",
+    "parcel_not_found": "Aucun de vos colis n'a ce numéro de suivi.",
+    "drop_refused": "Ce colis ne peut pas aller dans ce commerce : il est plein ou en pause, le colis est déjà dans un commerce, ou il est livré ou retourné.",
+    "already_released": "Ce colis a déjà été remis au client.",
+    "wrong_code": "Code incorrect. Demandez au client de lire le code de sa page de suivi.",
+    "locked": "Trop de codes incorrects. Le colis est bloqué ; appelez le client."
+  },
+  "tracking": {
+    "title": "Récupérez votre colis dans ce commerce",
+    "collected": "Récupéré chez",
+    "hours": "Ouvert : {hours}",
+    "map": "Voir sur la carte",
+    "codeLabel": "Votre code de retrait",
+    "codeHint": "Donnez ce code au commerce. Ne le donnez jamais à quelqu'un qui vous appelle."
+  }
+}

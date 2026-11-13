@@ -10,6 +10,7 @@ export type NavKey =
   | 'stuckParcels'
   | 'returns'
   | 'returnRequests'
+  | 'pickupPoints'
   | 'forms'
   | 'deliveryRequests'
   | 'claims'
