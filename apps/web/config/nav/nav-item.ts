@@ -5,6 +5,7 @@ export type NavKey =
   | 'dashboard'
   | 'orders'
   | 'live'
+  | 'resellers'
   | 'followups'
   | 'stuckParcels'
   | 'returns'

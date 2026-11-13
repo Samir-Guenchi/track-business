@@ -27,6 +27,7 @@
     "stuckParcels": "Stuck parcels",
     "returnRequests": "Return requests",
     "pickupPoints": "Pickup points",
-    "live": "Live selling"
+    "live": "Live selling",
+    "resellers": "Resellers"
   }
 }

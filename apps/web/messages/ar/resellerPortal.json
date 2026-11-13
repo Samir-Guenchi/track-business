@@ -1,0 +1,42 @@
+{
+  "title": "بوابة الموزع",
+  "hello": "مرحبًا {name}",
+  "description": "أرسل طلبيات زبائنك من هنا. المورد يؤكدها ويشحنها، وهامشك مستحق بعد توصيل الطلبية.",
+  "dinars": "{amount, number} دج",
+  "stats": {
+    "marginPending": "في الطريق",
+    "marginEarned": "للاستلام",
+    "marginPaid": "مدفوع"
+  },
+  "newOrder": "طلبية جديدة",
+  "orders": "طلبياتي",
+  "sent": "تم إرسال الطلبية {ref}: {codAmount, number} دج للتحصيل، وهامشك {margin, number} دج.",
+  "form": {
+    "name": "اسم الزبون",
+    "phone": "هاتف الزبون",
+    "wilaya": "الولاية",
+    "commune": "البلدية",
+    "address": "العنوان",
+    "choose": "اختر",
+    "product": "المنتج",
+    "productOption": "{name} (المورد {price, number} دج)",
+    "quantity": "الكمية",
+    "sellingPrice": "سعر بيعك للوحدة (دج)",
+    "floor": "على الأقل {floor, number} دج",
+    "marginPreview": "هامشك: {margin, number} دج",
+    "submit": "إرسال الطلبية"
+  },
+  "errors": {
+    "paused": "أوقف المورد حسابك. تواصل معه.",
+    "invalid_item": "تحقق من المنتج والسعر: السعر أقل من الحد الأدنى.",
+    "delivery_unavailable": "المورد لا يوصل إلى هذه الولاية.",
+    "daily_limit": "وصلت إلى حد الطلبيات لهذا اليوم.",
+    "validation_failed": "تحقق من معلومات الزبون: الاسم والهاتف والولاية والبلدية والعنوان.",
+    "network": "لا يوجد اتصال. أعد المحاولة.",
+    "generic": "لم يتم إرسال الطلبية. أعد المحاولة."
+  },
+  "notFound": {
+    "title": "رابط غير صالح",
+    "body": "اطلب رابط بوابتك من المورد مرة أخرى."
+  }
+}

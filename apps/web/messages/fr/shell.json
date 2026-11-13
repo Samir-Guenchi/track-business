@@ -27,6 +27,7 @@
     "stuckParcels": "Colis bloqués",
     "returnRequests": "Demandes de retour",
     "pickupPoints": "Points relais",
-    "live": "Ventes en live"
+    "live": "Ventes en live",
+    "resellers": "Revendeurs"
   }
 }
