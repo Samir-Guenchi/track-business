@@ -1,7 +1,9 @@
 {
   "title": "Reseller portal",
+  "eyebrow": "Private workspace",
   "hello": "Hello {name}",
   "description": "Send your customers' orders here. The supplier confirms and ships them; your margin is owed once the order is delivered.",
+  "private": "Only you can see this page",
   "dinars": "{amount, number} DA",
   "stats": {
     "marginPending": "On the way",
@@ -9,9 +11,13 @@
     "marginPaid": "Paid"
   },
   "newOrder": "New order",
+  "newOrderHint": "One product per order, home delivery anywhere in Algeria.",
   "orders": "My orders",
+  "ordersHint": "Every order you sent, with the margin it earns.",
   "sent": "Order {ref} sent: {codAmount, number} DA to collect, your margin {margin, number} DA.",
   "form": {
+    "customerSection": "Customer",
+    "orderSection": "Order",
     "name": "Customer name",
     "phone": "Customer phone",
     "wilaya": "Wilaya",
@@ -23,8 +29,15 @@
     "quantity": "Quantity",
     "sellingPrice": "Your selling price per unit (DA)",
     "floor": "At least {floor, number} DA",
+    "marginLabel": "Your margin",
+    "marginNote": "Paid after delivery",
     "marginPreview": "Your margin: {margin, number} DA",
+    "note": "The supplier calls the customer to confirm before shipping.",
     "submit": "Send the order"
+  },
+  "footer": {
+    "brand": "TrackEcom · Reseller portal",
+    "private": "Private link · do not share"
   },
   "errors": {
     "paused": "The supplier paused your account. Contact them.",

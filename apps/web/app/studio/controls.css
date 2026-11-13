@@ -1,0 +1,278 @@
+/* Studio controls: flat, thin-bordered, 42px desktop / 44px phone. */
+.studio .tk-button {
+  min-height: 42px;
+  padding-inline: 17px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  box-shadow: none;
+  font-family: var(--studio-font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.studio .tk-button[data-size='sm'] {
+  min-height: 38px;
+  padding-inline: 12px;
+  font-size: 10.5px;
+}
+
+.studio .tk-button[data-size='lg'] {
+  min-height: 48px;
+  padding-inline: 22px;
+  font-size: 11.5px;
+}
+
+.studio .tk-button[data-variant='primary'] {
+  color: var(--studio-ink-on-cyan);
+  border-color: transparent;
+  background: var(--studio-cyan);
+}
+
+.studio .tk-button[data-variant='primary']:hover:not(:disabled) {
+  color: var(--studio-ink-on-cyan);
+  background: var(--studio-cyan-hover);
+}
+
+.studio .tk-button[data-variant='secondary'] {
+  color: var(--studio-ink);
+  border-color: var(--studio-border);
+  background: var(--studio-panel-raised);
+}
+
+.studio .tk-button[data-variant='secondary']:hover:not(:disabled) {
+  color: var(--studio-ink);
+  border-color: #b9c5be;
+  background: var(--studio-panel);
+}
+
+[data-theme='dark'] .studio .tk-button[data-variant='secondary']:hover:not(:disabled) {
+  border-color: #4b646e;
+  background: var(--studio-panel-raised);
+}
+
+.studio .tk-button[data-variant='ghost'] {
+  color: var(--studio-muted);
+  border-color: transparent;
+  background: transparent;
+}
+
+.studio .tk-button[data-variant='ghost']:hover:not(:disabled) {
+  color: var(--studio-ink);
+  background: color-mix(in srgb, var(--studio-ink) 6%, transparent);
+}
+
+.studio .tk-button[data-variant='danger'] {
+  color: #fff;
+  border-color: var(--studio-danger-ink);
+  background: var(--studio-danger-ink);
+}
+
+.studio .tk-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.studio .tk-button:disabled {
+  opacity: 0.48;
+}
+
+.studio .tk-field {
+  gap: 6px;
+  min-width: 0;
+}
+
+.studio .tk-field__label {
+  color: var(--studio-muted);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.studio .tk-field__hint {
+  color: var(--studio-muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.studio .tk-field__error {
+  color: var(--studio-danger-ink);
+  font-size: 10.5px;
+}
+
+.studio :is(.tk-input, .tk-select__trigger, .tk-combobox__trigger) {
+  min-height: 46px;
+  height: 46px;
+  padding-inline: 13px;
+  border: 1px solid var(--studio-border);
+  border-radius: 8px;
+  color: var(--studio-ink);
+  background: var(--studio-panel);
+  box-shadow: none;
+  font-family: var(--studio-font-sans);
+  font-size: 13px;
+}
+
+.studio :is(.tk-input, .tk-select__trigger, .tk-combobox__trigger):focus-visible {
+  border-color: var(--studio-teal);
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(38 146 172 / 16%);
+}
+
+.studio .tk-input::placeholder {
+  color: var(--studio-muted);
+  opacity: 0.7;
+}
+
+.studio select.tk-input {
+  appearance: none;
+  padding-inline-end: 36px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - 17px) 50%,
+    calc(100% - 12px) 50%;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+}
+
+[dir='rtl'] .studio select.tk-input {
+  background-position:
+    17px 50%,
+    12px 50%;
+}
+
+.studio .tk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 23px;
+  padding-inline: 9px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--studio-font-sans);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.studio .tk-badge::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.studio .tk-badge[data-variant='neutral'] {
+  color: #65746b;
+  border-color: var(--studio-border);
+  background: #f1f1ea;
+}
+
+.studio .tk-badge[data-variant='success'] {
+  color: var(--studio-success-ink);
+  border-color: #cfe3da;
+  background: var(--studio-success-surface);
+}
+
+.studio .tk-badge[data-variant='warning'] {
+  color: var(--studio-warning-ink);
+  border-color: #ead9bd;
+  background: var(--studio-warning-surface);
+}
+
+.studio .tk-badge[data-variant='danger'] {
+  color: var(--studio-danger-ink);
+  border-color: #eed4cd;
+  background: var(--studio-danger-surface);
+}
+
+.studio .tk-badge[data-variant='info'] {
+  color: #173d48;
+  border-color: #cfe3da;
+  background: #e1f0ef;
+}
+
+[data-theme='dark'] .studio .tk-badge[data-variant='neutral'] {
+  color: var(--studio-muted);
+  border-color: var(--studio-border);
+  background: var(--studio-panel-raised);
+}
+
+[data-theme='dark'] .studio .tk-badge[data-variant='info'] {
+  color: var(--studio-ink);
+  border-color: #38545f;
+  background: var(--studio-panel-raised);
+}
+
+.studio [role='alert'] {
+  padding: 10px 13px;
+  border: 1px solid #eed4cd;
+  border-radius: 8px;
+  color: var(--studio-danger-ink);
+  background: var(--studio-danger-surface);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.studio [role='status'] {
+  color: var(--studio-success-ink);
+  font-size: 10.5px;
+}
+
+.studio .studio-alert {
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 11.5px;
+  line-height: 1.7;
+}
+
+.studio .studio-alert[role='status'] {
+  border: 1px solid #cfe3da;
+  color: var(--studio-success-ink);
+  background: var(--studio-success-surface);
+}
+
+.studio .studio-field--wide {
+  grid-column: 1 / -1;
+}
+
+.studio .studio-form-grid + :is([role='alert'], [role='status']),
+.studio [role='alert'] + [role='alert'] {
+  margin-top: 12px;
+}
+
+.studio .studio-quiet-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  color: var(--studio-teal);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.studio .studio-quiet-link:hover {
+  color: var(--studio-ink);
+}
+
+@media (max-width: 640px) {
+  .studio :is(.tk-input, .tk-select__trigger, .tk-combobox__trigger) {
+    font-size: 16px;
+  }
+}

@@ -1,4 +1,5 @@
 @import '@trackecom/ui/styles.css';
+@import './studio/index.css';
 
 @tailwind base;
 @tailwind components;

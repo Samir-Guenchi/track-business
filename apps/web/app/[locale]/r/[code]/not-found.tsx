@@ -1,11 +1,19 @@
+import { Link2Off } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
 export default async function PortalNotFound() {
   const t = await getTranslations('resellerPortal.notFound');
   return (
-    <div className="flex flex-col items-center gap-2 py-12 text-center">
-      <h1 className="text-xl font-semibold">{t('title')}</h1>
-      <p className="text-sm text-muted">{t('body')}</p>
+    <div className="studio-portal-page">
+      <div className="studio-portal">
+        <section className="studio-state">
+          <span className="studio-state__icon">
+            <Link2Off size={20} aria-hidden />
+          </span>
+          <h1>{t('title')}</h1>
+          <p>{t('body')}</p>
+        </section>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 {
   "title": "Revendeurs",
   "description": "Des personnes qui vendent vos produits sur Facebook, TikTok ou WhatsApp avec leur propre marge. Vous gardez le stock, confirmez et expédiez ; leur marge est due une fois la commande livrée.",
+  "eyebrow": "Réseau revendeurs",
   "add": "Ajouter un revendeur",
   "active": "Actif",
   "paused": "En pause",
@@ -11,6 +12,7 @@
   "pay": "Payer {amount, number} DA",
   "paid": "{orders, plural, one {# commande payée} other {# commandes payées}}, {amount, number} DA",
   "portal": "Lien du portail",
+  "open": "Ouvrir",
   "copy": "Copier",
   "copied": "Copié",
   "showOrders": "Voir les commandes",
@@ -21,11 +23,28 @@
     "pending": "Marge en cours",
     "earned": "Marge à payer"
   },
+  "summary": {
+    "resellers": "Revendeurs",
+    "active": "{count, plural, =0 {Aucun actif} one {# actif} other {# actifs}}",
+    "orders": "Commandes envoyées",
+    "delivered": "{count, plural, =0 {Aucune livrée} one {# livrée} other {# livrées}}",
+    "rate": "Taux de livraison",
+    "finalOrders": "{count, plural, one {sur # commande finale} other {sur # commandes finales}}",
+    "noRate": "Aucune commande finale",
+    "earned": "Marge à payer",
+    "pendingNote": "{amount, number} DA en cours"
+  },
+  "directory": "Répertoire",
+  "directoryTitle": "Vos revendeurs",
+  "count": "{count, plural, =0 {Aucun revendeur} one {# revendeur} other {# revendeurs}}",
   "empty": {
     "title": "Aucun revendeur",
     "description": "Ajoutez un revendeur puis envoyez-lui son lien : il voit votre catalogue, envoie des commandes et suit ses marges."
   },
   "form": {
+    "eyebrow": "Nouveau partenaire",
+    "title": "Ajouter un revendeur",
+    "description": "Un nom et un mobile suffisent. Le lien du portail est créé pour vous.",
     "name": "Nom",
     "phone": "Téléphone",
     "invalid": "Saisissez un nom et un numéro mobile algérien.",
@@ -35,10 +54,16 @@
   "catalogue": {
     "title": "Catalogue revendeurs",
     "description": "Les produits que les revendeurs peuvent vendre, avec votre prix fournisseur et le prix de vente minimum.",
+    "eyebrow": "Catalogue",
+    "count": "{count, plural, =0 {Aucun produit} one {# produit} other {# produits}}",
+    "loading": "Chargement des produits…",
     "empty": "Aucun produit.",
     "name": "Produit",
     "supplierPrice": "Prix fournisseur (DA)",
     "minPrice": "Prix de vente minimum (DA)",
+    "supplierShort": "Fournisseur",
+    "minimumShort": "Minimum",
+    "paused": "En pause",
     "add": "Ajouter",
     "invalid": "Saisissez un nom et un prix fournisseur.",
     "prices": "Fournisseur {supplier, number} DA · minimum {min, number} DA",

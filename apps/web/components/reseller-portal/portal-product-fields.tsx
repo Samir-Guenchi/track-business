@@ -5,6 +5,20 @@ import { useTranslations } from 'next-intl';
 import { SelectField, TextField } from './portal-inputs';
 import type { PortalDraft } from './use-portal-order';
 
+function MarginPreview({ margin }: { readonly margin: number }) {
+  const t = useTranslations('resellerPortal.form');
+  const money = useTranslations('resellerPortal');
+  return (
+    <dl className="studio-margin" data-tone={margin < 0 ? 'negative' : 'positive'}>
+      <div>
+        <dt>{t('marginLabel')}</dt>
+        <dd>{money('dinars', { amount: margin })}</dd>
+      </div>
+      <small>{t('marginNote')}</small>
+    </dl>
+  );
+}
+
 interface Props {
   readonly draft: PortalDraft;
   readonly patch: (change: Partial<PortalDraft>) => void;
@@ -31,7 +45,7 @@ export function PortalProductFields({ draft, patch, catalogue, product }: Props)
         options={options}
         onChange={(value) => patch({ productId: value })}
       />
-      <div className="grid grid-cols-2 gap-3">
+      <div className="studio-field-grid studio-field-grid--two">
         <TextField
           label={t('quantity')}
           value={draft.quantity}
@@ -46,9 +60,7 @@ export function PortalProductFields({ draft, patch, catalogue, product }: Props)
           onChange={(value) => patch({ sellingPrice: value })}
         />
       </div>
-      {product && draft.sellingPrice && (
-        <p className="text-sm font-medium">{t('marginPreview', { margin })}</p>
-      )}
+      {product && draft.sellingPrice && <MarginPreview margin={margin} />}
     </>
   );
 }
