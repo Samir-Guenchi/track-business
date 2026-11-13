@@ -29,6 +29,8 @@ export const namespaces = [
   'returnRequests',
   'pickupPoints',
   'live',
+  'resellers',
+  'resellerPortal',
 ] as const;
 
 export type Namespace = (typeof namespaces)[number];

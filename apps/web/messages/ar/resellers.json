@@ -1,0 +1,82 @@
+{
+  "title": "الموزعون",
+  "description": "أشخاص يبيعون منتجاتك على فيسبوك وتيك توك وواتساب بهامش ربحهم. أنت تحتفظ بالمخزون وتؤكد وتشحن، وهامشهم مستحق بعد توصيل الطلبية.",
+  "add": "إضافة موزع",
+  "active": "نشط",
+  "paused": "متوقف",
+  "pause": "إيقاف",
+  "resume": "إعادة التفعيل",
+  "risky": "إرجاعات كثيرة",
+  "dinars": "{amount, number} دج",
+  "pay": "دفع {amount, number} دج",
+  "paid": "{orders, plural, one {طلبية واحدة} other {# طلبيات}} مدفوعة، {amount, number} دج",
+  "portal": "رابط البوابة",
+  "copy": "نسخ",
+  "copied": "تم النسخ",
+  "showOrders": "عرض الطلبيات",
+  "hideOrders": "إخفاء الطلبيات",
+  "stats": {
+    "orders": "الطلبيات",
+    "rate": "نسبة التوصيل",
+    "pending": "هامش في الطريق",
+    "earned": "هامش للدفع"
+  },
+  "empty": {
+    "title": "لا يوجد موزعون",
+    "description": "أضف موزعًا ثم أرسل له رابطه: يرى كتالوجك ويرسل الطلبيات ويتابع أرباحه."
+  },
+  "form": {
+    "name": "الاسم",
+    "phone": "الهاتف",
+    "invalid": "أدخل اسمًا ورقم هاتف جزائري.",
+    "save": "إضافة",
+    "cancel": "إلغاء"
+  },
+  "catalogue": {
+    "title": "كتالوج الموزعين",
+    "description": "المنتجات التي يمكن للموزعين بيعها، بسعر المورد وأدنى سعر بيع مسموح.",
+    "empty": "لا يوجد منتج.",
+    "name": "المنتج",
+    "supplierPrice": "سعر المورد (دج)",
+    "minPrice": "أدنى سعر بيع (دج)",
+    "add": "إضافة",
+    "invalid": "أدخل اسمًا وسعر المورد.",
+    "prices": "المورد {supplier, number} دج · الأدنى {min, number} دج",
+    "pause": "إيقاف",
+    "resume": "عرض من جديد"
+  },
+  "orders": {
+    "empty": "لا توجد طلبيات.",
+    "dinars": "{amount, number} دج",
+    "columns": {
+      "ref": "الطلبية",
+      "customer": "الزبون",
+      "status": "الحالة",
+      "cod": "للتحصيل",
+      "margin": "الهامش",
+      "date": "التاريخ"
+    },
+    "margin": {
+      "pending": "في الطريق",
+      "earned": "للدفع",
+      "paid": "مدفوع",
+      "void": "ملغى"
+    },
+    "status": {
+      "new": "جديدة",
+      "to_confirm": "للتأكيد",
+      "confirmed": "مؤكدة",
+      "cancelled": "ملغاة",
+      "unreachable": "تعذّر الاتصال",
+      "postponed": "مؤجلة",
+      "ready_to_ship": "جاهزة للشحن",
+      "shipped": "مشحونة",
+      "in_transit": "في الطريق",
+      "out_for_delivery": "قيد التوصيل",
+      "delivered": "مسلّمة",
+      "failed_attempt": "فشل التوصيل",
+      "returning": "قيد الإرجاع",
+      "returned": "مرتجعة"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Portail revendeur",
+  "hello": "Bonjour {name}",
+  "description": "Envoyez ici les commandes de vos clients. Le fournisseur les confirme et les expédie ; votre marge est due une fois la commande livrée.",
+  "dinars": "{amount, number} DA",
+  "stats": {
+    "marginPending": "En cours",
+    "marginEarned": "À recevoir",
+    "marginPaid": "Payée"
+  },
+  "newOrder": "Nouvelle commande",
+  "orders": "Mes commandes",
+  "sent": "Commande {ref} envoyée : {codAmount, number} DA à encaisser, votre marge {margin, number} DA.",
+  "form": {
+    "name": "Nom du client",
+    "phone": "Téléphone du client",
+    "wilaya": "Wilaya",
+    "commune": "Commune",
+    "address": "Adresse",
+    "choose": "Choisir",
+    "product": "Produit",
+    "productOption": "{name} (fournisseur {price, number} DA)",
+    "quantity": "Quantité",
+    "sellingPrice": "Votre prix de vente unitaire (DA)",
+    "floor": "Au moins {floor, number} DA",
+    "marginPreview": "Votre marge : {margin, number} DA",
+    "submit": "Envoyer la commande"
+  },
+  "errors": {
+    "paused": "Le fournisseur a mis votre compte en pause. Contactez-le.",
+    "invalid_item": "Vérifiez le produit et le prix : il est sous le prix minimum.",
+    "delivery_unavailable": "Le fournisseur ne livre pas cette wilaya.",
+    "daily_limit": "Vous avez atteint la limite de commandes du jour.",
+    "validation_failed": "Vérifiez les informations du client : nom, mobile, wilaya, commune et adresse.",
+    "network": "Pas de connexion. Réessayez.",
+    "generic": "La commande n'a pas été envoyée. Réessayez."
+  },
+  "notFound": {
+    "title": "Lien non valide",
+    "body": "Demandez à nouveau votre lien au fournisseur."
+  }
+}

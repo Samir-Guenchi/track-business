@@ -1,0 +1,82 @@
+{
+  "title": "Revendeurs",
+  "description": "Des personnes qui vendent vos produits sur Facebook, TikTok ou WhatsApp avec leur propre marge. Vous gardez le stock, confirmez et expédiez ; leur marge est due une fois la commande livrée.",
+  "add": "Ajouter un revendeur",
+  "active": "Actif",
+  "paused": "En pause",
+  "pause": "Mettre en pause",
+  "resume": "Réactiver",
+  "risky": "Beaucoup de retours",
+  "dinars": "{amount, number} DA",
+  "pay": "Payer {amount, number} DA",
+  "paid": "{orders, plural, one {# commande payée} other {# commandes payées}}, {amount, number} DA",
+  "portal": "Lien du portail",
+  "copy": "Copier",
+  "copied": "Copié",
+  "showOrders": "Voir les commandes",
+  "hideOrders": "Masquer les commandes",
+  "stats": {
+    "orders": "Commandes",
+    "rate": "Taux de livraison",
+    "pending": "Marge en cours",
+    "earned": "Marge à payer"
+  },
+  "empty": {
+    "title": "Aucun revendeur",
+    "description": "Ajoutez un revendeur puis envoyez-lui son lien : il voit votre catalogue, envoie des commandes et suit ses marges."
+  },
+  "form": {
+    "name": "Nom",
+    "phone": "Téléphone",
+    "invalid": "Saisissez un nom et un numéro mobile algérien.",
+    "save": "Ajouter",
+    "cancel": "Annuler"
+  },
+  "catalogue": {
+    "title": "Catalogue revendeurs",
+    "description": "Les produits que les revendeurs peuvent vendre, avec votre prix fournisseur et le prix de vente minimum.",
+    "empty": "Aucun produit.",
+    "name": "Produit",
+    "supplierPrice": "Prix fournisseur (DA)",
+    "minPrice": "Prix de vente minimum (DA)",
+    "add": "Ajouter",
+    "invalid": "Saisissez un nom et un prix fournisseur.",
+    "prices": "Fournisseur {supplier, number} DA · minimum {min, number} DA",
+    "pause": "Mettre en pause",
+    "resume": "Proposer à nouveau"
+  },
+  "orders": {
+    "empty": "Aucune commande.",
+    "dinars": "{amount, number} DA",
+    "columns": {
+      "ref": "Commande",
+      "customer": "Client",
+      "status": "Statut",
+      "cod": "À encaisser",
+      "margin": "Marge",
+      "date": "Date"
+    },
+    "margin": {
+      "pending": "En cours",
+      "earned": "À payer",
+      "paid": "Payée",
+      "void": "Annulée"
+    },
+    "status": {
+      "new": "Nouvelle",
+      "to_confirm": "À confirmer",
+      "confirmed": "Confirmée",
+      "cancelled": "Annulée",
+      "unreachable": "Injoignable",
+      "postponed": "Reportée",
+      "ready_to_ship": "Prête à expédier",
+      "shipped": "Expédiée",
+      "in_transit": "En transit",
+      "out_for_delivery": "En livraison",
+      "delivered": "Livrée",
+      "failed_attempt": "Échec de livraison",
+      "returning": "En retour",
+      "returned": "Retournée"
+    }
+  }
+}

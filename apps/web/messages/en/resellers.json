@@ -1,0 +1,82 @@
+{
+  "title": "Resellers",
+  "description": "People who sell your products on Facebook, TikTok or WhatsApp with their own margin. You keep the stock, confirm and ship; their margin is owed once the order is delivered.",
+  "add": "Add a reseller",
+  "active": "Active",
+  "paused": "Paused",
+  "pause": "Pause",
+  "resume": "Resume",
+  "risky": "Many returns",
+  "dinars": "{amount, number} DA",
+  "pay": "Pay {amount, number} DA",
+  "paid": "{orders, plural, one {# order} other {# orders}} paid, {amount, number} DA",
+  "portal": "Portal link",
+  "copy": "Copy",
+  "copied": "Copied",
+  "showOrders": "Show orders",
+  "hideOrders": "Hide orders",
+  "stats": {
+    "orders": "Orders",
+    "rate": "Delivery rate",
+    "pending": "Margin on the way",
+    "earned": "Margin to pay"
+  },
+  "empty": {
+    "title": "No resellers yet",
+    "description": "Add a reseller, then send them their portal link: they see your catalogue, send orders and follow their margins."
+  },
+  "form": {
+    "name": "Name",
+    "phone": "Phone",
+    "invalid": "Enter a name and an Algerian mobile number.",
+    "save": "Add",
+    "cancel": "Cancel"
+  },
+  "catalogue": {
+    "title": "Reseller catalogue",
+    "description": "Products resellers can sell, with your supplier price and the lowest selling price you allow.",
+    "empty": "No product yet.",
+    "name": "Product",
+    "supplierPrice": "Supplier price (DA)",
+    "minPrice": "Lowest selling price (DA)",
+    "add": "Add",
+    "invalid": "Enter a name and a supplier price.",
+    "prices": "Supplier {supplier, number} DA · lowest {min, number} DA",
+    "pause": "Pause",
+    "resume": "Offer again"
+  },
+  "orders": {
+    "empty": "No orders yet.",
+    "dinars": "{amount, number} DA",
+    "columns": {
+      "ref": "Order",
+      "customer": "Customer",
+      "status": "Status",
+      "cod": "To collect",
+      "margin": "Margin",
+      "date": "Date"
+    },
+    "margin": {
+      "pending": "On the way",
+      "earned": "To pay",
+      "paid": "Paid",
+      "void": "Cancelled"
+    },
+    "status": {
+      "new": "New",
+      "to_confirm": "To confirm",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "unreachable": "Unreachable",
+      "postponed": "Postponed",
+      "ready_to_ship": "Ready to ship",
+      "shipped": "Shipped",
+      "in_transit": "In transit",
+      "out_for_delivery": "Out for delivery",
+      "delivered": "Delivered",
+      "failed_attempt": "Failed attempt",
+      "returning": "Returning",
+      "returned": "Returned"
+    }
+  }
+}
