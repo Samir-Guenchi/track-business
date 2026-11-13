@@ -64,3 +64,13 @@ export class StatusPermissionError extends DomainError {
     super(`Your role cannot move orders to ${status}`, { status });
   }
 }
+
+/** A bus event this consumer already applied (redelivery); the caller acknowledges and moves on. */
+export class EventAlreadyProcessedError extends DomainError {
+  readonly code = 'orders.event_already_processed';
+  readonly kind = 'conflict';
+
+  constructor(eventId: string) {
+    super('Event already processed', { eventId });
+  }
+}

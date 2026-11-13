@@ -1,0 +1,24 @@
+// Store blacklist (#52). Tenant data: every row belongs to a store.
+
+/// A phone, or a name in one commune, the store does not want to ship to again.
+model BlacklistEntry {
+  id        String    @id @db.Uuid
+  storeId   String    @map("store_id") @db.Uuid
+  /// E.164, e.g. +213555000001.
+  phone     String?
+  name      String?
+  /// Lowercased name without accents or extra spaces, compared with new orders.
+  nameKey   String?   @map("name_key")
+  communeId Int?      @map("commune_id")
+  /// BlacklistReason from the contracts.
+  reason    String
+  note      String?
+  expiresAt DateTime? @map("expires_at") @db.Timestamptz(3)
+  createdBy String    @map("created_by") @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([storeId, phone])
+  @@index([storeId, nameKey, communeId])
+  @@index([storeId, createdAt(sort: Desc), id])
+  @@map("blacklist_entries")
+}

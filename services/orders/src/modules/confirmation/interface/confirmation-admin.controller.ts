@@ -3,6 +3,9 @@ import {
   type AgentStatsQuery,
   AgentStatsQuerySchema,
   type AgentStatsResponse,
+  type BestTimeQuery,
+  BestTimeQuerySchema,
+  type BestTimeResponse,
   type CallScript,
   type CallScriptsResponse,
   type ConfirmationSettings,
@@ -17,6 +20,7 @@ import {
   type StoreContext,
   ZodValidationPipe,
 } from '@trackecom/service-kit';
+import { BestTimeService } from '../application/best-time.service.js';
 import { ConfirmationContentService } from '../application/confirmation-content.service.js';
 import { ConfirmationSettingsService } from '../application/confirmation-settings.service.js';
 
@@ -26,6 +30,7 @@ export class ConfirmationAdminController {
   constructor(
     private readonly settings: ConfirmationSettingsService,
     private readonly content: ConfirmationContentService,
+    private readonly bestTime: BestTimeService,
   ) {}
 
   @Get('settings')
@@ -66,5 +71,14 @@ export class ConfirmationAdminController {
     @CurrentStore() store: StoreContext,
   ): Promise<AgentStatsResponse> {
     return this.content.stats(store.storeId, query);
+  }
+
+  @Get('best-time')
+  @RequirePermission('orders.read')
+  answerRates(
+    @Query(new ZodValidationPipe(BestTimeQuerySchema)) query: BestTimeQuery,
+    @CurrentStore() store: StoreContext,
+  ): Promise<BestTimeResponse> {
+    return this.bestTime.hours(store.storeId, query);
   }
 }

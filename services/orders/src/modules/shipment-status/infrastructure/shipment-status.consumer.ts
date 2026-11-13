@@ -1,0 +1,57 @@
+import { hostname } from 'node:os';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  type OnApplicationBootstrap,
+  type OnApplicationShutdown,
+} from '@nestjs/common';
+import { SHIPMENT_EVENTS, TRACKING_EVENTS } from '@trackecom/contracts';
+import { PollingLoop, RedisStreamsConsumer, streamFor } from '@trackecom/events';
+import { Redis } from 'ioredis';
+import { type Env, ENV } from '../../../config/env.schema.js';
+import { ApplyShipmentStatusUseCase } from '../application/apply-shipment-status.use-case.js';
+import { SHIPMENT_STATUS_CONSUMER } from '../application/system-status-change.js';
+
+/**
+ * Reads shipping's stream (parcel created, refused, moved) with its own Redis connection (XREADGROUP blocks, so it must not share
+ * the request-path connection). One consumer group for all replicas of orders.
+ */
+@Injectable()
+export class ShipmentStatusConsumer implements OnApplicationBootstrap, OnApplicationShutdown {
+  private readonly logger = new Logger(ShipmentStatusConsumer.name);
+  private redis: Redis | undefined;
+  private loop: PollingLoop | undefined;
+
+  constructor(
+    private readonly apply: ApplyShipmentStatusUseCase,
+    @Inject(ENV) private readonly env: Env,
+  ) {}
+
+  onApplicationBootstrap(): void {
+    if (!this.env.WORKERS_ENABLED) return;
+    this.redis = new Redis(this.env.REDIS_URL, { maxRetriesPerRequest: null });
+    this.redis.on('error', (error: Error) => this.logger.warn(`Redis: ${error.message}`));
+    const consumer = new RedisStreamsConsumer(this.redis, {
+      group: SHIPMENT_STATUS_CONSUMER,
+      consumer: `${hostname()}-${process.pid}`,
+      streams: [streamFor(TRACKING_EVENTS.statusChanged)],
+    });
+    consumer.subscribe(TRACKING_EVENTS.statusChanged, async (event) => {
+      await this.apply.execute(event);
+    });
+    consumer.subscribe(SHIPMENT_EVENTS.created, async (event) => {
+      await this.apply.created(event);
+    });
+    consumer.subscribe(SHIPMENT_EVENTS.failed, async (event) => {
+      await this.apply.failed(event);
+    });
+    this.loop = new PollingLoop(consumer, { idleMs: 200, logger: this.logger });
+    this.loop.start();
+  }
+
+  async onApplicationShutdown(): Promise<void> {
+    await this.loop?.stop();
+    this.redis?.disconnect();
+  }
+}

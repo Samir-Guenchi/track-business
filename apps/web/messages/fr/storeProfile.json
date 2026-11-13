@@ -1,0 +1,32 @@
+{
+  "onboardingTitle": "Parlez-nous de votre boutique",
+  "onboardingDescription": "Toutes les réponses sont facultatives. Elles servent à calculer la livraison depuis votre wilaya et à proposer les transporteurs à connecter.",
+  "settingsTitle": "Paramètres de la boutique",
+  "settingsDescription": "D'où partent vos colis, comment vous joindre et les transporteurs que vous utilisez déjà.",
+  "originWilaya": "Wilaya de départ",
+  "originCommune": "Commune de départ",
+  "originHint": "Les frais de livraison sont calculés depuis ici.",
+  "wilayaPlaceholder": "Choisir une wilaya",
+  "communePlaceholder": "Choisir une commune",
+  "communeSearch": "Rechercher une commune",
+  "communeEmpty": "Aucune commune trouvée",
+  "contactPhone": "Téléphone de contact",
+  "dailyVolume": "Commandes par jour",
+  "volume": {
+    "under_10": "Moins de 10",
+    "10_50": "10 à 50",
+    "50_200": "50 à 200",
+    "over_200": "Plus de 200"
+  },
+  "carriers": "Transporteurs avec qui vous travaillez déjà",
+  "defaultLanguage": "Langue des messages aux clients",
+  "language": { "ar": "العربية", "fr": "Français", "en": "English" },
+  "errors": {
+    "origin": "Choisissez la wilaya avant la commune.",
+    "contactPhone": "Saisissez un numéro mobile algérien (05, 06 ou 07)."
+  },
+  "save": "Enregistrer",
+  "saved": "Enregistré.",
+  "continue": "Continuer",
+  "skip": "Plus tard"
+}

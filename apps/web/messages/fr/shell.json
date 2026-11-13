@@ -1,0 +1,32 @@
+{
+  "mainNav": "Navigation principale",
+  "openMenu": "Ouvrir le menu",
+  "closeMenu": "Fermer le menu",
+  "language": "Langue",
+  "theme": {
+    "label": "Thème",
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "store": {
+    "label": "Boutique",
+    "placeholder": "Ma boutique"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "orders": "Commandes",
+    "followups": "Échecs de livraison",
+    "returns": "Retours",
+    "forms": "Formulaires",
+    "confirmation": "Confirmation",
+    "shipments": "Expéditions",
+    "money": "Encaissements",
+    "settings": "Paramètres",
+    "deliveryRequests": "Demandes clients",
+    "claims": "Réclamations",
+    "stuckParcels": "Colis bloqués",
+    "returnRequests": "Demandes de retour",
+    "pickupPoints": "Points relais",
+    "live": "Ventes en live"
+  }
+}

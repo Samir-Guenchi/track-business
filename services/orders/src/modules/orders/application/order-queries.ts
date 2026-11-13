@@ -20,13 +20,18 @@ const KINDS: Record<string, OrderHistoryEntry['kind']> = {
   'order.untagged': 'tagged',
   'order.deleted': 'deleted',
   'order.call_logged': 'call_logged',
+  'order.exchange_created': 'exchanged',
+  'order.delivery_requested': 'delivery_requested',
 };
+
+/** Free text shown under a history entry: a status reason, or a customer request's summary. */
+const NOTE_FIELDS = new Set(['reason', 'summary']);
 
 const statusOf = (value: unknown) => OrderStatusSchema.safeParse(value).data ?? null;
 
 function toHistoryEntry(event: AuditEvent): OrderHistoryEntry {
   const status = event.changes.find((change) => change.field === 'status');
-  const reason = event.changes.find((change) => change.field === 'reason')?.after;
+  const reason = event.changes.find((change) => NOTE_FIELDS.has(change.field))?.after;
   return {
     id: event.id,
     at: event.occurredAt,

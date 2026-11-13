@@ -1,0 +1,30 @@
+{
+  "title": "Return or exchange",
+  "until": "You can ask until {date}.",
+  "kindLabel": "What do you want?",
+  "kind": {
+    "exchange": "Exchange an item",
+    "return": "Send it back"
+  },
+  "reasonLabel": "Why?",
+  "wantedLabel": "What do you want instead?",
+  "wantedPlaceholder": "e.g. size L, red",
+  "noteLabel": "Anything to add? (optional)",
+  "send": "Send my request",
+  "error": "Your request could not be sent. Try again.",
+  "followNew": "Follow your new parcel",
+  "state": {
+    "pending": "Request sent. The shop will answer here.",
+    "accepted_exchange": "Exchange accepted. The courier brings the new item and takes the old one.",
+    "accepted_return": "Return accepted. Keep the parcel ready for the courier.",
+    "refused": "The shop refused this request."
+  },
+  "reason": {
+    "wrong_size": "Wrong size",
+    "wrong_colour": "Wrong colour",
+    "defective": "Defective or damaged",
+    "not_as_described": "Not as in the photo",
+    "changed_mind": "I changed my mind",
+    "other": "Other"
+  }
+}

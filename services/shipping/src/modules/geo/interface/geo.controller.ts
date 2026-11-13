@@ -1,10 +1,13 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
 import {
   type GeoSearchQuery,
   GeoSearchQuerySchema,
   type GeoSearchResponse,
   type ListCommunesResponse,
   type ListWilayasResponse,
+  type LocatePlacesRequest,
+  LocatePlacesRequestSchema,
+  type LocatePlacesResponse,
   WilayaCodeSchema,
 } from '@trackecom/contracts';
 import { Public, ZodValidationPipe } from '@trackecom/service-kit';
@@ -37,5 +40,14 @@ export class GeoController {
         ? { limit: query.limit }
         : { limit: query.limit, wilayaCode: query.wilayaCode };
     return { items: await this.catalog.search(query.q, options) };
+  }
+
+  /** POST, not GET: the text is a customer's message and must not end up in access logs. */
+  @Post('locate')
+  @HttpCode(200)
+  async locate(
+    @Body(new ZodValidationPipe(LocatePlacesRequestSchema)) body: LocatePlacesRequest,
+  ): Promise<LocatePlacesResponse> {
+    return this.catalog.locate(body.text);
   }
 }

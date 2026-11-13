@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ORDER_EVENTS, type OrderSource } from '@trackecom/contracts';
+import { RiskAssessor } from '../../fraud/application/risk-assessor.js';
 import type { OrderRecord } from '../domain/order.js';
 import { AlreadyImportedError } from '../domain/order.errors.js';
 import { DUPLICATE_WINDOW_MS, newOrderRef } from '../domain/order-identity.js';
@@ -11,6 +12,8 @@ import { ORDERS_PORTS, type OrderRepository, RefTakenError } from './ports/order
 export interface CreateOrderInput extends OrderInput {
   readonly source: OrderSource;
   readonly externalRef?: string | undefined;
+  /** Exchanges only (#138): what the courier takes back. */
+  readonly exchangeCollect?: string | undefined;
 }
 
 const REF_ATTEMPTS = 3;
@@ -20,13 +23,14 @@ export class CreateOrderUseCase {
   constructor(
     @Inject(ORDERS_PORTS.repository) private readonly orders: OrderRepository,
     private readonly recorder: OrderChangeRecorder,
+    private readonly risk: RiskAssessor,
   ) {}
 
   async execute(actor: OrderActor, input: CreateOrderInput): Promise<OrderRecord> {
     await this.rejectReimport(actor.storeId, input);
     const now = this.recorder.now();
     const draft: OrderRecord = {
-      ...draftFromInput(input, this.recorder.newId),
+      ...draftFromInput(input, { newId: this.recorder.newId, now, previousPin: null }),
       id: this.recorder.newId(),
       storeId: actor.storeId,
       ref: newOrderRef(),
@@ -37,6 +41,8 @@ export class CreateOrderUseCase {
       carrier: null,
       trackingNumber: null,
       possibleDuplicateOfId: null,
+      riskFlags: [],
+      exchangeCollect: input.exchangeCollect ?? null,
       postponedUntil: null,
       statusChangedAt: now,
       version: 0,
@@ -44,10 +50,11 @@ export class CreateOrderUseCase {
       updatedAt: now,
     };
     const since = new Date(now.getTime() - DUPLICATE_WINDOW_MS);
-    const order = {
-      ...draft,
-      possibleDuplicateOfId: await this.orders.findRecentDuplicate(draft, since),
-    };
+    const [possibleDuplicateOfId, riskFlags] = await Promise.all([
+      this.orders.findRecentDuplicate(draft, since),
+      this.risk.assess(actor.storeId, draft.customer, now),
+    ]);
+    const order = { ...draft, possibleDuplicateOfId, riskFlags };
     return this.insertWithFreshRef(actor, order);
   }
 

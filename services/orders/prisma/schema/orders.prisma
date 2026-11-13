@@ -15,6 +15,15 @@ model Order {
   wilayaCode           Int         @map("wilaya_code")
   communeId            Int         @map("commune_id")
   address              String?
+  /// "Behind the CEM": what the courier looks for when there is no street number (#135).
+  landmark             String?
+  /// Map pin (#135), dropped by the customer from their link or by an agent. Personal data.
+  locationLat          Float?      @map("location_lat")
+  locationLng          Float?      @map("location_lng")
+  locationAccuracyM    Int?        @map("location_accuracy_m")
+  /// customer or agent.
+  locationSource       String?     @map("location_source")
+  locationSetAt        DateTime?   @map("location_set_at") @db.Timestamptz(3)
   deliveryType         String      @map("delivery_type")
   stopDeskId           String?     @map("stop_desk_id")
   subtotal             Int
@@ -27,6 +36,10 @@ model Order {
   carrier              String?
   trackingNumber       String?     @map("tracking_number")
   possibleDuplicateOfId String?    @map("possible_duplicate_of_id") @db.Uuid
+  /// RiskFlag[] from the contracts, set when the order came in (#52).
+  riskFlags            String[]    @default([]) @map("risk_flags")
+  /// On an exchange (#138): what the courier takes back, e.g. "1 x Robe - taille M".
+  exchangeCollect      String?     @map("exchange_collect")
   /// Hash of the items, compared with recent orders of the same phone (duplicates within 48 h).
   itemsFingerprint     String      @map("items_fingerprint")
   /// Lowercased ref, name and tracking number, searched with a trigram index.
@@ -55,6 +68,8 @@ model Order {
   @@index([storeId, createdAt(sort: Desc), id])
   @@index([storeId, status, createdAt(sort: Desc)])
   @@index([storeId, customerPhone, createdAt(sort: Desc)])
+  // The shared refused-parcel signal (#52) looks a phone up across stores.
+  @@index([customerPhone, status])
   @@index([storeId, wilayaCode])
   @@index([storeId, assignedAgentId])
   @@index([storeId, status, nextCallAt, createdAt])

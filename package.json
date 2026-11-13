@@ -14,7 +14,13 @@
     "test": "turbo run test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "env:init": "node scripts/env-init.mjs",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:migrate": "pnpm --recursive --if-present run db:deploy",
+    "db:seed": "turbo run build --filter=@trackecom/shipping && pnpm --filter @trackecom/shipping run db:seed",
+    "db:reset": "docker compose down --volumes && pnpm db:up && pnpm db:migrate && pnpm db:seed"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",

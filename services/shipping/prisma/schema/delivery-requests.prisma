@@ -1,0 +1,22 @@
+// What customers ask from their tracking link before delivery (#136). Tenant data.
+
+model DeliveryRequest {
+  id         String    @id @db.Uuid
+  storeId    String    @map("store_id") @db.Uuid
+  shipmentId String    @map("shipment_id") @db.Uuid
+  /// DeliveryRequestKind from the contracts.
+  kind       String
+  /// The full CreateDeliveryRequest, as the customer sent it.
+  details    Json
+  /// pending, sent (passed to the carrier) or dismissed.
+  state      String    @default("pending")
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  handledAt  DateTime? @map("handled_at") @db.Timestamptz(3)
+  handledBy  String?   @map("handled_by") @db.Uuid
+
+  shipment Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  @@index([storeId, state, createdAt])
+  @@index([shipmentId, createdAt])
+  @@map("delivery_requests")
+}

@@ -1,0 +1,35 @@
+// Live selling sessions (#199): products shown with short codes and the reservations read from
+// viewers' comments. Tenant data.
+
+model LiveSession {
+  id           String            @id @db.Uuid
+  storeId      String            @map("store_id") @db.Uuid
+  title        String
+  /// [{ code, name, unitPrice }], fixed when the session starts.
+  products     Json
+  createdAt    DateTime          @map("created_at") @db.Timestamptz(3)
+  reservations LiveReservation[]
+
+  @@index([storeId, createdAt])
+  @@map("live_sessions")
+}
+
+/// One per phone and product code in a session: repeated comments do not double the order.
+model LiveReservation {
+  id        String      @id @db.Uuid
+  storeId   String      @map("store_id") @db.Uuid
+  sessionId String      @map("session_id") @db.Uuid
+  session   LiveSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  /// E.164.
+  phone     String
+  name      String?
+  code      String
+  size      String?
+  quantity  Int
+  comment   String
+  createdAt DateTime    @map("created_at") @db.Timestamptz(3)
+  orderId   String?     @map("order_id")
+
+  @@unique([sessionId, phone, code])
+  @@map("live_reservations")
+}

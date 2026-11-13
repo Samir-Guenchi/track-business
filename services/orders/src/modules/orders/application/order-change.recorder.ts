@@ -35,7 +35,7 @@ export class OrderChangeRecorder {
         entity: 'order',
         entityId: change.after.id,
         action: `order.${change.action}`,
-        actor: { type: 'user', id: actor.userId },
+        actor: { type: actor.actorType ?? 'user', id: actor.userId },
         before,
         after,
         ip: actor.ip,

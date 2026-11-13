@@ -1,6 +1,14 @@
 import type { CarrierAdapter, CarrierCapabilities } from '../carrier-adapter.port.js';
 import { CarrierError } from '../carrier.errors.js';
-import type { CreatedShipment, ShipmentRequest, TrackingUpdate } from '../shipment.types.js';
+import type {
+  CarrierStopDesk,
+  CarrierContext,
+  CreatedShipment,
+  ShipmentRequest,
+  TrackingEvent,
+  TrackingUpdate,
+  WebhookRequest,
+} from '../shipment.types.js';
 
 export interface FakeCarrierOptions {
   readonly code?: string;
@@ -17,22 +25,37 @@ export interface FakeCarrierOptions {
  */
 export class FakeCarrier implements CarrierAdapter {
   readonly code: string;
+  readonly name = 'Fake carrier';
+  readonly credentialFields = [{ key: 'token', label: 'Token', secret: true }];
   readonly capabilities: CarrierCapabilities;
   readonly parcels = new Map<string, CreatedShipment & { request: ShipmentRequest }>();
+  /** What `listStopDesks` answers; tests set it. */
+  stopDesks: CarrierStopDesk[] = [];
+  /** Events `getTracking` returns, by tracking number; tests push scans here. */
+  readonly tracking = new Map<string, TrackingEvent[]>();
   createCalls = 0;
   private failuresLeft: number;
+  private createdDespiteFailure: boolean;
 
   constructor(private readonly options: FakeCarrierOptions = {}) {
     this.code = options.code ?? 'fake';
     this.capabilities = {
-      webhooks: false,
+      webhooks: true,
       cancel: true,
       labels: false,
       rates: false,
       findByReference: true,
+      exchanges: true,
       ...options.capabilities,
     };
     this.failuresLeft = options.failCreates ?? 0;
+    this.createdDespiteFailure = options.createdDespiteFailure ?? false;
+  }
+
+  /** The next create fails with `unavailable`, after saving the parcel when `afterSaving`. */
+  failNextCreate(afterSaving: boolean): void {
+    this.failuresLeft = 1;
+    this.createdDespiteFailure = afterSaving;
   }
 
   async validateCredentials(ctx: { credentials: Record<string, string> }) {
@@ -43,7 +66,7 @@ export class FakeCarrier implements CarrierAdapter {
     this.createCalls += 1;
     const failing = this.failuresLeft > 0;
     this.failuresLeft -= 1;
-    if (failing && !this.options.createdDespiteFailure) throw this.outage();
+    if (failing && !this.createdDespiteFailure) throw this.outage();
     const shipment = {
       trackingNumber: `${this.code.toUpperCase()}-${this.parcels.size + 1}`,
       labelUrl: null,
@@ -59,7 +82,7 @@ export class FakeCarrier implements CarrierAdapter {
   }
 
   async getTracking(_ctx: unknown, trackingNumber: string): Promise<TrackingUpdate> {
-    return { trackingNumber, events: [] };
+    return { trackingNumber, events: this.tracking.get(trackingNumber) ?? [] };
   }
 
   async cancelShipment() {}
@@ -69,11 +92,24 @@ export class FakeCarrier implements CarrierAdapter {
   async getLabel(): Promise<never> {
     throw new CarrierError('not_supported', 'No labels', { carrier: this.code });
   }
-  async parseWebhook() {
-    return [];
+  /**
+   * Body: TrackingUpdate[] as JSON (dates as ISO strings). The "signature" is the store's token in
+   * `x-fake-signature`, enough to exercise the receiver's auth path.
+   */
+  async parseWebhook(ctx: CarrierContext, request: WebhookRequest): Promise<TrackingUpdate[]> {
+    if (request.headers['x-fake-signature'] !== ctx.credentials['token']) {
+      throw new CarrierError('auth', 'Bad webhook signature', { carrier: this.code });
+    }
+    const updates = JSON.parse(request.rawBody) as (TrackingUpdate & {
+      events: { at: string }[];
+    })[];
+    return updates.map((update) => ({
+      trackingNumber: update.trackingNumber,
+      events: update.events.map((event) => ({ ...event, at: new Date(event.at) }) as TrackingEvent),
+    }));
   }
-  async listStopDesks() {
-    return [];
+  async listStopDesks(): Promise<CarrierStopDesk[]> {
+    return this.stopDesks;
   }
   async mapCommune(_ctx: unknown, communeId: number) {
     return String(communeId);

@@ -1,0 +1,32 @@
+{
+  "mainNav": "Main navigation",
+  "openMenu": "Open menu",
+  "closeMenu": "Close menu",
+  "language": "Language",
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "store": {
+    "label": "Store",
+    "placeholder": "My store"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "followups": "Failed deliveries",
+    "returns": "Returns",
+    "forms": "Order forms",
+    "confirmation": "Confirmation",
+    "shipments": "Shipments",
+    "money": "Cash collection",
+    "settings": "Settings",
+    "deliveryRequests": "Customer requests",
+    "claims": "Claims",
+    "stuckParcels": "Stuck parcels",
+    "returnRequests": "Return requests",
+    "pickupPoints": "Pickup points",
+    "live": "Live selling"
+  }
+}

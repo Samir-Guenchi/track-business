@@ -26,7 +26,16 @@ services:
     <<: *service
     image: ghcr.io/samir-guenchi/trackecom-gateway:${IMAGE_TAG}
     environment:
-      { PORT: 4000, NODE_ENV: production, RELEASE: '${IMAGE_TAG}', DEPLOY_ENV: '${DEPLOY_ENV}' }
+      PORT: 4000
+      NODE_ENV: production
+      RELEASE: ${IMAGE_TAG}
+      DEPLOY_ENV: ${DEPLOY_ENV}
+      IDENTITY_URL: http://identity:4001
+      SHIPPING_URL: http://shipping:4002
+      ORDERS_URL: http://orders:4003
+      PAYMENTS_URL: http://payments:4004
+      NOTIFICATIONS_URL: http://notifications:4005
+      INTEGRATIONS_URL: http://integrations:4006
 
   identity:
     <<: *service
@@ -54,6 +63,10 @@ services:
       DEPLOY_ENV: ${DEPLOY_ENV}
       REDIS_URL: redis://redis:6379
       DATABASE_URL: ${SHIPPING_DATABASE_URL}
+      IDENTITY_URL: http://identity:4001
+      # Wraps each store's carrier credentials; from the secret manager (docs/runbook.md).
+      CARRIER_KEK: ${CARRIER_KEK}
+      CARRIER_KEK_ID: ${CARRIER_KEK_ID:-v1}
 
   shipping-migrate:
     <<: *migrate
@@ -76,11 +89,82 @@ services:
       REDIS_URL: redis://redis:6379
       DATABASE_URL: ${ORDERS_DATABASE_URL}
       IDENTITY_URL: http://identity:4001
+      SHIPPING_URL: http://shipping:4002
+      # The web app's customer self-confirmation page (#54), e.g. https://app.example/confirm.
+      SELF_CONFIRM_URL: ${SELF_CONFIRM_URL}
+      # Shared with notifications for /internal routes (ADR-0004).
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
 
   orders-migrate:
     <<: *migrate
     image: ghcr.io/samir-guenchi/trackecom-orders:${IMAGE_TAG}
     environment: { DATABASE_URL: '${ORDERS_DATABASE_URL}' }
+
+  payments:
+    <<: *service
+    image: ghcr.io/samir-guenchi/trackecom-payments:${IMAGE_TAG}
+    environment:
+      PORT: 4004
+      NODE_ENV: production
+      RELEASE: ${IMAGE_TAG}
+      DEPLOY_ENV: ${DEPLOY_ENV}
+      REDIS_URL: redis://redis:6379
+      DATABASE_URL: ${PAYMENTS_DATABASE_URL}
+      IDENTITY_URL: http://identity:4001
+      # Rate cards for the payout fee audit (#196).
+      SHIPPING_URL: http://shipping:4002
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
+
+  payments-migrate:
+    <<: *migrate
+    image: ghcr.io/samir-guenchi/trackecom-payments:${IMAGE_TAG}
+    environment: { DATABASE_URL: '${PAYMENTS_DATABASE_URL}' }
+
+  notifications:
+    <<: *service
+    image: ghcr.io/samir-guenchi/trackecom-notifications:${IMAGE_TAG}
+    environment:
+      PORT: 4005
+      NODE_ENV: production
+      RELEASE: ${IMAGE_TAG}
+      DEPLOY_ENV: ${DEPLOY_ENV}
+      REDIS_URL: redis://redis:6379
+      DATABASE_URL: ${NOTIFICATIONS_DATABASE_URL}
+      IDENTITY_URL: http://identity:4001
+      ORDERS_URL: http://orders:4003
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
+      # The web app's public tracking page, e.g. https://app.example/t.
+      TRACKING_URL: ${TRACKING_URL}
+      MESSAGE_WEBHOOK_TOKEN: ${MESSAGE_WEBHOOK_TOKEN}
+
+  notifications-migrate:
+    <<: *migrate
+    image: ghcr.io/samir-guenchi/trackecom-notifications:${IMAGE_TAG}
+    environment: { DATABASE_URL: '${NOTIFICATIONS_DATABASE_URL}' }
+
+  integrations:
+    <<: *service
+    image: ghcr.io/samir-guenchi/trackecom-integrations:${IMAGE_TAG}
+    environment:
+      PORT: 4006
+      NODE_ENV: production
+      RELEASE: ${IMAGE_TAG}
+      DEPLOY_ENV: ${DEPLOY_ENV}
+      REDIS_URL: redis://redis:6379
+      DATABASE_URL: ${INTEGRATIONS_DATABASE_URL}
+      IDENTITY_URL: http://identity:4001
+      SHIPPING_URL: http://shipping:4002
+      ORDERS_URL: http://orders:4003
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
+      TRACKING_URL: ${TRACKING_URL}
+      SHOP_KEK: ${SHOP_KEK}
+      SHOP_KEK_ID: ${SHOP_KEK_ID:-v1}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${GOOGLE_SERVICE_ACCOUNT_JSON:-}
+
+  integrations-migrate:
+    <<: *migrate
+    image: ghcr.io/samir-guenchi/trackecom-integrations:${IMAGE_TAG}
+    environment: { DATABASE_URL: '${INTEGRATIONS_DATABASE_URL}' }
 
   redis:
     image: redis:7-alpine

@@ -1,0 +1,47 @@
+// Invoices (#140). Orders keeps its own copy of each store's legal profile, fed by identity's
+// `identity.store.legal-updated.v1`, so issuing an invoice never calls identity.
+
+model StoreLegalCopy {
+  storeId  String   @id @map("store_id") @db.Uuid
+  /// StoreLegalProfile from the contracts, as identity last announced it.
+  profile  Json
+  /// When identity made the change: an older event never overwrites a newer copy.
+  sourceAt DateTime @map("source_at") @db.Timestamptz(3)
+
+  @@map("store_legal_copies")
+}
+
+// An issued invoice or credit note. Never updated or deleted: a mistake is fixed by a credit note.
+model Invoice {
+  id          String   @id @db.Uuid
+  storeId     String   @map("store_id") @db.Uuid
+  /// InvoiceKind from the contracts.
+  kind        String
+  number      String
+  orderId     String   @map("order_id") @db.Uuid
+  orderRef    String   @map("order_ref")
+  issuedAt    DateTime @map("issued_at") @db.Timestamptz(3)
+  /// Seller, customer, lines and totals exactly as printed.
+  content     Json
+  creditForId String?  @unique @map("credit_for_id") @db.Uuid
+
+  creditFor  Invoice? @relation("CreditNote", fields: [creditForId], references: [id])
+  creditNote Invoice? @relation("CreditNote")
+
+  @@unique([storeId, number])
+  @@unique([storeId, kind, orderId])
+  @@index([storeId, issuedAt])
+  @@map("invoices")
+}
+
+// The last number used per store, kind and year, incremented in the transaction that writes the
+// invoice so a failed write never burns a number.
+model InvoiceCounter {
+  storeId String @map("store_id") @db.Uuid
+  kind    String
+  year    Int
+  last    Int
+
+  @@id([storeId, kind, year])
+  @@map("invoice_counters")
+}

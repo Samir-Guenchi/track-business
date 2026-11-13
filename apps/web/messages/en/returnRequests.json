@@ -1,0 +1,26 @@
+{
+  "title": "Return requests",
+  "description": "Returns and exchanges customers asked for from their tracking link after delivery. Decide each one; the customer sees your answer on the same page.",
+  "pendingOnly": "To decide only",
+  "kind": {
+    "exchange": "Exchange",
+    "return": "Return"
+  },
+  "wanted": "wants {wanted}",
+  "messageLabel": "Message to the customer",
+  "messagePlaceholder": "Message to the customer (required to refuse)",
+  "acceptReturn": "Accept return",
+  "refuse": "Refuse",
+  "refuseHint": "Write a message to refuse",
+  "openExchange": "Open the exchange order",
+  "state": {
+    "pending": "To decide",
+    "accepted_exchange": "Exchange accepted",
+    "accepted_return": "Return accepted",
+    "refused": "Refused"
+  },
+  "empty": {
+    "title": "No requests",
+    "description": "When a customer asks for a return or an exchange from their tracking link, it shows up here."
+  }
+}

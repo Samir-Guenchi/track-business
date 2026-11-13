@@ -1,15 +1,17 @@
 import {
   DeliveryTypeSchema,
+  LocationSourceSchema,
   type Order,
   OrderSourceSchema,
   OrderStatusSchema,
+  type RiskFlag,
 } from '@trackecom/contracts';
 import type {
   Order as OrderRow,
   OrderItem as OrderItemRow,
   Prisma,
 } from '../../../generated/prisma/client.js';
-import type { OrderRecord } from '../domain/order.js';
+import type { LocationPinRecord, OrderRecord } from '../domain/order.js';
 
 export type OrderRowWithItems = OrderRow & { items: OrderItemRow[] };
 
@@ -26,6 +28,41 @@ const customerOf = (row: OrderRow) => ({
   wilayaCode: row.wilayaCode,
   communeId: row.communeId,
   address: row.address,
+  landmark: row.landmark,
+  location: pinOf(row),
+});
+
+function pinOf(row: OrderRow): LocationPinRecord | null {
+  const { locationLat: lat, locationLng: lng, locationSetAt: setAt } = row;
+  if (lat === null || lng === null || setAt === null) return null;
+  const source = LocationSourceSchema.parse(row.locationSource);
+  return { lat, lng, accuracyM: row.locationAccuracyM, source, setAt };
+}
+
+const NO_PIN = {
+  locationLat: null,
+  locationLng: null,
+  locationAccuracyM: null,
+  locationSource: null,
+  locationSetAt: null,
+};
+
+const pinColumns = (pin: LocationPinRecord | null) =>
+  pin
+    ? {
+        locationLat: pin.lat,
+        locationLng: pin.lng,
+        locationAccuracyM: pin.accuracyM,
+        locationSource: pin.source,
+        locationSetAt: pin.setAt,
+      }
+    : NO_PIN;
+
+const customerDto = (customer: OrderRecord['customer']): Order['customer'] => ({
+  ...customer,
+  location: customer.location
+    ? { ...customer.location, setAt: customer.location.setAt.toISOString() }
+    : null,
 });
 
 const lineOf = ({ id, productId, name, sku, quantity, unitPrice, lineTotal }: OrderItemRow) => ({
@@ -60,6 +97,8 @@ export function toRecord(row: OrderRowWithItems): OrderRecord {
     carrier: row.carrier,
     trackingNumber: row.trackingNumber,
     possibleDuplicateOfId: row.possibleDuplicateOfId,
+    riskFlags: row.riskFlags as RiskFlag[],
+    exchangeCollect: row.exchangeCollect,
     itemsFingerprint: row.itemsFingerprint,
     postponedUntil: row.postponedUntil,
     statusChangedAt: row.statusChangedAt,
@@ -79,6 +118,8 @@ export function toColumns(order: OrderRecord) {
     wilayaCode: order.customer.wilayaCode,
     communeId: order.customer.communeId,
     address: order.customer.address,
+    landmark: order.customer.landmark,
+    ...pinColumns(order.customer.location),
     deliveryType: order.deliveryType,
     stopDeskId: order.stopDeskId,
     subtotal: order.subtotal,
@@ -90,6 +131,7 @@ export function toColumns(order: OrderRecord) {
     assignedAgentId: order.assignedAgentId,
     carrier: order.carrier,
     trackingNumber: order.trackingNumber,
+    exchangeCollect: order.exchangeCollect,
     itemsFingerprint: order.itemsFingerprint,
     searchText: searchTextOf(order),
     postponedUntil: order.postponedUntil,
@@ -103,6 +145,11 @@ export function toItemRows(order: OrderRecord): Prisma.OrderItemCreateManyInput[
   return order.items.map((item, position) => ({ ...item, orderId: order.id, position }));
 }
 
+const exchangeOf = ({ source, externalRef, exchangeCollect }: OrderRecord): Order['exchange'] =>
+  source === 'exchange' && externalRef && exchangeCollect
+    ? { ofOrderId: externalRef, collect: exchangeCollect }
+    : null;
+
 /** API shape (contracts OrderSchema). */
 export function toOrderDto(order: OrderRecord): Order {
   return {
@@ -111,7 +158,7 @@ export function toOrderDto(order: OrderRecord): Order {
     status: order.status,
     source: order.source,
     externalRef: order.externalRef,
-    customer: order.customer,
+    customer: customerDto(order.customer),
     items: order.items.map((item) => ({ ...item })),
     deliveryType: order.deliveryType,
     stopDeskId: order.stopDeskId,
@@ -125,6 +172,8 @@ export function toOrderDto(order: OrderRecord): Order {
     carrier: order.carrier,
     trackingNumber: order.trackingNumber,
     possibleDuplicateOfId: order.possibleDuplicateOfId,
+    riskFlags: [...order.riskFlags],
+    exchange: exchangeOf(order),
     postponedUntil: order.postponedUntil?.toISOString() ?? null,
     statusChangedAt: order.statusChangedAt.toISOString(),
     createdAt: order.createdAt.toISOString(),

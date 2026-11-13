@@ -1,0 +1,58 @@
+// Embeddable COD order forms (#134). Customers order through the public key; the store id stays private.
+
+model OrderForm {
+  id            String   @id @db.Uuid
+  storeId       String   @map("store_id") @db.Uuid
+  /// Random public key in the embed snippet; the only thing a landing page knows.
+  key           String   @unique
+  name          String
+  title         String
+  /// FormProduct[] from the contracts.
+  products      Json
+  deliveryTypes String[] @map("delivery_types")
+  maxQuantity   Int      @map("max_quantity")
+  accent        String
+  enabled       Boolean  @default(true)
+  createdAt     DateTime @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime @map("updated_at") @db.Timestamptz(3)
+
+  @@index([storeId, createdAt])
+  @@map("order_forms")
+}
+
+/// Every attempt on a public form, accepted or not: rate limits, duplicates and ad analytics.
+model FormSubmission {
+  id          String   @id @db.Uuid
+  formId      String   @map("form_id") @db.Uuid
+  storeId     String   @map("store_id") @db.Uuid
+  /// Set when the attempt became an order.
+  orderId     String?  @map("order_id") @db.Uuid
+  /// created, duplicate, rate_limited or spam.
+  outcome     String
+  phone       String
+  productId   String   @map("product_id")
+  /// SHA-256 of the caller's address: enough to count, not to locate anyone.
+  ipHash      String   @map("ip_hash")
+  utmSource   String?  @map("utm_source")
+  utmMedium   String?  @map("utm_medium")
+  utmCampaign String?  @map("utm_campaign")
+  utmContent  String?  @map("utm_content")
+  utmTerm     String?  @map("utm_term")
+  createdAt   DateTime @map("created_at") @db.Timestamptz(3)
+
+  @@index([ipHash, createdAt])
+  @@index([storeId, phone, createdAt])
+  @@index([formId, createdAt])
+  @@map("form_submissions")
+}
+
+/// Per-store anti-spam limits (#134); no row means the platform defaults.
+model OrderFormLimits {
+  storeId              String   @id @map("store_id") @db.Uuid
+  perIpPerHour         Int      @map("per_ip_per_hour")
+  perPhonePerHour      Int      @map("per_phone_per_hour")
+  duplicateWindowHours Int      @map("duplicate_window_hours")
+  updatedAt            DateTime @map("updated_at") @db.Timestamptz(3)
+
+  @@map("order_form_limits")
+}

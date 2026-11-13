@@ -1,0 +1,8 @@
+{
+  "title": "Créons votre boutique",
+  "description": "Le nom que verront vos clients sur la page de suivi. Vous pourrez le changer plus tard.",
+  "storeName": "Nom de la boutique",
+  "storeNameInvalid": "Entre 2 et 80 caractères.",
+  "submit": "Créer ma boutique",
+  "loading": "Chargement de votre espace…"
+}

@@ -1,0 +1,38 @@
+{
+  "title": "Did the courier really come?",
+  "question": "The courier reported that {reason}. Did the courier call you or come to your door?",
+  "notContacted": "No, nobody called or came",
+  "contacted": "Yes, the courier contacted me",
+  "thanks": {
+    "not_contacted": "Thank you. The seller now knows the courier did not reach you and will ask for a new delivery. You can also pick a day below.",
+    "contacted": "Thank you for your answer."
+  },
+  "error": "Your answer could not be saved. Please try again.",
+  "reason": {
+    "absent": "you were not there",
+    "no_answer": "you did not answer the phone",
+    "phone_off": "your phone was off",
+    "refused": "you refused the parcel",
+    "wrong_address": "the delivery failed",
+    "postponed_by_customer": "the delivery failed",
+    "other": "the delivery failed"
+  },
+  "seller": {
+    "description": "Failed deliveries where the customer told us, from the tracking page, that nobody called or came. Last {days} days.",
+    "rate": "{disputed} disputed of {answered} answers ({rate}%)",
+    "claimed": "The courier reported that {reason}; the customer says nobody came.",
+    "empty": {
+      "title": "No answers yet",
+      "description": "Customers answer on the tracking page after a failed attempt."
+    },
+    "reason": {
+      "absent": "the customer was absent",
+      "no_answer": "the customer did not answer",
+      "phone_off": "the customer's phone was off",
+      "refused": "the customer refused the parcel",
+      "wrong_address": "the delivery failed",
+      "postponed_by_customer": "the delivery failed",
+      "other": "the delivery failed"
+    }
+  }
+}

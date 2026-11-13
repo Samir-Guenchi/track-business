@@ -1,0 +1,118 @@
+{
+  "title": "Carrier claims",
+  "description": "Stuck parcels, returns that never came back or came back damaged: claim, follow the answer and compare your carriers.",
+  "tabs": {
+    "candidates": "To claim",
+    "claims": "Claims",
+    "scorecard": "Scorecard",
+    "disputed": "Disputed attempts",
+    "market": "Market"
+  },
+  "reason": {
+    "stuck": "Stuck",
+    "return_missing": "Return never received",
+    "damaged": "Damaged return",
+    "lost": "Lost"
+  },
+  "state": {
+    "open": "To send",
+    "submitted": "Sent",
+    "won": "Won",
+    "rejected": "Rejected"
+  },
+  "columns": {
+    "tracking": "Tracking",
+    "carrier": "Carrier",
+    "reason": "Reason",
+    "since": "Since",
+    "value": "Value",
+    "state": "State"
+  },
+  "candidatesEmpty": {
+    "title": "Nothing to claim",
+    "description": "No stuck, lost or damaged parcel right now."
+  },
+  "claimsEmpty": {
+    "title": "No claims",
+    "description": "Open a claim from the \"To claim\" tab."
+  },
+  "open": {
+    "button": "Claim",
+    "title": "Claim for {tracking}",
+    "description": "The declared value is suggested from the order subtotal.",
+    "reason": "Reason",
+    "value": "Declared value (DA)",
+    "note": "Details for the carrier (optional)",
+    "submit": "Open the claim",
+    "close": "Close"
+  },
+  "actions": {
+    "submitted": "Mark as sent",
+    "won": "Won",
+    "rejected": "Rejected",
+    "recovered": "Amount refunded (DA)",
+    "confirmWon": "Save",
+    "letter": "Letter"
+  },
+  "recovered": "{amount} refunded",
+  "letter": {
+    "title": "Claim letter",
+    "description": "Paste it in an e-mail to the carrier, or print it.",
+    "fr": "French",
+    "ar": "Arabic",
+    "copy": "Copy",
+    "copied": "Copied",
+    "print": "Print",
+    "close": "Close",
+    "label": "Letter text"
+  },
+  "scorecard": {
+    "window": "Period",
+    "days": "{count} days",
+    "storeWide": "All destinations",
+    "byWilaya": "By wilaya",
+    "unknownWilaya": "Unknown wilaya",
+    "thin": "Few parcels: figures are indicative",
+    "empty": {
+      "title": "No figures yet",
+      "description": "The scorecard shows up once your parcels are delivered or returned."
+    },
+    "columns": {
+      "carrier": "Carrier",
+      "parcels": "Parcels",
+      "rate": "Delivered",
+      "days": "Average time",
+      "damaged": "Damaged",
+      "lost": "Lost",
+      "claims": "Claims won",
+      "recovered": "Refunded"
+    },
+    "avgDays": "{days} d",
+    "claimsWon": "{won} / {total}"
+  },
+  "market": {
+    "hint": "Your delivery rate next to all other TrackEcom stores together. A market figure appears only when at least {stores} other stores and {parcels} parcels contribute; no store is ever named.",
+    "window": "Period",
+    "days": "{count} days",
+    "byWilaya": "Per wilaya",
+    "byCarrier": "Per carrier and wilaya",
+    "unknownWilaya": "Unknown wilaya",
+    "hidden": "Not enough data",
+    "parcels": "{count, plural, one {# parcel} other {# parcels}}",
+    "columns": {
+      "place": "Destination",
+      "own": "You",
+      "market": "Market",
+      "verdict": ""
+    },
+    "verdict": {
+      "below": "Below market",
+      "close": "Like the market",
+      "above": "Above market"
+    },
+    "empty": {
+      "title": "No delivered or returned parcels yet",
+      "description": "Figures appear once parcels are delivered or returned in this period."
+    }
+  }
+}

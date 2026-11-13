@@ -31,12 +31,15 @@ export class PrismaPricingRepository implements PricingRepository {
     return row?.price ?? null;
   }
 
-  async freeShippingFrom(storeId: string) {
+  async freeShippingRule(storeId: string) {
     const settings = await this.prisma.storeShippingSettings.findUnique({ where: { storeId } });
-    return settings?.freeShippingFrom ?? null;
+    return {
+      freeShippingFrom: settings?.freeShippingFrom ?? null,
+      freeShippingExcludedWilayas: settings?.freeShippingExcludedWilayas ?? [],
+    };
   }
 
-  async saveStorePrices({ storeId, items, freeShippingFrom }: StorePriceChanges) {
+  async saveStorePrices({ storeId, items, ...rule }: StorePriceChanges) {
     const upserts = items.map(({ wilayaCode, deliveryType: type, price }) =>
       this.prisma.storePrice.upsert({
         where: { storeId_wilayaCode_deliveryType: { storeId, wilayaCode, deliveryType: type } },
@@ -44,17 +47,25 @@ export class PrismaPricingRepository implements PricingRepository {
         update: { price },
       }),
     );
-    const settings =
-      freeShippingFrom === undefined
-        ? []
-        : [
-            this.prisma.storeShippingSettings.upsert({
-              where: { storeId },
-              create: { storeId, freeShippingFrom },
-              update: { freeShippingFrom },
-            }),
-          ];
-    await this.prisma.$transaction([...upserts, ...settings]);
+    await this.prisma.$transaction([...upserts, ...this.settingsUpsert(storeId, rule)]);
+  }
+
+  /** Only the rule fields the request carried change; nothing to write when it carried none. */
+  private settingsUpsert(storeId: string, rule: Omit<StorePriceChanges, 'storeId' | 'items'>) {
+    const data = {
+      ...(rule.freeShippingFrom === undefined ? {} : { freeShippingFrom: rule.freeShippingFrom }),
+      ...(rule.freeShippingExcludedWilayas === undefined
+        ? {}
+        : { freeShippingExcludedWilayas: [...new Set(rule.freeShippingExcludedWilayas)] }),
+    };
+    if (Object.keys(data).length === 0) return [];
+    return [
+      this.prisma.storeShippingSettings.upsert({
+        where: { storeId },
+        create: { storeId, ...data },
+        update: data,
+      }),
+    ];
   }
 
   async listRateCard(storeId: string, carrier: string): Promise<RateCardRow[]> {

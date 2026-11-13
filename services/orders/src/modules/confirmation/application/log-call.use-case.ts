@@ -1,12 +1,20 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CONFIRMATION_EVENTS, type LogCallRequest, ORDER_EVENTS } from '@trackecom/contracts';
+import {
+  CONFIRMATION_EVENTS,
+  type CallOutcome,
+  type LogCallRequest,
+  ORDER_EVENTS,
+  UNREACHED_OUTCOMES,
+} from '@trackecom/contracts';
 import { loadOrder, nextVersion } from '../../orders/application/load-order.js';
 import type { OrderActor } from '../../orders/application/order-actor.js';
 import { OrderChangeRecorder } from '../../orders/application/order-change.recorder.js';
 import { ORDERS_PORTS, type OrderRepository } from '../../orders/application/ports/orders.ports.js';
 import type { OrderRecord } from '../../orders/domain/order.js';
+import { retryAt } from '../domain/best-time.js';
 import { algiersDay, type CallPlan, planCall } from '../domain/call-plan.js';
 import { NotLockedError, OutcomeNotAllowedError } from '../domain/confirmation.errors.js';
+import { lookUpBestTime } from './best-time.lookup.js';
 import {
   type CallAttemptRecord,
   CONFIRMATION_REPOSITORY,
@@ -30,14 +38,19 @@ export class LogCallUseCase {
     const { unreachableAfter } = await this.repository.settings(actor.storeId);
     const callBackAt =
       'callBackAt' in request && request.callBackAt ? new Date(request.callBackAt) : null;
-    const plan = planCall({
+    const planned = planCall({
       ...state,
       status: before.status,
       outcome: request.outcome,
       unreachableAfter,
       callBackAt,
     });
-    if (!plan) throw new OutcomeNotAllowedError(before.status, request.outcome);
+    if (!planned) throw new OutcomeNotAllowedError(before.status, request.outcome);
+    const plan = await this.withBestRetry(planned, {
+      order: before,
+      outcome: request.outcome,
+      now,
+    });
     const attempt = this.attempt(actor, request, { callBackAt, at: now });
     const after = this.applyPlan(before, plan, now);
     await this.repository.recordCall({
@@ -54,6 +67,22 @@ export class LogCallUseCase {
     const held = state?.lockedBy === actor.userId && state.lockedUntil && state.lockedUntil > now;
     if (!state || !held) throw new NotLockedError();
     return state;
+  }
+
+  /**
+   * An unreached customer with no call-back time is tried again at their best hour (#54) when it
+   * is clearly better than now; otherwise the order goes straight back into the queue.
+   */
+  private async withBestRetry(
+    plan: CallPlan,
+    call: { order: OrderRecord; outcome: CallOutcome; now: Date },
+  ): Promise<CallPlan> {
+    const unreached = UNREACHED_OUTCOMES.includes(call.outcome);
+    if (!unreached || plan.status !== 'to_confirm' || plan.nextCallAt) return plan;
+    const { storeId, customer } = call.order;
+    const target = { storeId, phone: customer.phone, wilayaCode: customer.wilayaCode };
+    const best = await lookUpBestTime(this.repository, target, call.now);
+    return { ...plan, nextCallAt: retryAt(best, call.now) };
   }
 
   private applyPlan(before: OrderRecord, plan: CallPlan, now: Date): OrderRecord {

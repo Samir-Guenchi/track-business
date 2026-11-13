@@ -1,0 +1,30 @@
+{
+  "title": "Invoice",
+  "issue": "Issue the invoice",
+  "creditNote": "Cancel with a credit note",
+  "openLegal": "Complete the legal profile",
+  "kind": { "invoice": "Invoice", "credit_note": "Credit note" },
+  "print": {
+    "action": "Print",
+    "date": "Date:",
+    "order": "Order:",
+    "cancels": "Cancels invoice",
+    "nif": "NIF:",
+    "nis": "NIS:",
+    "rc": "RC:",
+    "card": "Auto-entrepreneur card:",
+    "article": "Article d'imposition:",
+    "customer": "Customer:",
+    "item": "Item",
+    "quantity": "Qty",
+    "unitPrice": "Unit price",
+    "total": "Total",
+    "shipping": "Delivery",
+    "discount": "Discount",
+    "beforeTax": "Total before tax",
+    "vat": "VAT {rate}%",
+    "totalDue": "Total incl. tax",
+    "noVat": "VAT not applicable (IFU).",
+    "paidCod": "Paid cash on delivery."
+  }
+}

@@ -1,20 +1,27 @@
-import type { DeliveryType, ShippingQuote, StorePrice } from '@trackecom/contracts';
+import {
+  type DeliveryType,
+  type FreeShippingRule,
+  type ShippingQuote,
+  type StorePrice,
+  freeShippingApplies,
+} from '@trackecom/contracts';
 
 export const DELIVERY_TYPES: readonly DeliveryType[] = ['home', 'stopdesk'];
 
 export interface QuoteInput {
   /** The store's selling price for this wilaya and delivery type; null or missing when not set. */
   readonly price: number | null | undefined;
-  readonly freeShippingFrom: number | null;
+  readonly rule: FreeShippingRule;
+  readonly wilayaCode: number;
   readonly subtotal: number;
 }
 
-/** The fee the customer pays: unavailable without a price, free once the subtotal reaches the rule. */
-export function quoteShipping({ price, freeShippingFrom, subtotal }: QuoteInput): ShippingQuote {
+/** The fee the customer pays: unavailable without a price, free when the store's rule applies. */
+export function quoteShipping({ price, rule, wilayaCode, subtotal }: QuoteInput): ShippingQuote {
   if (price === null || price === undefined) {
     return { available: false, fee: null, freeShippingApplied: false };
   }
-  const free = freeShippingFrom !== null && subtotal >= freeShippingFrom;
+  const free = freeShippingApplies(rule, { wilayaCode, subtotal });
   return { available: true, fee: free ? 0 : price, freeShippingApplied: free && price > 0 };
 }
 

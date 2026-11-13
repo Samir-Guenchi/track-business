@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { LogCallRequestSchema } from './call-attempt.schema.js';
 import { ConfirmationSettingsSchema } from './confirmation-settings.schema.js';
+import { SelfConfirmRequestSchema } from './self-confirm.schema.js';
 
 const orderId = '11111111-1111-4111-8111-111111111111';
 
@@ -36,5 +37,15 @@ describe('confirmation contract', () => {
       maxAttemptsPerDay: 3,
       unreachableAfter: 6,
     });
+  });
+});
+
+describe('self-confirmation contract', () => {
+  it('accepts the three customer answers and nothing else', () => {
+    expect(SelfConfirmRequestSchema.parse({ action: 'confirm' })).toEqual({ action: 'confirm' });
+    const fix = { action: 'change_address', wilayaCode: 16, communeId: 1601, address: 'Rue 1' };
+    expect(SelfConfirmRequestSchema.parse(fix)).toEqual(fix);
+    expect(SelfConfirmRequestSchema.safeParse({ action: 'change_address' }).success).toBe(false);
+    expect(SelfConfirmRequestSchema.safeParse({ action: 'ship' }).success).toBe(false);
   });
 });

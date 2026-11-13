@@ -1,0 +1,26 @@
+// Customer return and exchange requests from the tracking page (#201). Tenant data.
+
+/// One request per parcel, decided once by the seller.
+model ReturnRequest {
+  id            String    @id @db.Uuid
+  storeId       String    @map("store_id") @db.Uuid
+  /// Unique: a parcel gets at most one request.
+  shipmentId    String    @unique @map("shipment_id") @db.Uuid
+  orderId       String    @map("order_id") @db.Uuid
+  /// exchange or return.
+  kind          String
+  /// ReturnRequestReason.
+  reason        String
+  wanted        String?
+  note          String?
+  /// pending, accepted_exchange, accepted_return or refused.
+  state         String
+  sellerMessage String?   @map("seller_message")
+  /// The exchange order created by the seller (#138).
+  newOrderId    String?   @map("new_order_id") @db.Uuid
+  createdAt     DateTime  @map("created_at") @db.Timestamptz(3)
+  decidedAt     DateTime? @map("decided_at") @db.Timestamptz(3)
+
+  @@index([storeId, state, createdAt])
+  @@map("return_requests")
+}

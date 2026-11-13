@@ -1,0 +1,8 @@
+{
+  "title": "Let's create your store",
+  "description": "The name your customers will see on the tracking page. You can change it later.",
+  "storeName": "Store name",
+  "storeNameInvalid": "Between 2 and 80 characters.",
+  "submit": "Create my store",
+  "loading": "Loading your workspace…"
+}

@@ -1,0 +1,11 @@
+// Where each store ships from (#160), copied from identity's store profile event.
+
+model StoreOrigin {
+  storeId          String   @id @map("store_id") @db.Uuid
+  originWilayaCode Int?     @map("origin_wilaya_code")
+  originCommuneId  Int?     @map("origin_commune_id")
+  /// When identity published the profile; an older event never overwrites a newer one.
+  updatedAt        DateTime @map("updated_at") @db.Timestamptz(3)
+
+  @@map("store_origins")
+}

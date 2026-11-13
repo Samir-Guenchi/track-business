@@ -24,6 +24,8 @@ export interface ServiceAppOptions {
  * CORS allowlist, rate limit, JSON logs, one error format, graceful shutdown.
  * Shared by `main.ts` and the HTTP tests so tests exercise the real setup.
  */
+const CORS_METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'];
+
 export async function createServiceApp(
   options: ServiceAppOptions,
 ): Promise<NestFastifyApplication> {
@@ -38,12 +40,16 @@ export async function createServiceApp(
   });
   const app = await NestFactory.create<NestFastifyApplication>(options.module, adapter, {
     bufferLogs: true,
+    // Kept next to the parsed body so webhook receivers can check signatures over exact bytes.
+    rawBody: true,
   });
   app.useLogger(app.get(Logger));
   await app.register(helmet);
   await app.register(cookie);
   await app.register(rateLimit, { max: env.RATE_LIMIT_PER_MINUTE, timeWindow: '1 minute' });
-  app.enableCors({ origin: env.CORS_ORIGINS, credentials: true });
+  // @fastify/cors only allows GET, HEAD and POST unless told otherwise; the web app also edits
+  // (PUT, PATCH) and removes (DELETE), so the preflight must allow them.
+  app.enableCors({ origin: env.CORS_ORIGINS, credentials: true, methods: CORS_METHODS });
   const reporter = initErrorReporting({
     dsn: env.SENTRY_DSN,
     service: options.service ?? 'service',

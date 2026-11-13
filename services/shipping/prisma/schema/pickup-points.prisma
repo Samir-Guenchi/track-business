@@ -1,0 +1,44 @@
+// Partner pickup points in local shops (#202). Tenant data: each store registers its partners.
+
+model PickupPoint {
+  id           String          @id @db.Uuid
+  storeId      String          @map("store_id") @db.Uuid
+  name         String
+  wilayaCode   Int             @map("wilaya_code")
+  communeId    Int             @map("commune_id")
+  address      String
+  /// E.164.
+  phone        String
+  hours        String
+  lat          Float?
+  lng          Float?
+  capacity     Int
+  /// Dinars paid to the shop per released parcel.
+  feePerParcel Int             @map("fee_per_parcel")
+  active       Boolean
+  createdAt    DateTime        @map("created_at") @db.Timestamptz(3)
+  parcels      PickupParcel[]
+
+  @@index([storeId, communeId])
+  @@map("pickup_points")
+}
+
+/// A parcel at a point: held until the customer's code releases it.
+model PickupParcel {
+  shipmentId     String      @id @map("shipment_id") @db.Uuid
+  storeId        String      @map("store_id") @db.Uuid
+  pointId        String      @map("point_id") @db.Uuid
+  point          PickupPoint @relation(fields: [pointId], references: [id])
+  /// Six digits, shown only on the customer's tracking page.
+  code           String
+  failedAttempts Int         @default(0) @map("failed_attempts")
+  /// The point's fee when the parcel arrived.
+  fee            Int
+  droppedAt      DateTime    @map("dropped_at") @db.Timestamptz(3)
+  releasedAt     DateTime?   @map("released_at") @db.Timestamptz(3)
+  cashCollected  Int?        @map("cash_collected")
+  handedOverAt   DateTime?   @map("handed_over_at") @db.Timestamptz(3)
+
+  @@index([pointId, releasedAt])
+  @@map("pickup_parcels")
+}

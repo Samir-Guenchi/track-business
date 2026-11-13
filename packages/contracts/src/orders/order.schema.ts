@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { RiskFlagSchema } from '../fraud/risk.schema.js';
 import { CustomerInputSchema, CustomerSchema } from './customer.schema.js';
 import { OrderStatusSchema } from './order-status.js';
 
@@ -17,6 +18,12 @@ export const OrderSourceSchema = z.enum([
   'youcan',
   'social',
   'api',
+  /** The embeddable COD order form (#134). */
+  'form',
+  /** A size or colour swap of a delivered order (#138); `externalRef` is the original order id. */
+  'exchange',
+  /** Sent by a reseller from their portal link (#198); the margin lives in the resellers module. */
+  'reseller',
 ]);
 export type OrderSource = z.infer<typeof OrderSourceSchema>;
 
@@ -103,6 +110,10 @@ export const OrderSchema = z.strictObject({
   trackingNumber: z.string().nullable(),
   /** Another order with the same phone and items in the previous 48 h, if any. */
   possibleDuplicateOfId: z.string().nullable(),
+  /** Fake-order and blacklist signals found when the order came in (#52); empty when clean. */
+  riskFlags: z.array(RiskFlagSchema),
+  /** Set on an exchange (#138): the order it replaces and what the courier takes back. */
+  exchange: z.strictObject({ ofOrderId: z.string(), collect: z.string() }).nullable(),
   postponedUntil: z.iso.datetime().nullable(),
   statusChangedAt: z.iso.datetime(),
   createdAt: z.iso.datetime(),

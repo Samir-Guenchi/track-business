@@ -1,0 +1,8 @@
+{
+  "legend": "Choose your stop-desk",
+  "empty": "No known stop-desk here yet: the seller will call you to pick one.",
+  "openMap": "Open in maps",
+  "nearMe": "Near me",
+  "locating": "Locating...",
+  "mapTitle": "Map of {name}"
+}

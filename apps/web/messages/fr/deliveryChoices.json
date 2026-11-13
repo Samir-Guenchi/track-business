@@ -1,0 +1,43 @@
+{
+  "title": "Pas disponible ce jour-là ?",
+  "kinds": {
+    "reschedule": "Choisir un autre jour",
+    "switch_stopdesk": "Retirer au stop-desk",
+    "fix_address": "Corriger mon adresse",
+    "call_after": "M'appeler après une heure"
+  },
+  "fields": {
+    "date": "Jour de livraison",
+    "time": "Appelez-moi après",
+    "address": "Adresse complète",
+    "landmark": "Repère (en face de, derrière...)"
+  },
+  "stopDesk": {
+    "cheaper": "Vous payez {amount} de moins au stop-desk.",
+    "dearer": "Le stop-desk coûte {amount} de plus.",
+    "samePrice": "Même prix qu'à domicile.",
+    "priceUnknown": "Le vendeur vous confirmera le prix."
+  },
+  "send": "Envoyer au vendeur",
+  "sent": "Demande envoyée. Le vendeur la transmet au livreur.",
+  "limitReached": "Vous avez fait le maximum de demandes pour aujourd'hui.",
+  "yourRequests": "Vos demandes",
+  "state": {
+    "pending": "En attente",
+    "sent": "Transmise au livreur",
+    "dismissed": "Non retenue"
+  },
+  "summary": {
+    "reschedule": "Livraison le {day}",
+    "call_after": "Appel après {time}",
+    "fix_address": "Nouvelle adresse : {address}",
+    "switch_stopdesk": "Retrait au stop-desk"
+  },
+  "errors": {
+    "too_many": "Trop de demandes aujourd'hui pour ce colis.",
+    "closed": "Le colis est déjà en route vers vous : appelez le livreur.",
+    "bad_date": "Choisissez un jour entre demain et la semaine prochaine.",
+    "not_offered": "Ce choix n'est pas possible pour ce colis.",
+    "generic": "Envoi impossible, réessayez."
+  }
+}

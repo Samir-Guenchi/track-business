@@ -1,0 +1,45 @@
+{
+  "title": "Live selling",
+  "description": "Show a code for each product during your TikTok or Facebook live. Paste the comments here: each code and phone becomes one reservation, repeats are ignored.",
+  "listLabel": "Your lives",
+  "counts": "{reservations, plural, one {# reservation} other {# reservations}}, {ordered} ordered",
+  "empty": {
+    "title": "No live yet",
+    "description": "Start one above before you go live."
+  },
+  "new": {
+    "title": "Start a live",
+    "sessionTitle": "Live name",
+    "sessionPlaceholder": "e.g. Friday evening dresses",
+    "code": "Code",
+    "product": "Product",
+    "price": "Price (DA)",
+    "remove": "Remove",
+    "addProduct": "Add a product",
+    "start": "Start the live"
+  },
+  "session": {
+    "codes": "Codes to show on screen",
+    "commentsLabel": "Paste the live comments",
+    "commentsPlaceholder": "One comment per line, e.g. Amina: A1 L 0555 12 34 56",
+    "read": "Read the comments",
+    "readResult": "{added, plural, one {# new reservation} other {# new reservations}}, {duplicates} repeated",
+    "unread": "Check these comments (code or phone missing):",
+    "summary": "{reservations, plural, one {# reservation} other {# reservations}}, {ordered} with an order",
+    "reservations": "Reservations",
+    "openOrder": "Open the order",
+    "createOrder": "Create the order",
+    "columns": {
+      "code": "Code",
+      "product": "Product",
+      "size": "Size",
+      "quantity": "Qty",
+      "customer": "Customer",
+      "order": "Order"
+    },
+    "empty": {
+      "title": "No reservations yet",
+      "description": "Paste comments above while or after the live."
+    }
+  }
+}

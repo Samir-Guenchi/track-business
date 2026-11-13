@@ -1,3 +1,4 @@
+import type { CredentialField } from '@trackecom/contracts';
 import type {
   CarrierContext,
   CarrierLabel,
@@ -17,6 +18,8 @@ export interface CarrierCapabilities {
   readonly rates: boolean;
   /** Can find a parcel by our reference, which makes create safe to retry. */
   readonly findByReference: boolean;
+  /** Delivers and takes items back in one trip ("échange", #138). */
+  readonly exchanges: boolean;
 }
 
 /**
@@ -26,6 +29,10 @@ export interface CarrierCapabilities {
  */
 export interface CarrierAdapter {
   readonly code: string;
+  /** Display name, e.g. "Yalidine". */
+  readonly name: string;
+  /** What the seller types to connect their account; keys of CarrierContext.credentials. */
+  readonly credentialFields: readonly CredentialField[];
   readonly capabilities: CarrierCapabilities;
 
   validateCredentials(ctx: CarrierContext): Promise<boolean>;

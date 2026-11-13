@@ -1,3 +1,4 @@
+import type { HourlyAttempts } from '../../domain/best-time.js';
 import type { CallOutcome, ConfirmationSettings } from '@trackecom/contracts';
 import type { OrderEffects } from '../../../orders/application/ports/orders.ports.js';
 import type { OrderRecord } from '../../../orders/domain/order.js';
@@ -56,4 +57,13 @@ export interface ConfirmationRepository {
   attempts(storeId: string, orderId: string, limit: number): Promise<CallAttemptRecord[]>;
   /** Order change, attempt, queue fields, audit and events in one transaction (version-checked). */
   recordCall(call: RecordedCall): Promise<void>;
+  /** The store's calls since `since`, per Algiers hour, for one customer, one wilaya or all. */
+  answerStats(query: AnswerStatsQuery): Promise<HourlyAttempts[]>;
+}
+
+export interface AnswerStatsQuery {
+  readonly storeId: string;
+  readonly since: Date;
+  readonly phone?: string;
+  readonly wilayaCode?: number;
 }

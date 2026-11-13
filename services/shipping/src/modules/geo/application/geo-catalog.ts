@@ -1,11 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { Commune, Wilaya } from '@trackecom/contracts';
+import type { Commune, LocatePlacesResponse, Wilaya } from '@trackecom/contracts';
 import { DomainError } from '@trackecom/service-kit';
 import {
   type CommuneMatch,
   CommuneSearchIndex,
   type SearchOptions,
 } from '../domain/commune-search-index.js';
+import { locatePlaces } from '../domain/place-locator.js';
+import { WilayaNameIndex } from '../domain/wilaya-name-index.js';
 import { GEO_REFERENCE_READER, type GeoReferenceReader } from './ports/geo-reference.reader.js';
 
 export const GEO_CACHE_TTL_MS = 60 * 60 * 1000;
@@ -22,6 +24,7 @@ interface Snapshot {
   readonly wilayas: readonly Wilaya[];
   readonly communesByWilaya: ReadonlyMap<number, readonly Commune[]>;
   readonly index: CommuneSearchIndex;
+  readonly wilayaIndex: WilayaNameIndex;
 }
 
 function groupByWilaya(communes: readonly Commune[]): Map<number, Commune[]> {
@@ -57,8 +60,25 @@ export class GeoCatalog {
     return snapshot.communesByWilaya.get(wilayaCode) ?? [];
   }
 
+  /** null when the code is not a current wilaya. */
+  async wilaya(code: number): Promise<Wilaya | null> {
+    return (await this.current()).wilayas.find((wilaya) => wilaya.code === code) ?? null;
+  }
+
+  /** null when the commune is not in that wilaya. */
+  async commune(wilayaCode: number, communeId: number): Promise<Commune | null> {
+    const communes = (await this.current()).communesByWilaya.get(wilayaCode) ?? [];
+    return communes.find((commune) => commune.id === communeId) ?? null;
+  }
+
   async search(query: string, options: SearchOptions): Promise<CommuneMatch[]> {
     return (await this.current()).index.search(query, options);
+  }
+
+  /** The wilaya and commune a pasted message names (#193). */
+  async locate(text: string): Promise<LocatePlacesResponse> {
+    const snapshot = await this.current();
+    return locatePlaces(text, { wilayas: snapshot.wilayaIndex, communes: snapshot.index });
   }
 
   private async current(): Promise<Snapshot> {
@@ -79,6 +99,7 @@ export class GeoCatalog {
       wilayas,
       communesByWilaya: groupByWilaya(communes),
       index: new CommuneSearchIndex(searchable),
+      wilayaIndex: new WilayaNameIndex(wilayas),
     };
   }
 }

@@ -70,6 +70,8 @@ BRAND.md           Logo usage, colours and typography
 ROADMAP.md         Product roadmap by phase
 docs/KICKOFF.md    Team kickoff (Arabic): vision, added value, who does what, Git rules, first tasks
 docs/adr/          Architecture decision records
+docs/srs/          Software requirements specification (what the system must do, with status per requirement)
+docs/architecture/ Mermaid diagrams of the architecture: services, events, sequences, data, deployment
 docs/PARALLEL_PLAN.md  Issue dependencies and rules to avoid merge conflicts
 docs/WORKFLOW.md   Branching, review and project board rules
 .github/           CODEOWNERS, PR and issue templates, labels, workflows
@@ -89,12 +91,28 @@ The mark is a hand-inked **T** whose stem is a delivery route: solid where the p
 
 Requirements: Node.js 24 (`nvm use`) and pnpm 10 (`corepack enable`).
 
+Requirements: Docker (Docker Desktop on macOS/Windows with WSL 2, or Docker Engine on Linux) for the local databases.
+
 ```bash
 pnpm install
-cp services/gateway/.env.example services/gateway/.env
-cp apps/web/.env.example apps/web/.env.local
+pnpm env:init   # copies every .env.example to .env (web: .env.local), never overwrites
+pnpm db:up      # Postgres 16, Redis 7 and Mailpit, waits until healthy
+pnpm db:migrate # applies every service's migrations
+pnpm db:seed    # 69 wilayas and their communes
 pnpm dev        # web on http://localhost:3000, gateway on http://localhost:4000/health/live
 ```
+
+Local infrastructure (`docker-compose.yml`, development only):
+
+| Service | Port | Notes |
+|---|---|---|
+| PostgreSQL 16 | 5432 | One database and one owner per service (`orders`/`orders`, `shipping`/`shipping`...), superuser `postgres`/`postgres` |
+| Redis 7 | 6379 | Event streams, queues and caches |
+| Mailpit | 1025 (SMTP), 8025 (inbox) | Catches every email: open http://localhost:8025 |
+| pgAdmin (optional) | 5050 | `docker compose --profile tools up -d pgadmin` |
+
+`pnpm db:reset` wipes the volumes and runs up, migrate and seed again. `pnpm db:down` stops everything and keeps the data.
+Images: `docker/service.Dockerfile` (any service, `--build-arg SERVICE=orders`) and `docker/web.Dockerfile`, both multi-stage and running as the non-root `node` user.
 
 | Command | What it does |
 |---|---|
@@ -112,6 +130,7 @@ services/gateway     Public API entry point (NestJS + Fastify)
 packages/contracts   zod schemas shared by services and apps
 packages/events      EventBus port + in-memory bus (Redis Streams adapter in #12)
 packages/carriers    CarrierAdapter port + registry
+packages/connectors  StoreConnector port + registry (shop integrations)
 packages/ui          Design system (#14)
 packages/config      Shared tsconfig and ESLint
 ```

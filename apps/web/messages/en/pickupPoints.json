@@ -1,0 +1,70 @@
+{
+  "title": "Pickup points",
+  "description": "Local shops that hold your parcels for customers far from a carrier desk. The customer collects with the code on their tracking page and pays the shop, which hands the cash over to you.",
+  "add": "Add a shop",
+  "edit": "Edit",
+  "active": "Active",
+  "inactive": "Paused",
+  "holding": "{holding} of {capacity} parcels waiting",
+  "cashToCollect": "Cash to collect: {amount, number} DA",
+  "handover": "Cash received",
+  "handedOver": "{parcels, plural, one {# parcel} other {# parcels}}, {amount, number} DA received",
+  "empty": {
+    "title": "No pickup points yet",
+    "description": "Add a superette, taxiphone or bookshop that agrees to hold parcels for your customers."
+  },
+  "form": {
+    "name": "Shop name",
+    "phone": "Shop phone",
+    "wilaya": "Wilaya",
+    "commune": "Commune",
+    "choose": "Choose",
+    "address": "Address",
+    "hours": "Opening hours",
+    "capacity": "Parcels it can hold",
+    "feePerParcel": "Fee per parcel (DA)",
+    "active": "Takes parcels now",
+    "fix": "Check this field",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "drop": {
+    "label": "Parcel left at the shop",
+    "hint": "Tracking number on the label",
+    "submit": "Record",
+    "done": "Recorded. The customer now sees the shop and their code."
+  },
+  "held": {
+    "label": "Parcels waiting",
+    "empty": "No parcel waiting.",
+    "since": "since {date}"
+  },
+  "release": {
+    "code": "Customer code",
+    "cash": "Cash taken (DA)",
+    "submit": "Hand over"
+  },
+  "statement": {
+    "released": "Collected this month",
+    "fees": "Fees owed to the shop",
+    "cashCollected": "Cash taken",
+    "cashHandedOver": "Cash received",
+    "dinars": "{amount, number} DA"
+  },
+  "errors": {
+    "not_found": "This pickup point no longer exists.",
+    "parcel_not_found": "No parcel of yours has this tracking number.",
+    "drop_refused": "This parcel cannot go to this shop: it is full or paused, the parcel is already at a shop, or it is delivered or returned.",
+    "already_released": "This parcel was already handed to the customer.",
+    "wrong_code": "Wrong code. Ask the customer to read the code on their tracking page.",
+    "locked": "Too many wrong codes. The parcel is locked; call the customer."
+  },
+  "tracking": {
+    "title": "Collect your parcel at this shop",
+    "collected": "Collected at",
+    "hours": "Open: {hours}",
+    "map": "See on the map",
+    "codeLabel": "Your pickup code",
+    "codeHint": "Give this code at the shop. Never share it with someone who calls you."
+  }
+}

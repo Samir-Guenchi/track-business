@@ -1,0 +1,19 @@
+{
+  "title": "Demandes des clients",
+  "description": "Ce que vos clients ont demandé depuis leur lien de suivi. Transmettez-les au livreur, puis marquez-les.",
+  "orderCard": "Demandes du client",
+  "markSent": "Transmise",
+  "dismiss": "Ignorer",
+  "copy": "Copier pour le livreur",
+  "copied": "Copié",
+  "count": "{count, plural, one {# demande} other {# demandes}}",
+  "state": {
+    "pending": "En attente",
+    "sent": "Transmise au livreur",
+    "dismissed": "Ignorée"
+  },
+  "empty": {
+    "title": "Aucune demande en attente",
+    "description": "Les demandes de vos clients apparaîtront ici."
+  }
+}

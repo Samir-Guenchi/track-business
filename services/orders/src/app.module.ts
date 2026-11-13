@@ -11,12 +11,51 @@ import { InfrastructureModule } from './infrastructure/infrastructure.module.js'
 import { PrismaService } from './infrastructure/prisma/prisma.service.js';
 import { redisRoleCache } from './infrastructure/redis/redis-role-cache.js';
 import { RedisService } from './infrastructure/redis/redis.service.js';
+import { orderFormsOpenApiPaths } from './modules/order-forms/interface/order-forms.openapi.js';
+import { OrderFormsModule } from './modules/order-forms/order-forms.module.js';
+import { DeliveryRequestsModule } from './modules/delivery-requests/delivery-requests.module.js';
+import { DeliveryFollowupModule } from './modules/delivery-followup/delivery-followup.module.js';
+import { followupsOpenApiPaths } from './modules/delivery-followup/interface/followups.openapi.js';
 import { ConfirmationModule } from './modules/confirmation/confirmation.module.js';
 import { confirmationOpenApiPaths } from './modules/confirmation/interface/confirmation.openapi.js';
+import { fraudOpenApiPaths } from './modules/fraud/interface/fraud.openapi.js';
+import { ExchangesModule } from './modules/exchanges/exchanges.module.js';
+import { exchangeOpenApiPaths } from './modules/exchanges/interface/exchange.openapi.js';
 import { ordersOpenApiPaths } from './modules/orders/interface/orders.openapi.js';
+import { InvoicesModule } from './modules/invoices/invoices.module.js';
 import { OrdersModule } from './modules/orders/orders.module.js';
+import { riskScoreOpenApiPaths } from './modules/risk-score/interface/risk-score.openapi.js';
+import { RiskScoreModule } from './modules/risk-score/risk-score.module.js';
+import { selfConfirmOpenApiPaths } from './modules/self-confirm/interface/self-confirm.openapi.js';
+import { SelfConfirmModule } from './modules/self-confirm/self-confirm.module.js';
+import { ShipmentStatusModule } from './modules/shipment-status/shipment-status.module.js';
+import { ShopImportModule } from './modules/shop-import/shop-import.module.js';
+import { smartPasteOpenApiPaths } from './modules/smart-paste/interface/smart-paste.openapi.js';
+import { SmartPasteModule } from './modules/smart-paste/smart-paste.module.js';
+import { liveSellingOpenApiPaths } from './modules/live-selling/interface/live-selling.openapi.js';
+import { LiveSellingModule } from './modules/live-selling/live-selling.module.js';
+import { resellersOpenApiPaths } from './modules/resellers/interface/resellers.openapi.js';
+import { ResellersModule } from './modules/resellers/resellers.module.js';
 
 export const SERVICE_NAME = 'orders';
+
+const OPEN_API = {
+  title: 'TrackEcom orders',
+  version: '0.1.0',
+  paths: {
+    ...ordersOpenApiPaths,
+    ...confirmationOpenApiPaths,
+    ...fraudOpenApiPaths,
+    ...riskScoreOpenApiPaths,
+    ...selfConfirmOpenApiPaths,
+    ...followupsOpenApiPaths,
+    ...orderFormsOpenApiPaths,
+    ...exchangeOpenApiPaths,
+    ...smartPasteOpenApiPaths,
+    ...liveSellingOpenApiPaths,
+    ...resellersOpenApiPaths,
+  },
+};
 
 /** Root module. Each feature module (orders #22, confirmation #28...) is one import. */
 @Module({})
@@ -35,17 +74,25 @@ export class AppModule {
             { name: 'redis', isHealthy: () => probe(() => redis.ping()) },
           ],
         }),
-        OpenApiModule.forRoot({
-          title: 'TrackEcom orders',
-          version: '0.1.0',
-          paths: { ...ordersOpenApiPaths, ...confirmationOpenApiPaths },
-        }),
+        OpenApiModule.forRoot(OPEN_API),
         StoreAccessModule.forRoot({
           options: { identityUrl: env.IDENTITY_URL, roleCacheSeconds: env.ROLE_CACHE_SECONDS },
           cache: redisRoleCache,
         }),
         OrdersModule,
+        InvoicesModule,
         ConfirmationModule,
+        ShipmentStatusModule,
+        RiskScoreModule,
+        SelfConfirmModule,
+        ShopImportModule,
+        DeliveryFollowupModule,
+        DeliveryRequestsModule,
+        OrderFormsModule,
+        ExchangesModule,
+        SmartPasteModule,
+        LiveSellingModule,
+        ResellersModule,
       ],
     };
   }

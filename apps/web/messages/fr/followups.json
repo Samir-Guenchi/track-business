@@ -1,0 +1,50 @@
+{
+  "title": "Échecs de livraison",
+  "subtitle": "Colis que le livreur n'a pas pu remettre. Décidez avant sa prochaine tournée, sinon ils reviennent en retour.",
+  "status": {
+    "open": "À décider",
+    "decided": "Décidés",
+    "closed": "Clos"
+  },
+  "reason": {
+    "absent": "Client absent",
+    "refused": "Refusé",
+    "wrong_address": "Mauvaise adresse",
+    "phone_off": "Téléphone éteint",
+    "no_answer": "Pas de réponse",
+    "postponed_by_customer": "Reporté par le client",
+    "other": "Autre"
+  },
+  "allReasons": "Tous les motifs",
+  "overdue": "En retard seulement",
+  "attempts": "{count, plural, one {# tentative} other {# tentatives}}",
+  "due": "À décider avant {time}",
+  "overdueBadge": "En retard",
+  "decision": {
+    "reattempt": "Nouvelle tentative",
+    "switch_to_stopdesk": "Passer en stop-desk",
+    "return": "Retour"
+  },
+  "decided": "Décision : {decision}",
+  "outcome": {
+    "delivered": "Livré après relance",
+    "returned": "Retourné"
+  },
+  "stopDesk": "Code du stop-desk",
+  "confirmStopDesk": "Valider",
+  "cancel": "Annuler",
+  "saved": "Décision enregistrée pour {ref}.",
+  "empty": "Rien à décider. Les échecs de livraison apparaissent ici dès que le livreur les signale.",
+  "more": "Voir plus",
+  "metrics": "Récupération par transporteur",
+  "metricsEmpty": "Aucun échec de livraison pour l'instant.",
+  "columns": {
+    "carrier": "Transporteur",
+    "reason": "Motif",
+    "failed": "Échecs",
+    "recovered": "Récupérés",
+    "returned": "Retournés",
+    "rate": "Taux de récupération"
+  },
+  "listLabel": "Échecs de livraison"
+}

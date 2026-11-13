@@ -39,6 +39,7 @@ export class ConfirmationController {
         attemptsToday: item.attemptsToday,
         previousAttempts: item.previousAttempts.map(toCallAttemptDto),
         script: item.script,
+        bestTime: item.bestTime,
       },
     };
   }

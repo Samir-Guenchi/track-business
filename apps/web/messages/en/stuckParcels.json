@@ -1,0 +1,37 @@
+{
+  "title": "Stuck parcels",
+  "subtitle": "Parcels the courier has not moved for too long (Fridays and holidays not counted). Call the carrier before the customer gives up.",
+  "listLabel": "Stuck parcels, oldest first",
+  "carrier": "Courier",
+  "allCarriers": "All couriers",
+  "unknownWilaya": "Unknown wilaya",
+  "idleDays": "{count, plural, one {# day without news} other {# days without news}}",
+  "columns": {
+    "parcel": "Parcel",
+    "carrier": "Courier",
+    "wilaya": "Wilaya",
+    "status": "Last status",
+    "lastMove": "Last move",
+    "idle": "Waiting"
+  },
+  "status": {
+    "created": "Not picked up",
+    "picked_up": "Picked up",
+    "in_transit": "In transit",
+    "out_for_delivery": "Out for delivery",
+    "delivered": "Delivered",
+    "failed_attempt": "Failed attempt",
+    "returning": "Returning",
+    "returned": "Returned",
+    "cancelled": "Cancelled"
+  },
+  "hotspots": {
+    "title": "Problem spots",
+    "hint": "Several parcels are stuck on the same route: the hub may be blocked. One call can unblock them all.",
+    "line": "{carrier} to {wilaya}: {count, plural, one {# parcel} other {# parcels}}"
+  },
+  "empty": {
+    "title": "Nothing is stuck",
+    "description": "Every parcel moved recently. We check again each time you open this page."
+  }
+}

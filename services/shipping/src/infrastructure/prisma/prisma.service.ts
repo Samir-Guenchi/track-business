@@ -9,7 +9,13 @@ import { PrismaClient } from '../../generated/prisma/client.js';
 export class PrismaService extends PrismaClient implements OnModuleDestroy {
   constructor(@Inject(ENV) env: Env) {
     const options = postgresAdapterOptions(env.DATABASE_URL);
-    super({ adapter: new PrismaPg({ connectionString: env.DATABASE_URL }, options) });
+    // Raw SQL (outbox relay, poll queue) resolves table names through search_path, so it must
+    // point at the same schema the models use.
+    const pool = {
+      connectionString: env.DATABASE_URL,
+      ...(options.schema ? { options: `-c search_path="${options.schema}"` } : {}),
+    };
+    super({ adapter: new PrismaPg(pool, options) });
   }
 
   async onModuleDestroy(): Promise<void> {

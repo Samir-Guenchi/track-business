@@ -33,6 +33,8 @@ export const ListOrdersQuerySchema = CursorQuerySchema.extend({
   agentId: z.string().min(1).optional(),
   carrier: z.string().min(1).max(40).optional(),
   tag: TagSchema.optional(),
+  /** `true`: only orders with a risk flag (#52); `false`: only clean ones. */
+  flagged: z.stringbool().optional(),
   createdFrom: z.iso.datetime().optional(),
   createdTo: z.iso.datetime().optional(),
   /** Searches ref, customer name, phone (any spelling) and tracking number. */
@@ -82,6 +84,10 @@ export const OrderHistoryEntrySchema = z.strictObject({
     'tagged',
     'deleted',
     'call_logged',
+    /** An exchange order was created from this one (#138); the note holds its ref. */
+    'exchanged',
+    /** The customer asked for another day, a stop-desk, a fixed address or a call time (#136). */
+    'delivery_requested',
   ]),
   fromStatus: OrderStatusSchema.nullable(),
   toStatus: OrderStatusSchema.nullable(),

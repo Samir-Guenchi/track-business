@@ -11,3 +11,14 @@ model OutboxEvent {
   @@index([publishedAt, occurredAt])
   @@map("outbox_events")
 }
+
+// Consumer inbox: the ids of bus events already applied, written in the same transaction as their
+// effect. A redelivered event hits the primary key and is skipped (at-least-once bus, applied once).
+model ProcessedEvent {
+  consumer    String
+  eventId     String   @map("event_id")
+  processedAt DateTime @default(now()) @map("processed_at") @db.Timestamptz(3)
+
+  @@id([consumer, eventId])
+  @@map("processed_events")
+}

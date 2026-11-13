@@ -1,0 +1,36 @@
+// Failed-delivery follow-up (#132). Tenant data, scoped by store_id. One row per parcel: a new
+// failed attempt reopens it, a delivery or return closes it.
+
+/// What the seller decides after a courier could not deliver.
+model DeliveryFollowup {
+  id             String    @id @db.Uuid
+  storeId        String    @map("store_id") @db.Uuid
+  orderId        String    @map("order_id") @db.Uuid
+  orderRef       String    @map("order_ref")
+  customerName   String    @map("customer_name")
+  wilayaCode     Int       @map("wilaya_code")
+  shipmentId     String    @map("shipment_id")
+  carrier        String
+  trackingNumber String    @map("tracking_number")
+  /// FailedAttemptReason from the contracts.
+  reason         String
+  attempts       Int
+  lastAttemptAt  DateTime  @map("last_attempt_at") @db.Timestamptz(3)
+  dueAt          DateTime  @map("due_at") @db.Timestamptz(3)
+  /// open | decided | closed
+  status         String
+  decision       String?
+  stopDeskId     String?   @map("stop_desk_id")
+  note           String?
+  decidedBy      String?   @map("decided_by")
+  decidedAt      DateTime? @map("decided_at") @db.Timestamptz(3)
+  /// delivered | returned, once closed.
+  outcome        String?
+  createdAt      DateTime  @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime  @map("updated_at") @db.Timestamptz(3)
+
+  @@unique([storeId, shipmentId])
+  @@index([storeId, status, dueAt])
+  @@index([storeId, createdAt])
+  @@map("delivery_followups")
+}
