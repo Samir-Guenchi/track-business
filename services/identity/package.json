@@ -30,7 +30,7 @@
     "@trackecom/events": "workspace:*",
     "@trackecom/service-kit": "workspace:*",
     "argon2": "^0.45.2",
-    "fastify": "^5.12.7",
+    "fastify": "^5.12.8",
     "ioredis": "^6.0.0",
     "jose": "^6.2.14",
     "nodemailer": "^10.3.1",
