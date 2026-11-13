@@ -36,29 +36,31 @@ export function ProductForm() {
   const errorMessage = useErrorMessage();
   const { draft, invalid, add, onSubmit, set } = useProductForm();
   return (
-    <form className="flex flex-wrap items-end gap-2" onSubmit={onSubmit} noValidate>
+    <form className="studio-product-form" onSubmit={onSubmit} noValidate>
       <Input
         label={t('name')}
         value={draft.name}
-        onChange={(e) => set('name', e.currentTarget.value)}
+        onChange={(event) => set('name', event.currentTarget.value)}
       />
       <Input
         label={t('supplierPrice')}
         value={draft.supplierPrice}
         inputMode="numeric"
-        onChange={(e) => set('supplierPrice', digits(e.currentTarget.value))}
+        onChange={(event) => set('supplierPrice', digits(event.currentTarget.value))}
       />
       <Input
         label={t('minPrice')}
         value={draft.minPrice}
         inputMode="numeric"
-        onChange={(e) => set('minPrice', digits(e.currentTarget.value))}
+        onChange={(event) => set('minPrice', digits(event.currentTarget.value))}
       />
       <Button type="submit" variant="secondary" loading={add.isPending}>
         {t('add')}
       </Button>
-      <FormAlert message={invalid ? t('invalid') : null} />
-      <FormAlert message={add.isError ? errorMessage(add.error) : null} />
+      <div className="studio-product-form__alerts">
+        <FormAlert message={invalid ? t('invalid') : null} />
+        <FormAlert message={add.isError ? errorMessage(add.error) : null} />
+      </div>
     </form>
   );
 }

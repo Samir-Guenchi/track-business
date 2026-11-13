@@ -1,0 +1,55 @@
+/* Portal masthead: brand and the private tag. */
+.studio .studio-portal__masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--studio-border);
+}
+
+.studio .studio-portal__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--studio-ink);
+  font-family: var(--studio-font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.studio .studio-portal__brand img {
+  width: 26px;
+  height: 26px;
+}
+
+.studio .studio-portal__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--studio-muted);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.studio .studio-portal__tag::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--studio-teal);
+}
+
+@media (max-width: 640px) {
+  .studio .studio-portal__masthead {
+    padding-bottom: 13px;
+  }
+
+  .studio .studio-portal__tag {
+    letter-spacing: 0.1em;
+  }
+}

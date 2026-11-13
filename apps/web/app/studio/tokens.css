@@ -1,0 +1,113 @@
+/*
+ * Studio role tokens, scoped to the reseller supplier screen and public portal.
+ * Source: .opencode/studio-design-system/references/design-system.md.
+ */
+.studio {
+  --studio-canvas: #f4f3ef;
+  --studio-panel: #fffefa;
+  --studio-panel-raised: #fbfaf6;
+  --studio-ink: #152029;
+  --studio-muted: #5d6971;
+  --studio-border: #d6dbd6;
+  --studio-border-soft: #e7e8e1;
+  --studio-teal: #23677b;
+  --studio-cyan: #56d7f3;
+  --studio-cyan-hover: #83e2f6;
+  --studio-ink-on-cyan: #08232b;
+  --studio-focus: #2692ac;
+  --studio-success-surface: #e8f2e7;
+  --studio-success-ink: #286447;
+  --studio-warning-surface: #f5eddc;
+  --studio-warning-ink: #79531e;
+  --studio-danger-surface: #f8eae7;
+  --studio-danger-ink: #a52d3b;
+  --studio-sand: #d6b17d;
+  --studio-font-sans:
+    var(--font-studio-sans, 'Space Grotesk'), 'Space Grotesk', 'IBM Plex Sans Arabic', sans-serif;
+  --studio-font-display:
+    var(--font-studio-display, 'Instrument Serif'), 'Instrument Serif', Georgia, serif;
+  color-scheme: light;
+  min-width: 0;
+  color: var(--studio-ink);
+  font-family: var(--studio-font-sans);
+  font-size: 12.5px;
+  line-height: 1.65;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+.studio:lang(ar) {
+  --studio-font-display: 'IBM Plex Sans Arabic', 'Instrument Serif', serif;
+}
+
+[data-theme='dark'] .studio {
+  color-scheme: dark;
+  --studio-canvas: #10181d;
+  --studio-panel: #172229;
+  --studio-panel-raised: #1d2a32;
+  --studio-ink: #edf3f3;
+  --studio-muted: #a6b5bb;
+  --studio-border: #33444d;
+  --studio-border-soft: #283a43;
+  --studio-teal: #72c9d5;
+  --studio-cyan: #6bd9ec;
+  --studio-cyan-hover: #8ae5f1;
+  --studio-ink-on-cyan: #09252c;
+  --studio-focus: #62d3e7;
+  --studio-success-surface: #1b382d;
+  --studio-success-ink: #9be0b6;
+  --studio-warning-surface: #392f20;
+  --studio-warning-ink: #f0cb80;
+  --studio-danger-surface: #3b2528;
+  --studio-danger-ink: #ffb2b6;
+  --studio-sand: #dfbd8c;
+}
+
+.studio ::selection {
+  color: #08232b;
+  background: #b8e9ed;
+}
+
+.studio :focus-visible {
+  outline: 2px solid var(--studio-focus);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+.studio .studio-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.studio .studio-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  color: var(--studio-muted);
+  font-family: var(--studio-font-sans);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.studio .studio-eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  flex-shrink: 0;
+  background: var(--studio-border);
+}
+
+.studio .studio-dot {
+  color: var(--studio-teal);
+}

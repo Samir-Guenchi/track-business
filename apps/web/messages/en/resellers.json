@@ -1,6 +1,7 @@
 {
   "title": "Resellers",
   "description": "People who sell your products on Facebook, TikTok or WhatsApp with their own margin. You keep the stock, confirm and ship; their margin is owed once the order is delivered.",
+  "eyebrow": "Reseller network",
   "add": "Add a reseller",
   "active": "Active",
   "paused": "Paused",
@@ -11,6 +12,7 @@
   "pay": "Pay {amount, number} DA",
   "paid": "{orders, plural, one {# order} other {# orders}} paid, {amount, number} DA",
   "portal": "Portal link",
+  "open": "Open",
   "copy": "Copy",
   "copied": "Copied",
   "showOrders": "Show orders",
@@ -21,11 +23,28 @@
     "pending": "Margin on the way",
     "earned": "Margin to pay"
   },
+  "summary": {
+    "resellers": "Resellers",
+    "active": "{count, plural, =0 {No active reseller} one {# active} other {# active}}",
+    "orders": "Orders sent",
+    "delivered": "{count, plural, =0 {None delivered yet} one {# delivered} other {# delivered}}",
+    "rate": "Delivery rate",
+    "finalOrders": "{count, plural, one {from # final order} other {from # final orders}}",
+    "noRate": "No final order yet",
+    "earned": "Margin to pay",
+    "pendingNote": "{amount, number} DA on the way"
+  },
+  "directory": "Directory",
+  "directoryTitle": "Your resellers",
+  "count": "{count, plural, =0 {No reseller} one {# reseller} other {# resellers}}",
   "empty": {
     "title": "No resellers yet",
     "description": "Add a reseller, then send them their portal link: they see your catalogue, send orders and follow their margins."
   },
   "form": {
+    "eyebrow": "New partner",
+    "title": "Add a reseller",
+    "description": "A name and a mobile number are enough. The portal link is created for you.",
     "name": "Name",
     "phone": "Phone",
     "invalid": "Enter a name and an Algerian mobile number.",
@@ -35,10 +54,16 @@
   "catalogue": {
     "title": "Reseller catalogue",
     "description": "Products resellers can sell, with your supplier price and the lowest selling price you allow.",
+    "eyebrow": "Catalogue",
+    "count": "{count, plural, =0 {No product} one {# product} other {# products}}",
+    "loading": "Loading products…",
     "empty": "No product yet.",
     "name": "Product",
     "supplierPrice": "Supplier price (DA)",
     "minPrice": "Lowest selling price (DA)",
+    "supplierShort": "Supplier",
+    "minimumShort": "Lowest",
+    "paused": "Paused",
     "add": "Add",
     "invalid": "Enter a name and a supplier price.",
     "prices": "Supplier {supplier, number} DA · lowest {min, number} DA",

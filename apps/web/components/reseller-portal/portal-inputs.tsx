@@ -8,13 +8,14 @@ interface SelectFieldProps {
   readonly value: string;
   readonly options: readonly { readonly value: string | number; readonly label: string }[];
   readonly onChange: (value: string) => void;
+  readonly wide?: boolean;
 }
 
 /** A required select with a "Choose" first option. */
-export function SelectField({ label, value, options, onChange }: SelectFieldProps) {
+export function SelectField({ label, value, options, onChange, wide = false }: SelectFieldProps) {
   const t = useTranslations('resellerPortal.form');
   return (
-    <label className="tk-field">
+    <label className={`tk-field${wide ? ' studio-field--wide' : ''}`}>
       <span className="tk-field__label">{label}</span>
       <select
         className="tk-input"
@@ -39,13 +40,21 @@ interface TextFieldProps {
   readonly onChange: (value: string) => void;
   readonly kind?: 'text' | 'tel' | 'number';
   readonly hint?: ReactNode;
+  readonly wide?: boolean;
 }
 
 /** A required text, phone or whole-number field. */
-export function TextField({ label, value, onChange, kind = 'text', hint }: TextFieldProps) {
+export function TextField({
+  label,
+  value,
+  onChange,
+  kind = 'text',
+  hint,
+  wide = false,
+}: TextFieldProps) {
   const numeric = kind === 'number';
   return (
-    <label className="tk-field">
+    <label className={`tk-field${wide ? ' studio-field--wide' : ''}`}>
       <span className="tk-field__label">{label}</span>
       <input
         className="tk-input"
@@ -58,7 +67,7 @@ export function TextField({ label, value, onChange, kind = 'text', hint }: TextF
           onChange(numeric ? typed.replace(/\D/g, '') : typed);
         }}
       />
-      {hint && <span className="text-xs text-muted">{hint}</span>}
+      {hint && <span className="tk-field__hint">{hint}</span>}
     </label>
   );
 }

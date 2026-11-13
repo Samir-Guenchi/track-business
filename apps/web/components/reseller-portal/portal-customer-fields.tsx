@@ -12,13 +12,25 @@ interface Props {
   readonly wilayas: readonly Wilaya[];
 }
 
+const placeName = (locale: string, place: { nameAr: string; nameFr: string }): string =>
+  locale === 'ar' ? place.nameAr : place.nameFr;
+
+function AddressField({
+  value,
+  onChange,
+}: {
+  readonly value: string;
+  readonly onChange: (value: string) => void;
+}) {
+  const t = useTranslations('resellerPortal.form');
+  return <TextField label={t('address')} value={value} wide onChange={onChange} />;
+}
+
 /** The customer's name, phone and address. */
 export function PortalCustomerFields({ draft, patch, wilayas }: Props) {
   const t = useTranslations('resellerPortal.form');
   const locale = useLocale();
   const communes = useCommunes(draft.wilayaCode ? Number(draft.wilayaCode) : undefined);
-  const name = (place: { nameAr: string; nameFr: string }) =>
-    locale === 'ar' ? place.nameAr : place.nameFr;
   return (
     <>
       <TextField
@@ -35,20 +47,22 @@ export function PortalCustomerFields({ draft, patch, wilayas }: Props) {
       <SelectField
         label={t('wilaya')}
         value={draft.wilayaCode}
-        options={wilayas.map((w) => ({ value: w.code, label: `${w.code} · ${name(w)}` }))}
+        options={wilayas.map((wilaya) => ({
+          value: wilaya.code,
+          label: `${wilaya.code} · ${placeName(locale, wilaya)}`,
+        }))}
         onChange={(value) => patch({ wilayaCode: value, communeId: '' })}
       />
       <SelectField
         label={t('commune')}
         value={draft.communeId}
-        options={communes.map((c) => ({ value: c.id, label: name(c) }))}
+        options={communes.map((commune) => ({
+          value: commune.id,
+          label: placeName(locale, commune),
+        }))}
         onChange={(value) => patch({ communeId: value })}
       />
-      <TextField
-        label={t('address')}
-        value={draft.address}
-        onChange={(value) => patch({ address: value })}
-      />
+      <AddressField value={draft.address} onChange={(value) => patch({ address: value })} />
     </>
   );
 }

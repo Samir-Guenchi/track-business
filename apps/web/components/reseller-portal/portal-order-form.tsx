@@ -1,6 +1,6 @@
 'use client';
 
-import type { ResellerProduct, Wilaya } from '@trackecom/contracts';
+import type { ResellerOrderCreated, ResellerProduct, Wilaya } from '@trackecom/contracts';
 import { Button } from '@trackecom/ui';
 import { useTranslations } from 'next-intl';
 import { FormAlert } from '../auth/form-alert';
@@ -14,40 +14,87 @@ interface Props {
   readonly wilayas: readonly Wilaya[];
 }
 
+type PortalForm = ReturnType<typeof usePortalOrder>;
+
+function OrderSections({
+  form,
+  catalogue,
+  wilayas,
+}: {
+  readonly form: PortalForm;
+  readonly catalogue: readonly ResellerProduct[];
+  readonly wilayas: readonly Wilaya[];
+}) {
+  const t = useTranslations('resellerPortal');
+  return (
+    <div className="studio-order-grid">
+      <section className="studio-order-section">
+        <h3>{t('form.customerSection')}</h3>
+        <div className="studio-field-grid studio-field-grid--two">
+          <PortalCustomerFields draft={form.draft} patch={form.patch} wilayas={wilayas} />
+        </div>
+      </section>
+      <section className="studio-order-section">
+        <h3>{t('form.orderSection')}</h3>
+        <div className="studio-field-grid">
+          <PortalProductFields
+            draft={form.draft}
+            patch={form.patch}
+            catalogue={catalogue}
+            product={form.product}
+          />
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function Alerts({
+  errorKey,
+  created,
+}: {
+  readonly errorKey: string | null;
+  readonly created: ResellerOrderCreated | null;
+}) {
+  const t = useTranslations('resellerPortal');
+  const error = errorKey
+    ? t(t.has(`errors.${errorKey}`) ? `errors.${errorKey}` : 'errors.generic')
+    : null;
+  return (
+    <>
+      <FormAlert className="studio-alert" message={error} />
+      <FormAlert
+        className="studio-alert"
+        message={
+          created
+            ? t('sent', {
+                ref: created.ref,
+                codAmount: created.codAmount,
+                margin: created.margin,
+              })
+            : null
+        }
+        tone="success"
+      />
+    </>
+  );
+}
+
 /** Send a customer's order to the supplier. */
 export function PortalOrderForm({ code, catalogue, wilayas }: Props) {
   const t = useTranslations('resellerPortal');
   const form = usePortalOrder(code, catalogue);
   const errorKey = form.error?.replace('resellers.', '') ?? null;
   return (
-    <form className="flex flex-col gap-3" onSubmit={form.onSubmit} noValidate>
-      <PortalCustomerFields draft={form.draft} patch={form.patch} wilayas={wilayas} />
-      <PortalProductFields
-        draft={form.draft}
-        patch={form.patch}
-        catalogue={catalogue}
-        product={form.product}
-      />
-      <FormAlert
-        message={
-          errorKey ? t(t.has(`errors.${errorKey}`) ? `errors.${errorKey}` : 'errors.generic') : null
-        }
-      />
-      <FormAlert
-        message={
-          form.created
-            ? t('sent', {
-                ref: form.created.ref,
-                codAmount: form.created.codAmount,
-                margin: form.created.margin,
-              })
-            : null
-        }
-        tone="success"
-      />
-      <Button type="submit" loading={form.sending}>
-        {t('form.submit')}
-      </Button>
+    <form className="studio-order-form" onSubmit={form.onSubmit} noValidate>
+      <OrderSections form={form} catalogue={catalogue} wilayas={wilayas} />
+      <Alerts errorKey={errorKey} created={form.created} />
+      <div className="studio-submit-row">
+        <Button type="submit" size="lg" loading={form.sending}>
+          {t('form.submit')}
+        </Button>
+        <span className="studio-submit-note">{t('form.note')}</span>
+      </div>
     </form>
   );
 }

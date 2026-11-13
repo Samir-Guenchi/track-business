@@ -1,40 +1,54 @@
 'use client';
 
 import type { Reseller } from '@trackecom/contracts';
-import { Badge, Button } from '@trackecom/ui';
+import { Button } from '@trackecom/ui';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { looksRisky, portalPath, ratePercent } from '../../lib/resellers/reseller-view';
+import { portalPath, ratePercent } from '../../lib/resellers/reseller-view';
 import {
   usePayReseller,
   useResellerOrders,
   useUpdateReseller,
 } from '../../lib/resellers/resellers-queries';
 import { PortalLink } from './portal-link';
+import { ResellerIdentity } from './reseller-identity';
 import { ResellerOrders } from './reseller-orders';
 
-const card = 'flex flex-col gap-3 rounded-panel border border-border bg-surface p-5 shadow-panel';
+function Stat({
+  label,
+  value,
+  due = false,
+}: {
+  readonly label: string;
+  readonly value: string;
+  readonly due?: boolean;
+}) {
+  return (
+    <div className="studio-reseller__stat">
+      <dt>{label}</dt>
+      <dd className={`studio-reseller__amount${due ? ' studio-reseller__amount--due' : ''}`}>
+        {value}
+      </dd>
+    </div>
+  );
+}
 
 function Stats({ reseller }: { readonly reseller: Reseller }) {
   const t = useTranslations('resellers');
   const { stats } = reseller;
   const rate = ratePercent(stats);
   return (
-    <dl className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
+    <dl className="studio-reseller__stats">
       <Stat label={t('stats.orders')} value={String(stats.orders)} />
       <Stat label={t('stats.rate')} value={rate === null ? '—' : `${rate} %`} />
       <Stat label={t('stats.pending')} value={t('dinars', { amount: stats.marginPending })} />
-      <Stat label={t('stats.earned')} value={t('dinars', { amount: stats.marginEarned })} />
+      <Stat
+        label={t('stats.earned')}
+        value={t('dinars', { amount: stats.marginEarned })}
+        due={stats.marginEarned > 0}
+      />
     </dl>
-  );
-}
-
-function Stat({ label, value }: { readonly label: string; readonly value: string }) {
-  return (
-    <div className="flex flex-col">
-      <dt className="text-muted">{label}</dt>
-      <dd className="font-medium">{value}</dd>
-    </div>
   );
 }
 
@@ -45,7 +59,7 @@ function Actions({ reseller }: { readonly reseller: Reseller }) {
   const toggle = () =>
     update.mutate({ name: reseller.name, phone: reseller.phone, active: !reseller.active });
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <>
       {reseller.stats.marginEarned > 0 && (
         <Button size="sm" loading={pay.isPending} onClick={() => pay.mutate()}>
           {t('pay', { amount: reseller.stats.marginEarned })}
@@ -55,11 +69,11 @@ function Actions({ reseller }: { readonly reseller: Reseller }) {
         {t(reseller.active ? 'pause' : 'resume')}
       </Button>
       {pay.data && (
-        <span role="status" className="text-sm text-tape">
+        <p role="status" className="studio-reseller__notice">
           {t('paid', pay.data)}
-        </span>
+        </p>
       )}
-    </div>
+    </>
   );
 }
 
@@ -73,23 +87,29 @@ export function ResellerCard({ reseller }: { readonly reseller: Reseller }) {
   const t = useTranslations('resellers');
   const [open, setOpen] = useState(false);
   return (
-    <li className={card}>
-      <header className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-lg font-semibold">{reseller.name}</h2>
-        <span className="flex gap-2">
-          {looksRisky(reseller.stats) && <Badge variant="warning">{t('risky')}</Badge>}
-          <Badge variant={reseller.active ? 'success' : 'neutral'}>
-            {t(reseller.active ? 'active' : 'paused')}
-          </Badge>
-        </span>
-      </header>
+    <li className="studio-reseller">
+      <ResellerIdentity reseller={reseller} />
       <Stats reseller={reseller} />
       <PortalLink path={portalPath(reseller.portalCode)} />
-      <Actions reseller={reseller} />
-      <Button size="sm" variant="ghost" className="self-start" onClick={() => setOpen(!open)}>
-        {t(open ? 'hideOrders' : 'showOrders')}
-      </Button>
-      {open && <Orders id={reseller.id} />}
+      <div className="studio-reseller__actions">
+        <Actions reseller={reseller} />
+        <Button
+          size="sm"
+          variant="ghost"
+          className="studio-reseller__toggle"
+          aria-controls={`reseller-orders-${reseller.id}`}
+          aria-expanded={open}
+          onClick={() => setOpen(!open)}
+        >
+          {t(open ? 'hideOrders' : 'showOrders')}
+          {open ? <ChevronUp size={14} aria-hidden /> : <ChevronDown size={14} aria-hidden />}
+        </Button>
+      </div>
+      {open && (
+        <div id={`reseller-orders-${reseller.id}`} className="studio-reseller__orders">
+          <Orders id={reseller.id} />
+        </div>
+      )}
     </li>
   );
 }

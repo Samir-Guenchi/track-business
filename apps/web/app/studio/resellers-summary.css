@@ -1,0 +1,86 @@
+/* Portfolio deck: four flat panels, serif counts, thin rules. */
+.studio .studio-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 34px;
+}
+
+.studio .studio-stat {
+  min-width: 0;
+  padding: 17px 19px 15px;
+  border: 1px solid var(--studio-border);
+  border-radius: 12px;
+  background: var(--studio-panel);
+}
+
+.studio .studio-stat dt {
+  color: var(--studio-muted);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.studio .studio-stat dd {
+  margin: 12px 0 0;
+  overflow: hidden;
+  color: var(--studio-ink);
+  font-family: var(--studio-font-display);
+  font-size: clamp(28px, 2.2vw, 34px);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.studio .studio-stat[data-status='attention'] dd {
+  color: var(--studio-teal);
+}
+
+.studio .studio-stat__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--studio-muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.studio .studio-stat__foot span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.studio .studio-stat__bar {
+  display: block;
+  height: 3px;
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: var(--studio-border-soft);
+}
+
+.studio .studio-stat__bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--studio-teal);
+}
+
+@media (max-width: 767px) {
+  .studio .studio-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .studio .studio-stat dd {
+    font-size: 28px;
+  }
+}

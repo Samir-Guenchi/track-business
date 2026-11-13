@@ -1,7 +1,9 @@
 {
   "title": "بوابة الموزع",
+  "eyebrow": "مساحة خاصة",
   "hello": "مرحبًا {name}",
   "description": "أرسل طلبيات زبائنك من هنا. المورد يؤكدها ويشحنها، وهامشك مستحق بعد توصيل الطلبية.",
+  "private": "هذه الصفحة لك وحدك",
   "dinars": "{amount, number} دج",
   "stats": {
     "marginPending": "في الطريق",
@@ -9,9 +11,13 @@
     "marginPaid": "مدفوع"
   },
   "newOrder": "طلبية جديدة",
+  "newOrderHint": "منتج واحد في كل طلبية، مع توصيل إلى المنزل في كل الولايات.",
   "orders": "طلبياتي",
+  "ordersHint": "كل طلبية أرسلتها، مع الهامش الذي تجنيه.",
   "sent": "تم إرسال الطلبية {ref}: {codAmount, number} دج للتحصيل، وهامشك {margin, number} دج.",
   "form": {
+    "customerSection": "الزبون",
+    "orderSection": "الطلبية",
     "name": "اسم الزبون",
     "phone": "هاتف الزبون",
     "wilaya": "الولاية",
@@ -23,8 +29,15 @@
     "quantity": "الكمية",
     "sellingPrice": "سعر بيعك للوحدة (دج)",
     "floor": "على الأقل {floor, number} دج",
+    "marginLabel": "هامشك",
+    "marginNote": "يُدفع بعد التوصيل",
     "marginPreview": "هامشك: {margin, number} دج",
+    "note": "يتصل المورد بالزبون للتأكيد قبل الشحن.",
     "submit": "إرسال الطلبية"
+  },
+  "footer": {
+    "brand": "TrackEcom · بوابة الموزع",
+    "private": "رابط خاص · لا تشاركه"
   },
   "errors": {
     "paused": "أوقف المورد حسابك. تواصل معه.",

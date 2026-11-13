@@ -1,7 +1,9 @@
 {
   "title": "Portail revendeur",
+  "eyebrow": "Espace privé",
   "hello": "Bonjour {name}",
   "description": "Envoyez ici les commandes de vos clients. Le fournisseur les confirme et les expédie ; votre marge est due une fois la commande livrée.",
+  "private": "Cette page n'est visible que par vous",
   "dinars": "{amount, number} DA",
   "stats": {
     "marginPending": "En cours",
@@ -9,9 +11,13 @@
     "marginPaid": "Payée"
   },
   "newOrder": "Nouvelle commande",
+  "newOrderHint": "Un produit par commande, livraison à domicile partout en Algérie.",
   "orders": "Mes commandes",
+  "ordersHint": "Toutes les commandes envoyées, avec la marge qu'elles rapportent.",
   "sent": "Commande {ref} envoyée : {codAmount, number} DA à encaisser, votre marge {margin, number} DA.",
   "form": {
+    "customerSection": "Client",
+    "orderSection": "Commande",
     "name": "Nom du client",
     "phone": "Téléphone du client",
     "wilaya": "Wilaya",
@@ -23,8 +29,15 @@
     "quantity": "Quantité",
     "sellingPrice": "Votre prix de vente unitaire (DA)",
     "floor": "Au moins {floor, number} DA",
+    "marginLabel": "Votre marge",
+    "marginNote": "Payée après livraison",
     "marginPreview": "Votre marge : {margin, number} DA",
+    "note": "Le fournisseur appelle le client pour confirmer avant l'expédition.",
     "submit": "Envoyer la commande"
+  },
+  "footer": {
+    "brand": "TrackEcom · Portail revendeur",
+    "private": "Lien privé · ne le partagez pas"
   },
   "errors": {
     "paused": "Le fournisseur a mis votre compte en pause. Contactez-le.",
