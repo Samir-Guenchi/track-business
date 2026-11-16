@@ -18,7 +18,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.105.2",
+    "@tanstack/react-query": "^5.107.1",
     "@trackecom/contracts": "workspace:*",
     "@trackecom/ui": "workspace:*",
     "lucide-react": "^1.70.0",
