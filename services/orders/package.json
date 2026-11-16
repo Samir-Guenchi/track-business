@@ -42,7 +42,7 @@
     "@nestjs/testing": "^12.4.0",
     "@swc/core": "^1.16.22",
     "@trackecom/config": "workspace:*",
-    "@types/node": "^24.0.0",
+    "@types/node": "^26.6.6",
     "eslint": "^10.14.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "typescript7": "npm:typescript@~7.0.2",
