@@ -52,7 +52,7 @@
     "@trackecom/config": "workspace:*",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "eslint": "^10.14.0",
+    "eslint": "^10.15.0",
     "jsdom": "^31.0.0",
     "storybook": "^10.6.6",
     "tailwindcss": "^3.4.17",
