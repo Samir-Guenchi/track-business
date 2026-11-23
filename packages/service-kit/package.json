@@ -47,7 +47,7 @@
     "@swc/core": "^1.16.22",
     "@trackecom/config": "workspace:*",
     "@types/node": "^24.0.0",
-    "eslint": "^10.14.0",
+    "eslint": "^10.15.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "typescript7": "npm:typescript@~7.0.2",
     "unplugin-swc": "^2.0.0",
